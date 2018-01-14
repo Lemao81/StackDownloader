@@ -5,10 +5,13 @@ buildscript {
     ext.anko_version = '0.10.3'
     ext.google_version = '11.8.0'
     ext.support_version = '27.0.2'
+    ext.util_version = '1.0.2'
 
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -23,6 +26,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.google.com/' }
     }
 }
 
