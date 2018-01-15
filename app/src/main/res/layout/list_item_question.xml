@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.jueggs.stackdownloader.models.Question" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/txtScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{item.scoreLabel}"
+            android:textAppearance="@style/text_question_numbers"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="200" />
+
+        <TextView
+            android:id="@+id/lblScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="votes"
+            android:textAppearance="@style/text_question_numberlabel"
+            app:layout_constraintEnd_toEndOf="@+id/txtScore"
+            app:layout_constraintTop_toBottomOf="@+id/txtScore" />
+
+        <TextView
+            android:id="@+id/txtAnswers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.answerLabel}"
+            android:textAppearance="@style/text_question_numbers"
+            app:layout_constraintRight_toRightOf="@+id/txtScore"
+            app:layout_constraintTop_toBottomOf="@+id/lblScore"
+            tools:text="20" />
+
+        <TextView
+            android:id="@+id/lblAnswers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="answers"
+            android:textAppearance="@style/text_question_numberlabel"
+            app:layout_constraintRight_toRightOf="@+id/txtAnswers"
+            app:layout_constraintTop_toBottomOf="@+id/txtAnswers" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidScoreTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.title}"
+            android:textAppearance="@style/text_question_title"
+            app:layout_constraintLeft_toRightOf="@+id/guidScoreTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="How to change a global variable from a anonymous class implementation in kotlin" />
+
+        <TextView
+            android:id="@+id/txtTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{item.tagsLabel}"
+            app:layout_constraintLeft_toRightOf="@+id/guidScoreTitle"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+            tools:text="Kotlin  Android  Firebase" />
+
+        <TextView
+            android:id="@+id/txtCreation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{item.creationLabel}"
+            android:textAppearance="@style/text_question_creation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="asked 2 hours ago" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

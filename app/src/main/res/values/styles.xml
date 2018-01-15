@@ -13,4 +13,28 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="text_question_numbers">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/question_numbers</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="text_question_numberlabel">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/question_numbers</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="text_question_title">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/question_title</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="text_question_creation">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/question_creation</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>
