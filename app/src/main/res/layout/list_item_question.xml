@@ -8,39 +8,50 @@
         <variable
             name="item"
             type="com.jueggs.stackdownloader.models.Question" />
+
+        <variable
+            name="eventHandler"
+            type="com.jueggs.stackdownloader.adapters.QuestionAdapter.EventHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> eventHandler.onQuestionClick(item)}"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/txtScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:text="@{item.scoreLabel}"
-            android:textAppearance="@style/text_question_numbers"
+            android:textAppearance="@style/text_question_score"
+            android:textColor="@null"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="200" />
+            tools:text="0" />
 
         <TextView
             android:id="@+id/lblScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="votes"
-            android:textAppearance="@style/text_question_numberlabel"
+            android:textAppearance="@style/text_question_score_label"
+            android:textColor="@null"
             app:layout_constraintEnd_toEndOf="@+id/txtScore"
+            app:layout_constraintLeft_toLeftOf="@+id/txtScore"
             app:layout_constraintTop_toBottomOf="@+id/txtScore" />
 
         <TextView
             android:id="@+id/txtAnswers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.answerLabel}"
-            android:textAppearance="@style/text_question_numbers"
+            android:layout_marginTop="4dp"
+            android:text="@{item.answerCountLabel}"
+            android:textAppearance="@style/text_question_score"
+            android:textColor="@null"
+            app:layout_constraintLeft_toLeftOf="@+id/txtScore"
             app:layout_constraintRight_toRightOf="@+id/txtScore"
             app:layout_constraintTop_toBottomOf="@+id/lblScore"
             tools:text="20" />
@@ -50,7 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="answers"
-            android:textAppearance="@style/text_question_numberlabel"
+            android:textAppearance="@style/text_question_score_label"
+            android:textColor="@null"
+            app:layout_constraintLeft_toLeftOf="@+id/txtAnswers"
             app:layout_constraintRight_toRightOf="@+id/txtAnswers"
             app:layout_constraintTop_toBottomOf="@+id/txtAnswers" />
 
@@ -65,8 +78,10 @@
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@{item.title}"
             android:textAppearance="@style/text_question_title"
+            android:textColor="@null"
             app:layout_constraintLeft_toRightOf="@+id/guidScoreTitle"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="How to change a global variable from a anonymous class implementation in kotlin" />
@@ -77,6 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@{item.tagsLabel}"
+            android:textAppearance="@style/text_normal"
             app:layout_constraintLeft_toRightOf="@+id/guidScoreTitle"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle"
             tools:text="Kotlin  Android  Firebase" />
@@ -86,9 +102,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="32dp"
             android:text="@{item.creationLabel}"
             android:textAppearance="@style/text_question_creation"
+            android:textColor="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="asked 2 hours ago" />

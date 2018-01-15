@@ -9,7 +9,7 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
 
-    <color name="question_numbers">#6A737B</color>
-    <color name="question_title">#2178CB</color>
-    <color name="question_creation">#838C94</color>
+    <color name="stackoverflow_dark_grey">#6A737B</color>
+    <color name="stackoverflow_blue">#2178CB</color>
+    <color name="stackoverflow_light_grey">#838C94</color>
 </resources>

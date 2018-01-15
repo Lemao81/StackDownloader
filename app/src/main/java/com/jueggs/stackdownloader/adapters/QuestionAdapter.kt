@@ -3,13 +3,10 @@ package com.jueggs.stackdownloader.adapters
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.models.Question
 
-class QuestionAdapter(private var questions: List<Question>) : SingleLayoutAdapter(R.layout.list_item_question) {
-    override fun getItemForPosition(position: Int): Any = questions[position]
+class QuestionAdapter : SingleLayoutAdapter<Question> {
+    constructor(questions: MutableList<Question>) : super(questions, R.layout.list_item_question)
 
-    override fun getItemAmount(): Int = questions.size
-
-    fun setQuestions(questions: List<Question>) {
-        this.questions = questions
-        notifyDataSetChanged()
+    class EventHandler(private val onClick: (Question) -> Unit) {
+        fun onQuestionClick(question: Question) = onClick(question)
     }
 }
