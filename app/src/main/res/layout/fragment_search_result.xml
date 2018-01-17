@@ -8,14 +8,27 @@
     android:padding="8dp">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recSearchResult"
+        android:id="@+id/recSearchResultQuestions"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/list_item_question"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/list_item_question">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recSearchResultAnswers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/list_item_answer">
 
     </android.support.v7.widget.RecyclerView>
 

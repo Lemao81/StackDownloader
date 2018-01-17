@@ -1,10 +1,10 @@
-package com.jueggs.stackdownloader.models
+package com.jueggs.stackdownloader.model
 
 import com.jueggs.stackdownloader.utils.*
 import com.jueggs.utils.extensions.join
 
 class QueryParameter(private val page: String?, private val pagesize: String?, private val fromdate: String?, private val todate: String?, private val order: String,
-                     private val min: String?, private val max: String?, private val sort: String, private val tagged: List<String>?) {
+                     private val min: String?, private val max: String?, private val sort: String, private val tags: List<String>?) {
     fun build(): Map<String, String> {
         val queryParams = mutableMapOf<String, String>()
         if (!page.isNullOrEmpty()) queryParams[QUERY_PARAM_PAGE] = page!!
@@ -13,7 +13,7 @@ class QueryParameter(private val page: String?, private val pagesize: String?, p
         if (!todate.isNullOrEmpty()) queryParams[QUERY_PARAM_TODATE] = todate!!
         if (!min.isNullOrEmpty()) queryParams[QUERY_PARAM_MIN] = min!!
         if (!max.isNullOrEmpty()) queryParams[QUERY_PARAM_MAX] = max!!
-        if (tagged != null && tagged.any()) queryParams[QUERY_PARAM_TAGGED] = tagged.join(";")
+        if (tags != null && tags.any()) queryParams[QUERY_PARAM_TAGGED] = tags.join(";")
         queryParams[QUERY_PARAM_ORDER] = order
         queryParams[QUERY_PARAM_SORT] = sort
         queryParams[QUERY_PARAM_SITE] = SITE
@@ -24,7 +24,7 @@ class QueryParameter(private val page: String?, private val pagesize: String?, p
 
     class Builder(private var page: String? = null, private var pagesize: String? = null, private var fromdate: String? = null, private var todate: String? = null,
                   private var order: String = ORDER_DESC, private var min: String? = null, private var max: String? = null, private var sort: String = SORT_CREATION,
-                  private var tagged: List<String>? = null) {
+                  private var tags: List<String>? = null) {
 
         fun pagesize(value: String): Builder {
             pagesize = value
@@ -46,13 +46,13 @@ class QueryParameter(private val page: String?, private val pagesize: String?, p
             return this
         }
 
-        fun tagged(value: List<String>): Builder {
-            tagged = value
+        fun tags(value: List<String>): Builder {
+            tags = value
             return this
         }
 
         fun build(): QueryParameter {
-            return QueryParameter(page, pagesize, fromdate, todate, order, min, max, sort, tagged)
+            return QueryParameter(page, pagesize, fromdate, todate, order, min, max, sort, tags)
         }
     }
 }

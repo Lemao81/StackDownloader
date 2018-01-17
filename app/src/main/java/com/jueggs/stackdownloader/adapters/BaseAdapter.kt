@@ -5,9 +5,10 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.jueggs.stackdownloader.BR
-import com.jueggs.stackdownloader.databinding.ListItemQuestionExtendedBinding
-import com.jueggs.stackdownloader.databinding.QuestionAnswerBodyBinding
+import com.jueggs.stackdownloader.utils.findDeclaredField
+import com.jueggs.stackdownloader.utils.findDeclaredMethod
 import com.jueggs.utils.extensions.layoutInflater
+import java.lang.reflect.Modifier
 
 abstract class BaseAdapter : RecyclerView.Adapter<BaseAdapter.ViewHolder>() {
     private var eventHandler: Any? = null
@@ -34,16 +35,18 @@ abstract class BaseAdapter : RecyclerView.Adapter<BaseAdapter.ViewHolder>() {
     class ViewHolder(private val binding: ViewDataBinding, private val eventHandler: Any?) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Any) {
             binding.setVariable(BR.item, item)
-            val includeField = binding.javaClass.declaredFields.singleOrNull { it.name == "include" }
-            if (includeField != null) {
-                val includeBinding = includeField.get(binding)
-                val setVariableMethod = includeBinding.javaClass.declaredMethods.singleOrNull { it.name == "setVariable" }
-                if (setVariableMethod != null) {
-                    setVariableMethod.invoke(includeBinding, BR.item, item)
-                }
-            }
+            bindIncludedLayoutIfExist(item)
             if (eventHandler != null) binding.setVariable(BR.eventHandler, eventHandler)
             binding.executePendingBindings()
         }
+
+        private fun bindIncludedLayoutIfExist(item: Any) {
+            val includeBinding = binding.findDeclaredField(INCLUDED_LAYOUT_ID_IDENTIFIER, Modifier.PUBLIC)?.get(binding)
+            includeBinding?.findDeclaredMethod(ViewDataBinding::setVariable.name, Modifier.PUBLIC)?.invoke(includeBinding, BR.item, item)
+        }
+    }
+
+    companion object {
+        const val INCLUDED_LAYOUT_ID_IDENTIFIER = "include"
     }
 }

@@ -10,7 +10,7 @@ const val QUERY_PARAM_ORDER = "order"
 const val QUERY_PARAM_MIN = "min"
 const val QUERY_PARAM_MAX = "max"
 const val QUERY_PARAM_SORT = "sort"
-const val QUERY_PARAM_TAGGED = "tagged"
+const val QUERY_PARAM_TAGGED = "tags"
 const val QUERY_PARAM_SITE = "site"
 const val QUERY_PARAM_FILTER = "filter"
 

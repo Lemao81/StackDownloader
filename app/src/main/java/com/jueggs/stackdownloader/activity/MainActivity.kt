@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.activities
+package com.jueggs.stackdownloader.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

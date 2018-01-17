@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.jueggs.stackdownloader.models.Question" />
+            type="com.jueggs.stackdownloader.model.Question" />
 
         <variable
             name="eventHandler"
