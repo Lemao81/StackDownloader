@@ -7,14 +7,14 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/app_bar"
+        layout="@layout/app_bar_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
         android:id="@+id/fragSearchCriteria"
-        android:name="com.jueggs.stackdownloader.fragments.SearchCriteriaFragment"
+        android:name="com.jueggs.stackdownloader.fragment.SearchCriteriaFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/fragSearchResult"
-        android:name="com.jueggs.stackdownloader.fragments.SearchResultFragment"
+        android:name="com.jueggs.stackdownloader.fragment.SearchResultFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

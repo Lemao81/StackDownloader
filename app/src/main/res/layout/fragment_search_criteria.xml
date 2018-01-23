@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:padding="8dp"
-    tools:context=".fragments.SearchCriteriaFragment">
+    tools:context=".fragment.SearchCriteriaFragment">
 
     <android.support.constraint.Guideline
         android:id="@+id/guidHalf"

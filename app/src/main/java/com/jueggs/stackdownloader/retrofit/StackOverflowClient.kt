@@ -10,6 +10,6 @@ interface StackOverflowClient {
     @GET("questions")
     fun fetchQuestions(@QueryMap queryParameter: Map<String, String>): Call<ItemShellData<QuestionData>>
 
-    @GET("questions/{id}/answers")
-    fun fetchAnswersOfQuestion(@Path("id") questionId: Long, @QueryMap queryParameter: Map<String, String>): Call<ItemShellData<AnswerData>>
+    @GET("questions/{ids}/answers")
+    fun fetchAnswersOfQuestions(@Path("ids") questionIds: String, @QueryMap queryParameter: Map<String, String>): Call<ItemShellData<AnswerData>>
 }

@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.utils
+package com.jueggs.stackdownloader.util
 
 import com.jueggs.stackdownloader.model.*
 import com.jueggs.utils.EMPTY_STRING
@@ -45,6 +45,36 @@ fun AnswerData.mapNullSafe(): Answer = Answer(
         body ?: EMPTY_STRING,
         body_markdown ?: EMPTY_STRING,
         EMPTY_STRING, EMPTY_STRING, Any())
+
+fun Question.mapToEntity(): QuestionEntity {
+    val question = QuestionEntity()
+    question.owner = owner.mapToEntity()
+    question.answerCountLabel = answerCountLabel
+    question.bodyFromHtml = bodyFromHtml.toString()
+    question.creationDate = creationDate
+    question.scoreLabel = scoreLabel
+    question.tagsLabel = tagsLabel
+    question.title = title
+    question.questionId = questionId
+    return question
+}
+
+fun Answer.mapToEntity(): AnswerEntity {
+    val answer = AnswerEntity()
+    answer.answerId = answerId
+    answer.bodyFromHtml = bodyFromHtml.toString()
+    answer.creationDate = creationDate
+    answer.scoreLabel = scoreLabel
+    answer.questionId = questionId
+    answer.owner = owner.mapToEntity()
+    return answer
+}
+
+fun Owner.mapToEntity(): OwnerEntity {
+    val owner = OwnerEntity()
+    owner.displayName = displayName
+    return owner
+}
 
 fun SearchCriteria.mapToQueryParameter(): QueryParameter.Builder = QueryParameter.Builder()
         .pagesize(pageSize)

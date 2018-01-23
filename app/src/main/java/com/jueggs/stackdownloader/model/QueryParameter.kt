@@ -1,7 +1,7 @@
 package com.jueggs.stackdownloader.model
 
-import com.jueggs.stackdownloader.utils.*
-import com.jueggs.utils.extensions.join
+import com.jueggs.stackdownloader.util.*
+import com.jueggs.utils.extension.join
 
 class QueryParameter(private val page: String?, private val pagesize: String?, private val fromdate: String?, private val todate: String?, private val order: String,
                      private val min: String?, private val max: String?, private val sort: String, private val tags: List<String>?) {

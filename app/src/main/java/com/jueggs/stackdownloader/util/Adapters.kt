@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.utils
+package com.jueggs.stackdownloader.util
 
 import com.jueggs.utils.logNetwork
 import retrofit2.Call

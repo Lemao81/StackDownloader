@@ -8,5 +8,5 @@ import com.jueggs.stackdownloader.model.SearchCriteria
 interface DataProvider {
     fun provideQuestionData(searchCriteria: SearchCriteria, onSuccess: (ItemShellData<QuestionData>) -> Unit, onFail: (String) -> Unit)
 
-    fun provideAnswerData(questionId: Long, onSuccess: (ItemShellData<AnswerData>) -> Unit, onFail: (String) -> Unit)
+    fun provideAnswerData(questionIds: List<Long>, onSuccess: (ItemShellData<AnswerData>) -> Unit, onFail: (String) -> Unit)
 }

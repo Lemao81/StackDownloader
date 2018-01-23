@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.utils
+package com.jueggs.stackdownloader.util
 
 import android.os.Build
 

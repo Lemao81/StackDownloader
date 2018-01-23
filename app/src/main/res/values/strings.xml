@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StackDownloader</string>
+    <string name="message_no_network">No network connection available</string>
 </resources>

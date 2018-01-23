@@ -1,40 +1,46 @@
 package com.jueggs.stackdownloader.presenter
 
-import android.arch.lifecycle.LifecycleOwner
 import android.text.Html
-import android.widget.Toast
 import com.jueggs.stackdownloader.App
+import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.data.DataProvider
 import com.jueggs.stackdownloader.model.Answer
 import com.jueggs.stackdownloader.model.ContentElement
+import com.jueggs.stackdownloader.model.DaoSession
 import com.jueggs.stackdownloader.model.Question
-import com.jueggs.stackdownloader.utils.isNougatOrAbove
-import com.jueggs.stackdownloader.utils.mapNullSafe
-import com.jueggs.utils.extensions.isNetworkConnected
-import com.jueggs.utils.extensions.join
+import com.jueggs.stackdownloader.util.isNougatOrAbove
+import com.jueggs.stackdownloader.util.mapNullSafe
+import com.jueggs.stackdownloader.util.mapToEntity
+import com.jueggs.stackdownloader.view.SearchResultView
+import com.jueggs.utils.base.BaseFragmentPresenter
+import com.jueggs.utils.base.LifecycleOwnerStub
+import com.jueggs.utils.extension.isNetworkConnected
+import com.jueggs.utils.extension.join
+import javax.inject.Inject
 
-class SearchResultPresenter<in T>(private val app: App, private val dataProvider: DataProvider) : Presenter<T>() where T : LifecycleOwner, T : SearchResultView {
-    private var view: SearchResultView? = null
+class SearchResultPresenter(private val app: App, private val dataProvider: DataProvider) : BaseFragmentPresenter<SearchResultView>() {
+    @Inject
+    lateinit var daoSession: DaoSession
 
-    override fun setView(view: T) {
-        super.setView(view)
-        this.view = view
-    }
+    private var questionsCached: List<Question>? = null
+    private var answersCached: List<Answer>? = null
 
     fun presentQuestions(questions: List<Question>) {
         questions.forEach(::setQuestionLabels)
-        view!!.renderQuestions(questions)
+        questionsCached = questions
+        view.renderQuestions(questions)
     }
 
-    fun presentAnswers(question: Question, answers: List<Answer>) {
+    private fun presentAnswers(question: Question, answers: List<Answer>) {
         answers.forEach(::setContentElementLabels)
-        view!!.renderAnswers(question, answers)
+        answersCached = answers
+        view.renderAnswers(question, answers)
     }
 
     private fun setQuestionLabels(question: Question) {
         setContentElementLabels(question)
         question.tagsLabel = question.tags.join(", ")
-        question.answerCountLabel = question.answer_count.toString()
+        question.answerCountLabel = question.answerCount.toString()
     }
 
     private fun setContentElementLabels(element: ContentElement) {
@@ -44,27 +50,47 @@ class SearchResultPresenter<in T>(private val app: App, private val dataProvider
         element.bodyFromHtml = if (isNougatOrAbove()) Html.fromHtml(element.body, Html.FROM_HTML_MODE_COMPACT) else Html.fromHtml(element.body)
     }
 
+    fun onHomeButtonClick() = view.showSearchResult()
+
     fun onQuestionClick(question: Question) {
         if (app.isNetworkConnected()) {
-            dataProvider.provideAnswerData(question.question_id,
+            dataProvider.provideAnswerData(arrayListOf(question.questionId),
                     { itemShellData ->
                         val answers = itemShellData.mapNullSafe().items.map { it.mapNullSafe() }
-                        view!!.renderAnswers(question, answers)
+                        presentAnswers(question, answers)
+                        view.showToolbarHomeButton()
                     },
                     { errorMessage ->
-                        view!!.longToast(errorMessage)
+                        view.longToast(errorMessage)
                     })
         } else
-            view!!.longToast("No network connection available")
+            view.longToast(R.string.message_no_network)
     }
 
-    override fun dispose() {
-        view = null
-    }
-}
+    fun onDownload() {
+        if (app.isNetworkConnected() && questionsCached != null && questionsCached!!.any()) {
+            dataProvider.provideAnswerData(questionsCached!!.map { it.questionId },
+                    { itemShellData ->
+                        val answers = itemShellData.mapNullSafe().items.map { it.mapNullSafe() }
 
-interface SearchResultView {
-    fun renderQuestions(questions: List<Question>)
-    fun renderAnswers(question: Question, answers: List<Answer>)
-    fun longToast(msg: String): Toast
+                        daoSession.database.beginTransaction()
+                        daoSession.questionEntityDao.insertInTx(questionsCached!!.map { it.mapToEntity() })
+                        daoSession.answerEntityDao.insertInTx(answers.map { it.mapToEntity() })
+
+                        try {
+                            daoSession.database.setTransactionSuccessful()
+                        } catch (e: Exception) {
+                            view.longToast("Saving data failed: ${e.message}")
+                        } finally {
+                            daoSession.database.endTransaction()
+                        }
+                    },
+                    { errorMessage ->
+                        view.longToast(errorMessage)
+                    })
+        } else
+            view.longToast(R.string.message_no_network)
+    }
+
+    override fun viewStub(): SearchResultView = object : SearchResultView, LifecycleOwnerStub {}
 }

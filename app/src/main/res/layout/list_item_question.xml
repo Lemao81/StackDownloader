@@ -11,7 +11,7 @@
 
         <variable
             name="eventHandler"
-            type="com.jueggs.stackdownloader.adapters.QuestionAdapter.EventHandler" />
+            type="com.jueggs.stackdownloader.adapter.QuestionAdapter.EventHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout

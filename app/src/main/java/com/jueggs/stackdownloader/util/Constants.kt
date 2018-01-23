@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.utils
+package com.jueggs.stackdownloader.util
 
 const val STACKOVERFLOW_BASE_URL = "https://api.stackexchange.com/2.2/"
 
@@ -27,4 +27,3 @@ const val SORT_MONTH = "month"
 const val FILTER_BODY = "withbody"
 
 const val SITE = "stackoverflow"
-
