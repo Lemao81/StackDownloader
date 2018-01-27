@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.model
+package com.jueggs.stackdownloader.retrofit.model
 
 class OwnerData(
         val reputation: Int? = null,

@@ -1,5 +1,6 @@
 package com.jueggs.stackdownloader.model
 
+
 abstract class ContentElement(
         var questionId: Long,
         val owner: Owner,
@@ -12,5 +13,4 @@ abstract class ContentElement(
         var body: String,
         var bodyMarkdown: String,
         var scoreLabel: String,
-        var creationLabel: String,
-        var bodyFromHtml: Any)
+        var creationLabel: String)

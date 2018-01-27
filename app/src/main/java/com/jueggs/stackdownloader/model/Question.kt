@@ -1,5 +1,9 @@
 package com.jueggs.stackdownloader.model
 
+import paperparcel.PaperParcel
+import paperparcel.PaperParcelable
+
+@PaperParcel
 class Question(
         val tags: List<String>,
         val isAnswered: Boolean,
@@ -18,5 +22,11 @@ class Question(
         body: String,
         bodyMarkdown: String,
         scoreLabel: String,
-        creationLabel: String,
-        bodyFromHtml: Any) : ContentElement(questionId, owner, score, lastActivityDate, lastEditDate, creationDate, link, title, body, bodyMarkdown, scoreLabel, creationLabel, bodyFromHtml)
+        creationLabel: String) : ContentElement(questionId, owner, score, lastActivityDate, lastEditDate, creationDate, link, title, body, bodyMarkdown, scoreLabel, creationLabel),
+        PaperParcelable {
+
+    companion object {
+        @JvmField
+        val CREATOR = PaperParcelQuestion.CREATOR
+    }
+}

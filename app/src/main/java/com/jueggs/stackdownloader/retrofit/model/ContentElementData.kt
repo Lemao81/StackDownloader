@@ -1,4 +1,6 @@
-package com.jueggs.stackdownloader.model
+package com.jueggs.stackdownloader.retrofit.model
+
+import com.jueggs.stackdownloader.model.Owner
 
 abstract class ContentElementData(
         var question_id: Long? = null,

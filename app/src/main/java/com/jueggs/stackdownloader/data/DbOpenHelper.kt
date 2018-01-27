@@ -1,7 +1,7 @@
 package com.jueggs.stackdownloader.data
 
 import android.content.Context
-import com.jueggs.stackdownloader.model.DaoMaster
+import com.jueggs.stackdownloader.data.model.DaoMaster
 import org.greenrobot.greendao.database.Database
 
 class DbOpenHelper(context: Context, name:String) : DaoMaster.OpenHelper(context, name) {

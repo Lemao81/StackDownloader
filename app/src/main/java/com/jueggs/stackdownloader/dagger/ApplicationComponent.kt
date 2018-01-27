@@ -1,17 +1,13 @@
 package com.jueggs.stackdownloader.dagger
 
-import com.jueggs.stackdownloader.activity.MainActivity
-import com.jueggs.stackdownloader.activity.SearchActivity
-import com.jueggs.stackdownloader.fragment.SearchCriteriaFragment
-import com.jueggs.stackdownloader.fragment.SearchResultFragment
+import com.jueggs.stackdownloader.presenter.SearchCriteriaPresenter
+import com.jueggs.stackdownloader.presenter.SearchResultPresenter
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class))
+@Component(modules = [(AppModule::class), (PresenterModule::class)])
 interface ApplicationComponent {
-    fun inject(dependent: SearchCriteriaFragment)
-    fun inject(dependent: SearchResultFragment)
-    fun inject(dependent: MainActivity)
-    fun inject(dependent: SearchActivity)
+    fun inject(dependent: SearchCriteriaPresenter)
+    fun inject(dependent: SearchResultPresenter)
 }

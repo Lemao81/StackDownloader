@@ -2,36 +2,41 @@ package com.jueggs.stackdownloader.presenter
 
 import com.jueggs.stackdownloader.App
 import com.jueggs.stackdownloader.R
-import com.jueggs.stackdownloader.data.DataProvider
 import com.jueggs.stackdownloader.model.SearchCriteria
-import com.jueggs.stackdownloader.util.mapNullSafe
+import com.jueggs.stackdownloader.presenter.interfaces.ISearchCriteriaPresenter
+import com.jueggs.stackdownloader.util.checkCast
 import com.jueggs.stackdownloader.view.SearchCriteriaView
-import com.jueggs.utils.base.BaseFragmentPresenter
-import com.jueggs.utils.base.LifecycleOwnerStub
+import com.jueggs.stackdownloader.view.SearchCriteriaViewModel
+import com.jueggs.stackdownloader.view.SearchCriteriaViewStub
+import com.jueggs.stackdownloader.view.SearchView
+import com.jueggs.utils.base.BasePresenter
 import com.jueggs.utils.extension.isNetworkConnected
+import javax.inject.Inject
 
-class SearchCriteriaPresenter(private val app: App, private val dataProvider: DataProvider, private val searchResultPresenter: SearchResultPresenter) : BaseFragmentPresenter<SearchCriteriaView>() {
-    fun onStartSearch() {
-        if (app.isNetworkConnected()) {
-            val searchCriteria = SearchCriteria(
-                    view.getPageSize(),
-                    view.getSortOrder(),
-                    view.getOrderType(),
-                    view.getMinScore(),
-                    view.getTags()
-            )
+class SearchCriteriaPresenter : BasePresenter<SearchCriteriaView, SearchCriteriaViewModel>(), ISearchCriteriaPresenter {
+    @Inject
+    lateinit var app: App
 
-            dataProvider.provideQuestionData(searchCriteria,
-                    { itemShellData ->
-                        val questions = itemShellData.mapNullSafe().items.map { it.mapNullSafe() }
-                        searchResultPresenter.presentQuestions(questions)
-                    },
-                    {
-                        view.longToast(it)
-                    })
-        } else
-            view.longToast(R.string.message_no_network)
+    init {
+        App.applicationComponent.inject(this)
     }
 
-    override fun viewStub(): SearchCriteriaView = object : SearchCriteriaView, LifecycleOwnerStub {}
+    override fun onStartSearch() {
+        if (app.isNetworkConnected()) {
+            if (activity != null) {
+                checkCast<SearchView>(activity!!)
+                val searchCriteria = SearchCriteria(
+                        view.getPageSize(),
+                        view.getSortOrder(),
+                        view.getOrderType(),
+                        view.getMinScore(),
+                        view.getTags()
+                )
+                (activity as SearchView).onStartSearch(searchCriteria)
+            }
+        } else
+            view.showLongToast(R.string.message_no_network)
+    }
+
+    override fun viewStub(): SearchCriteriaView = SearchCriteriaViewStub()
 }

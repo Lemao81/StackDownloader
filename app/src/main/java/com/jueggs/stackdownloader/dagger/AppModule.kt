@@ -1,18 +1,22 @@
 package com.jueggs.stackdownloader.dagger
 
+import android.app.Application
 import com.jueggs.stackdownloader.App
+import com.jueggs.stackdownloader.Navigator
 import com.jueggs.stackdownloader.data.DataProvider
 import com.jueggs.stackdownloader.data.DbOpenHelper
 import com.jueggs.stackdownloader.data.HttpDataProvider
-import com.jueggs.stackdownloader.model.DaoMaster
-import com.jueggs.stackdownloader.model.DaoSession
-import com.jueggs.stackdownloader.model.DatabaseInfo
-import com.jueggs.stackdownloader.presenter.MainPresenter
-import com.jueggs.stackdownloader.presenter.SearchCriteriaPresenter
-import com.jueggs.stackdownloader.presenter.SearchPresenter
-import com.jueggs.stackdownloader.presenter.SearchResultPresenter
+import com.jueggs.stackdownloader.data.model.DaoMaster
+import com.jueggs.stackdownloader.data.model.DaoSession
+import com.jueggs.stackdownloader.data.model.DatabaseInfo
+import com.jueggs.stackdownloader.presenter.*
+import com.jueggs.stackdownloader.presenter.interfaces.IMainPresenter
+import com.jueggs.stackdownloader.presenter.interfaces.ISearchCriteriaPresenter
+import com.jueggs.stackdownloader.presenter.interfaces.ISearchPresenter
+import com.jueggs.stackdownloader.presenter.interfaces.ISearchResultPresenter
 import com.jueggs.stackdownloader.retrofit.StackOverflowClient
 import com.jueggs.stackdownloader.util.STACKOVERFLOW_BASE_URL
+import com.jueggs.utils.DateRenderer
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -34,37 +38,17 @@ class AppModule(val app: App) {
     }
 
     @Provides @Singleton
-    fun provideDataProvider(stackOverflowClient: StackOverflowClient): DataProvider {
-        return HttpDataProvider(stackOverflowClient)
-    }
+    fun provideDataProvider(stackOverflowClient: StackOverflowClient): DataProvider = HttpDataProvider(stackOverflowClient)
 
     @Provides @Singleton
-    fun provideSearchResultPresenter(dataProvider: DataProvider): SearchResultPresenter {
-        return SearchResultPresenter(app, dataProvider)
-    }
+    fun provideDatabaseInfo(): DatabaseInfo = DatabaseInfo("stackdownloader.db")
 
     @Provides @Singleton
-    fun provideSearchCriteriaPresenter(dataProvider: DataProvider, searchResultPresenter: SearchResultPresenter): SearchCriteriaPresenter {
-        return SearchCriteriaPresenter(app, dataProvider, searchResultPresenter)
-    }
+    fun provideDaoSession(databaseInfo: DatabaseInfo): DaoSession = DaoMaster(DbOpenHelper(app, databaseInfo.name).writableDb).newSession()
 
     @Provides @Singleton
-    fun provideMainPresenter(): MainPresenter {
-        return MainPresenter()
-    }
+    fun provideDateRenderer(): DateRenderer = DateRenderer()
 
     @Provides @Singleton
-    fun provideSearchPresenter(): SearchPresenter {
-        return SearchPresenter()
-    }
-
-    @Provides @Singleton
-    fun provideDatabaseInfo(): DatabaseInfo {
-        return DatabaseInfo("stackdownloader.db")
-    }
-
-    @Provides @Singleton
-    fun provideDaoSession(databaseInfo: DatabaseInfo): DaoSession {
-        return DaoMaster(DbOpenHelper(app, databaseInfo.name).writableDb).newSession()
-    }
+    fun provideNavigator(): Navigator = Navigator(app)
 }

@@ -2,6 +2,10 @@ package com.jueggs.stackdownloader.data
 
 import com.jueggs.stackdownloader.model.*
 import com.jueggs.stackdownloader.retrofit.StackOverflowClient
+import com.jueggs.stackdownloader.retrofit.model.AnswerData
+import com.jueggs.stackdownloader.retrofit.model.ItemShellData
+import com.jueggs.stackdownloader.retrofit.model.QueryParameter
+import com.jueggs.stackdownloader.retrofit.model.QuestionData
 import com.jueggs.stackdownloader.util.RetrofitCallbackAdapter
 import com.jueggs.stackdownloader.util.join
 import com.jueggs.stackdownloader.util.mapToQueryParameter

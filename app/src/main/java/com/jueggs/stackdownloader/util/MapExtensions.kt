@@ -1,6 +1,13 @@
 package com.jueggs.stackdownloader.util
 
+import com.jueggs.stackdownloader.data.model.AnswerEntity
+import com.jueggs.stackdownloader.data.model.OwnerEntity
+import com.jueggs.stackdownloader.data.model.QuestionEntity
 import com.jueggs.stackdownloader.model.*
+import com.jueggs.stackdownloader.retrofit.model.AnswerData
+import com.jueggs.stackdownloader.retrofit.model.ItemShellData
+import com.jueggs.stackdownloader.retrofit.model.QueryParameter
+import com.jueggs.stackdownloader.retrofit.model.QuestionData
 import com.jueggs.utils.EMPTY_STRING
 import com.jueggs.utils.INVALID_VALUE
 import com.jueggs.utils.INVALID_VALUE_L
@@ -27,7 +34,7 @@ fun QuestionData.mapNullSafe(): Question = Question(
         title ?: EMPTY_STRING,
         body ?: EMPTY_STRING,
         body_markdown ?: EMPTY_STRING,
-        EMPTY_STRING, EMPTY_STRING, Any())
+        EMPTY_STRING, EMPTY_STRING)
 
 fun AnswerData.mapNullSafe(): Answer = Answer(
         down_vote_count ?: INVALID_VALUE,
@@ -44,13 +51,12 @@ fun AnswerData.mapNullSafe(): Answer = Answer(
         title ?: EMPTY_STRING,
         body ?: EMPTY_STRING,
         body_markdown ?: EMPTY_STRING,
-        EMPTY_STRING, EMPTY_STRING, Any())
+        EMPTY_STRING, EMPTY_STRING)
 
 fun Question.mapToEntity(): QuestionEntity {
     val question = QuestionEntity()
-    question.owner = owner.mapToEntity()
+//    question.owner = owner.mapToEntity()
     question.answerCountLabel = answerCountLabel
-    question.bodyFromHtml = bodyFromHtml.toString()
     question.creationDate = creationDate
     question.scoreLabel = scoreLabel
     question.tagsLabel = tagsLabel
@@ -62,11 +68,10 @@ fun Question.mapToEntity(): QuestionEntity {
 fun Answer.mapToEntity(): AnswerEntity {
     val answer = AnswerEntity()
     answer.answerId = answerId
-    answer.bodyFromHtml = bodyFromHtml.toString()
     answer.creationDate = creationDate
     answer.scoreLabel = scoreLabel
     answer.questionId = questionId
-    answer.owner = owner.mapToEntity()
+//    answer.owner = owner.mapToEntity()
     return answer
 }
 

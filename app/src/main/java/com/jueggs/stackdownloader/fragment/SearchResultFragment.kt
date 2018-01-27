@@ -1,8 +1,7 @@
 package com.jueggs.stackdownloader.fragment
 
-import android.os.Bundle
+import android.app.Application
 import android.view.MenuItem
-import android.widget.Toast
 import com.jueggs.stackdownloader.App
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.activity.SearchActivity
@@ -10,33 +9,38 @@ import com.jueggs.stackdownloader.adapter.AnswerAdapter
 import com.jueggs.stackdownloader.adapter.QuestionAdapter
 import com.jueggs.stackdownloader.model.Answer
 import com.jueggs.stackdownloader.model.Question
-import com.jueggs.stackdownloader.presenter.SearchResultPresenter
+import com.jueggs.stackdownloader.model.SearchCriteria
+import com.jueggs.stackdownloader.presenter.interfaces.ISearchResultPresenter
 import com.jueggs.stackdownloader.view.SearchResultView
+import com.jueggs.stackdownloader.view.SearchResultViewModel
 import com.jueggs.utils.base.BaseFragment
+import com.jueggs.utils.base.BasePresenter
 import com.jueggs.utils.extension.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
-import org.jetbrains.anko.longToast
 import javax.inject.Inject
 
-class SearchResultFragment : BaseFragment<SearchResultView>(), SearchResultView {
+class SearchResultFragment : BaseFragment<SearchResultView, SearchResultViewModel>(), SearchResultView {
     @Inject
-    lateinit var presenter: SearchResultPresenter
-    @Inject
-    lateinit var app: App
+    lateinit var presenter: ISearchResultPresenter
 
     private lateinit var questionAdapter: QuestionAdapter
     private lateinit var answerAdapter: AnswerAdapter
 
-    override fun inject() = app.applicationComponent.inject(this)
-    override fun presenter() = presenter
+    override fun inject() = App.presenterComponent.inject(this)
+    override fun presenter() = presenter as BasePresenter<SearchResultView, SearchResultViewModel>
     override fun self() = this
     override fun layout() = R.layout.fragment_search_result
+
+    override fun viewModel(): SearchResultViewModel = SearchResultViewModel().apply {
+        questions = arrayListOf()
+        answers = arrayListOf()
+    }
 
     override fun initialize() {
         setHasOptionsMenu(true)
     }
 
-    override fun initializeViews() {
+    override fun initializeViews(model: SearchResultViewModel) {
         val questionEventHandler = QuestionAdapter.EventHandler(presenter::onQuestionClick)
         questionAdapter = QuestionAdapter().withEventHandler(questionEventHandler) as QuestionAdapter
         answerAdapter = AnswerAdapter()
@@ -50,9 +54,7 @@ class SearchResultFragment : BaseFragment<SearchResultView>(), SearchResultView 
         fabDownload.setOnClickListener { presenter.onDownload() }
     }
 
-    override fun restoreState(savedInstanceState: Bundle) {
-        fabDownload.isEnabled = savedInstanceState.getBoolean(STATE_DOWNLOAD_BUTTON_ENABLED)
-    }
+    override fun onStartSearch(searchCriteria: SearchCriteria) = presenter.onStartSearch(searchCriteria)
 
     override fun renderQuestions(questions: List<Question>) {
         recSearchResultAnswers.gone()
@@ -78,9 +80,7 @@ class SearchResultFragment : BaseFragment<SearchResultView>(), SearchResultView 
         fabDownload.isEnabled = true
     }
 
-    override fun longToast(msg: String): Toast = ctx.longToast(msg)
-    override fun longToast(resId: Int): Toast = ctx.longToast(resId)
-
+    //TODO lib
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -90,13 +90,5 @@ class SearchResultFragment : BaseFragment<SearchResultView>(), SearchResultView 
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.withData(STATE_DOWNLOAD_BUTTON_ENABLED to fabDownload.isEnabled)
-    }
-
-    companion object {
-        const val STATE_DOWNLOAD_BUTTON_ENABLED = "STATE_DOWNLOAD_BUTTON_ENABLED"
     }
 }

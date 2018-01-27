@@ -5,7 +5,7 @@ buildscript {
     ext.anko_version = '0.10.3'
     ext.google_version = '11.8.0'
     ext.support_version = '27.0.2'
-    ext.util_version = '1.0.26'
+    ext.util_version = '1.0.32'
     ext.android_plugin_version = '3.0.1'
     ext.greendao_version = '3.2.2'
 

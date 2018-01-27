@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.model
+package com.jueggs.stackdownloader.retrofit.model
 
 import com.jueggs.stackdownloader.util.*
 import com.jueggs.utils.extension.join

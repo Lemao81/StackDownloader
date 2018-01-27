@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.model
+package com.jueggs.stackdownloader.retrofit.model
 
 class ItemShellData<T>(
         val items: List<T>? = null,
