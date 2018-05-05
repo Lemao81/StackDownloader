@@ -1,15 +1,11 @@
 package com.jueggs.stackdownloader.presenter
 
-import com.jueggs.stackdownloader.App
-import com.jueggs.stackdownloader.R
-import com.jueggs.stackdownloader.model.SearchCriteria
+import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.bo.SearchCriteria
 import com.jueggs.stackdownloader.presenter.interfaces.ISearchCriteriaPresenter
-import com.jueggs.stackdownloader.util.checkCast
-import com.jueggs.stackdownloader.view.SearchCriteriaView
-import com.jueggs.stackdownloader.view.SearchCriteriaViewModel
-import com.jueggs.stackdownloader.view.SearchCriteriaViewStub
-import com.jueggs.stackdownloader.view.SearchView
+import com.jueggs.stackdownloader.view.*
 import com.jueggs.utils.base.BasePresenter
+import com.jueggs.utils.checkCast
 import com.jueggs.utils.extension.isNetworkConnected
 import javax.inject.Inject
 
@@ -35,7 +31,7 @@ class SearchCriteriaPresenter : BasePresenter<SearchCriteriaView, SearchCriteria
                 (activity as SearchView).onStartSearch(searchCriteria)
             }
         } else
-            view.showLongToast(R.string.message_no_network)
+            view.showLongToast(R.string.toast_no_network)
     }
 
     override fun viewStub(): SearchCriteriaView = SearchCriteriaViewStub()

@@ -1,46 +1,49 @@
 package com.jueggs.stackdownloader.view
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
-import com.jueggs.stackdownloader.model.Answer
-import com.jueggs.stackdownloader.model.Question
-import com.jueggs.stackdownloader.model.SearchCriteria
+import android.os.Parcelable
+import com.jueggs.stackdownloader.bo.*
 import com.jueggs.utils.base.BaseView
-import paperparcel.PaperParcel
-import paperparcel.PaperParcelable
+import kotlinx.android.parcel.Parcelize
 
 interface SearchResultView : BaseView {
-    fun renderQuestions(questions: List<Question>)
-    fun renderAnswers(question: Question, answers: List<Answer>)
+    fun displayQuestions(questions: List<Question>)
+    fun displayAnswers(question: Question, answers: List<Answer>)
     fun showSearchResult()
     fun showToolbarHomeButton()
     fun enableDownloadButton()
+    fun disableDownloadButton()
     fun onStartSearch(searchCriteria: SearchCriteria)
 }
 
-@PaperParcel
-class SearchResultViewModel : PaperParcelable {
-    lateinit var questions: List<Question>
-    lateinit var answers: List<Answer>
-    var question: Question? = null
-    var isDownloadButtonEnabled = false
+@SuppressLint("ParcelCreator")
+@Parcelize
+class SearchResultViewModel(
+        var questions: List<Question> = emptyList(),
+        var answers: List<Answer> = emptyList(),
+        var question: Question? = null,
+        var isDownloadButtonEnabled: Boolean = false) : Parcelable {
 
     companion object {
-        @JvmField
-        val CREATOR = PaperParcelSearchResultViewModel.CREATOR
         val EMPTY = SearchResultViewModel()
     }
 }
 
 class SearchResultViewStub : SearchResultView {
+    override fun disableDownloadButton() {
+        TODO("not implemented")
+    }
+
     override fun onStartSearch(searchCriteria: SearchCriteria) {
         TODO("not implemented")
     }
 
-    override fun renderQuestions(questions: List<Question>) {
+    override fun displayQuestions(questions: List<Question>) {
         TODO("not implemented")
     }
 
-    override fun renderAnswers(question: Question, answers: List<Answer>) {
+    override fun displayAnswers(question: Question, answers: List<Answer>) {
         TODO("not implemented")
     }
 

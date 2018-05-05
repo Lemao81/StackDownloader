@@ -1,15 +1,10 @@
-package com.jueggs.stackdownloader.retrofit.model
-
-import com.jueggs.stackdownloader.model.Owner
+package com.jueggs.stackdownloader.retrofit.dto
 
 abstract class ContentElementData(
         var question_id: Long? = null,
-        val owner: Owner? = null,
+        val owner: OwnerData? = null,
         val score: Int? = null,
-        val last_activity_date: Long? = null,
-        var last_edit_date: Long? = null,
         val creation_date: Long? = null,
-        val link: String? = null,
         val title: String? = null,
         var body: String? = null,
         var body_markdown: String? = null)

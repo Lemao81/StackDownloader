@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.retrofit.model
+package com.jueggs.stackdownloader.retrofit.dto
 
 class QuestionData(
         val tags: List<String>? = null,

@@ -1,24 +1,15 @@
 package com.jueggs.stackdownloader.dagger
 
-import android.app.Application
-import com.jueggs.stackdownloader.App
-import com.jueggs.stackdownloader.Navigator
-import com.jueggs.stackdownloader.data.DataProvider
-import com.jueggs.stackdownloader.data.DbOpenHelper
-import com.jueggs.stackdownloader.data.HttpDataProvider
-import com.jueggs.stackdownloader.data.model.DaoMaster
-import com.jueggs.stackdownloader.data.model.DaoSession
-import com.jueggs.stackdownloader.data.model.DatabaseInfo
+import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.data.*
+import com.jueggs.stackdownloader.data.entity.*
+import com.jueggs.stackdownloader.factory.RendererFactory
 import com.jueggs.stackdownloader.presenter.*
-import com.jueggs.stackdownloader.presenter.interfaces.IMainPresenter
-import com.jueggs.stackdownloader.presenter.interfaces.ISearchCriteriaPresenter
-import com.jueggs.stackdownloader.presenter.interfaces.ISearchPresenter
-import com.jueggs.stackdownloader.presenter.interfaces.ISearchResultPresenter
-import com.jueggs.stackdownloader.retrofit.StackOverflowClient
+import com.jueggs.stackdownloader.presenter.interfaces.*
+import com.jueggs.stackdownloader.retrofit.StackOverflowApi
 import com.jueggs.stackdownloader.util.STACKOVERFLOW_BASE_URL
 import com.jueggs.utils.DateRenderer
-import dagger.Module
-import dagger.Provides
+import dagger.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,15 +21,15 @@ class AppModule(val app: App) {
     fun provideApplication(): App = app
 
     @Provides @Singleton
-    fun provideStackOverflowClient(): StackOverflowClient {
+    fun provideStackOverflowClient(): StackOverflowApi {
         val client = OkHttpClient.Builder().build()
         val retrofitBuilder = Retrofit.Builder().baseUrl(STACKOVERFLOW_BASE_URL).addConverterFactory(GsonConverterFactory.create())
         val retrofit = retrofitBuilder.client(client).build()
-        return retrofit.create(StackOverflowClient::class.java)
+        return retrofit.create(StackOverflowApi::class.java)
     }
 
     @Provides @Singleton
-    fun provideDataProvider(stackOverflowClient: StackOverflowClient): DataProvider = HttpDataProvider(stackOverflowClient)
+    fun provideDataProvider(stackOverflowApi: StackOverflowApi): DataProvider = HttpDataProvider(stackOverflowApi)
 
     @Provides @Singleton
     fun provideDatabaseInfo(): DatabaseInfo = DatabaseInfo("stackdownloader.db")
@@ -51,4 +42,19 @@ class AppModule(val app: App) {
 
     @Provides @Singleton
     fun provideNavigator(): Navigator = Navigator(app)
+
+    @Provides @Singleton
+    fun provideMainPresenter(): IMainPresenter = MainPresenter()
+
+    @Provides @Singleton
+    fun provideSearchPresenter(): ISearchPresenter = SearchPresenter()
+
+    @Provides @Singleton
+    fun provideSearchCriteriaPresenter(): ISearchCriteriaPresenter = SearchCriteriaPresenter()
+
+    @Provides @Singleton
+    fun provideSearchResultPresenter(): ISearchResultPresenter = SearchResultPresenter()
+
+    @Provides @Singleton
+    fun provideRendererFactory(dateRenderer: DateRenderer): RendererFactory = RendererFactory(dateRenderer)
 }

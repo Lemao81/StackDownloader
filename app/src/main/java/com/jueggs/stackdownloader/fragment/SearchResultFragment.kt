@@ -1,22 +1,16 @@
 package com.jueggs.stackdownloader.fragment
 
-import android.app.Application
 import android.view.MenuItem
-import com.jueggs.stackdownloader.App
-import com.jueggs.stackdownloader.R
+import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.activity.SearchActivity
-import com.jueggs.stackdownloader.adapter.AnswerAdapter
-import com.jueggs.stackdownloader.adapter.QuestionAdapter
-import com.jueggs.stackdownloader.model.Answer
-import com.jueggs.stackdownloader.model.Question
-import com.jueggs.stackdownloader.model.SearchCriteria
+import com.jueggs.stackdownloader.adapter.*
+import com.jueggs.stackdownloader.bo.*
 import com.jueggs.stackdownloader.presenter.interfaces.ISearchResultPresenter
-import com.jueggs.stackdownloader.view.SearchResultView
-import com.jueggs.stackdownloader.view.SearchResultViewModel
-import com.jueggs.utils.base.BaseFragment
-import com.jueggs.utils.base.BasePresenter
+import com.jueggs.stackdownloader.view.*
+import com.jueggs.utils.base.*
 import com.jueggs.utils.extension.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import javax.inject.Inject
 
 class SearchResultFragment : BaseFragment<SearchResultView, SearchResultViewModel>(), SearchResultView {
@@ -26,14 +20,14 @@ class SearchResultFragment : BaseFragment<SearchResultView, SearchResultViewMode
     private lateinit var questionAdapter: QuestionAdapter
     private lateinit var answerAdapter: AnswerAdapter
 
-    override fun inject() = App.presenterComponent.inject(this)
+    override fun inject() = App.applicationComponent.inject(this)
     override fun presenter() = presenter as BasePresenter<SearchResultView, SearchResultViewModel>
     override fun self() = this
     override fun layout() = R.layout.fragment_search_result
 
     override fun viewModel(): SearchResultViewModel = SearchResultViewModel().apply {
-        questions = arrayListOf()
-        answers = arrayListOf()
+        questions = emptyList()
+        answers = emptyList()
     }
 
     override fun initialize() {
@@ -45,24 +39,24 @@ class SearchResultFragment : BaseFragment<SearchResultView, SearchResultViewMode
         questionAdapter = QuestionAdapter().withEventHandler(questionEventHandler) as QuestionAdapter
         answerAdapter = AnswerAdapter()
 
-        recSearchResultQuestions.setTheAdapter(questionAdapter).setVerticalLinearLayoutManager().setSimpleDivider()
-        recSearchResultAnswers.setTheAdapter(answerAdapter).setVerticalLinearLayoutManager().setSimpleDivider()
+        recSearchResultQuestions.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
+        recSearchResultAnswers.withAdapter(answerAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
         fabDownload.isEnabled = false
     }
 
     override fun setListeners() {
-        fabDownload.setOnClickListener { presenter.onDownload() }
+        fabDownload.onClick { presenter.onDownload() }
     }
 
     override fun onStartSearch(searchCriteria: SearchCriteria) = presenter.onStartSearch(searchCriteria)
 
-    override fun renderQuestions(questions: List<Question>) {
+    override fun displayQuestions(questions: List<Question>) {
         recSearchResultAnswers.gone()
         recSearchResultQuestions.visible()
         questionAdapter.setItems(questions)
     }
 
-    override fun renderAnswers(question: Question, answers: List<Answer>) {
+    override fun displayAnswers(question: Question, answers: List<Answer>) {
         recSearchResultQuestions.gone()
         recSearchResultAnswers.scrollToPosition(0)
         recSearchResultAnswers.visible()
@@ -78,6 +72,10 @@ class SearchResultFragment : BaseFragment<SearchResultView, SearchResultViewMode
 
     override fun enableDownloadButton() {
         fabDownload.isEnabled = true
+    }
+
+    override fun disableDownloadButton() {
+        fabDownload.isEnabled = false
     }
 
     //TODO lib

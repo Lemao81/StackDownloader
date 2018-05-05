@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.jueggs.stackdownloader.model.Question" />
+            type="com.jueggs.stackdownloader.bo.Question" />
 
         <variable
             name="eventHandler"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:text="@{item.scoreLabel}"
+            android:text="@{Integer.toString(item.score)}"
             android:textAppearance="@style/text_question_score"
             android:textColor="@null"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.answerCountLabel}"
+            android:text="@{Integer.toString(item.answerCount)}"
             android:textAppearance="@style/text_question_score"
             android:textColor="@null"
             app:layout_constraintLeft_toLeftOf="@+id/txtScore"

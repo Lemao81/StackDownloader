@@ -1,4 +1,4 @@
-package com.jueggs.stackdownloader.model
+package com.jueggs.stackdownloader.bo
 
 class SearchCriteria(
         val pageSize: String,

@@ -1,14 +1,10 @@
 package com.jueggs.stackdownloader.retrofit
 
-import com.jueggs.stackdownloader.retrofit.model.AnswerData
-import com.jueggs.stackdownloader.retrofit.model.ItemShellData
-import com.jueggs.stackdownloader.retrofit.model.QuestionData
+import com.jueggs.stackdownloader.retrofit.dto.*
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
-interface StackOverflowClient {
+interface StackOverflowApi {
     @GET("questions")
     fun fetchQuestions(@QueryMap queryParameter: Map<String, String>): Call<ItemShellData<QuestionData>>
 

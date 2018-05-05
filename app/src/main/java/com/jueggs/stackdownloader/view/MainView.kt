@@ -1,20 +1,20 @@
 package com.jueggs.stackdownloader.view
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
+import android.os.Parcelable
 import com.jueggs.utils.base.BaseView
-import paperparcel.PaperParcel
-import paperparcel.PaperParcelable
+import kotlinx.android.parcel.Parcelize
 
 interface MainView : BaseView {
 
 }
 
-@PaperParcel
-class MainViewModel : PaperParcelable {
+@SuppressLint("ParcelCreator")
+@Parcelize
+class MainViewModel : Parcelable {
 
     companion object {
-        @JvmField
-        val CREATOR = PaperParcelMainViewModel.CREATOR
         val EMPTY = MainViewModel()
     }
 }

@@ -1,10 +1,11 @@
 package com.jueggs.stackdownloader.view
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
-import com.jueggs.stackdownloader.model.SearchCriteria
+import android.os.Parcelable
+import com.jueggs.stackdownloader.bo.SearchCriteria
 import com.jueggs.utils.base.BaseView
-import paperparcel.PaperParcel
-import paperparcel.PaperParcelable
+import kotlinx.android.parcel.Parcelize
 
 interface SearchView : BaseView {
     fun showToolbarHomeButton()
@@ -12,12 +13,11 @@ interface SearchView : BaseView {
     fun onStartSearch(searchCriteria: SearchCriteria)
 }
 
-@PaperParcel
-class SearchViewModel : PaperParcelable {
+@SuppressLint("ParcelCreator")
+@Parcelize
+class SearchViewModel : Parcelable {
 
     companion object {
-        @JvmField
-        val CREATOR = PaperParcelSearchViewModel.CREATOR
         val EMPTY = SearchViewModel()
     }
 }

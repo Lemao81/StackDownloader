@@ -1,9 +1,10 @@
 package com.jueggs.stackdownloader.view
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
+import android.os.Parcelable
 import com.jueggs.utils.base.BaseView
-import paperparcel.PaperParcel
-import paperparcel.PaperParcelable
+import kotlinx.android.parcel.Parcelize
 
 
 interface SearchCriteriaView : BaseView {
@@ -14,12 +15,11 @@ interface SearchCriteriaView : BaseView {
     fun getTags(): List<String>
 }
 
-@PaperParcel
-class SearchCriteriaViewModel : PaperParcelable {
+@SuppressLint("ParcelCreator")
+@Parcelize
+class SearchCriteriaViewModel : Parcelable {
 
     companion object {
-        @JvmField
-        val CREATOR = PaperParcelSearchCriteriaViewModel.CREATOR
         val EMPTY = SearchCriteriaViewModel()
     }
 }

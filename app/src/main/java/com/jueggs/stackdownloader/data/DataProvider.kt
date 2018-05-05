@@ -1,9 +1,9 @@
 package com.jueggs.stackdownloader.data
 
-import com.jueggs.stackdownloader.retrofit.model.AnswerData
-import com.jueggs.stackdownloader.retrofit.model.ItemShellData
-import com.jueggs.stackdownloader.retrofit.model.QuestionData
-import com.jueggs.stackdownloader.model.SearchCriteria
+import com.jueggs.stackdownloader.retrofit.dto.AnswerData
+import com.jueggs.stackdownloader.retrofit.dto.ItemShellData
+import com.jueggs.stackdownloader.retrofit.dto.QuestionData
+import com.jueggs.stackdownloader.bo.SearchCriteria
 
 interface DataProvider {
     fun provideQuestionData(searchCriteria: SearchCriteria, onSuccess: (ItemShellData<QuestionData>) -> Unit, onFail: (String) -> Unit)
