@@ -12,16 +12,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
-        android:id="@+id/fragSearchCriteria"
-        android:name="com.jueggs.stackdownloader.fragment.SearchCriteriaFragment"
+    <FrameLayout
+        android:id="@+id/fragmentContainer1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guidFragmentFragment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout="@layout/fragment_search_criteria" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <!--<fragment-->
+    <!--android:id="@+id/fragSearchCriteria"-->
+    <!--android:name="com.jueggs.stackdownloader.ui.search.view.SearchCriteriaFragment"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintRight_toLeftOf="@+id/guidFragmentFragment"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+    <!--tools:layout="@layout/fragment_search_criteria" />-->
 
     <android.support.constraint.Guideline
         android:id="@+id/guidFragmentFragment"
@@ -30,15 +39,24 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.3" />
 
-    <fragment
-        android:id="@+id/fragSearchResult"
-        android:name="com.jueggs.stackdownloader.fragment.SearchResultFragment"
+    <FrameLayout
+        android:id="@+id/fragmentContainer2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/guidFragmentFragment"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout="@layout/fragment_search_result" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <!--<fragment-->
+    <!--android:id="@+id/fragSearchResult"-->
+    <!--android:name="com.jueggs.stackdownloader.ui.search.view.SearchResultFragment"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintLeft_toRightOf="@+id/guidFragmentFragment"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+    <!--tools:layout="@layout/fragment_search_result" />-->
 
 </android.support.constraint.ConstraintLayout>

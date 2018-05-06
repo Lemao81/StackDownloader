@@ -42,6 +42,9 @@ androidExtensions { experimental = true }
 kapt { generateStubs = true }
 
 dependencies {
+    implementation project(":data")
+    implementation project(":domain")
+
     implementation Libs.kotlinStd8
     implementation Libs.appcompat
     implementation Libs.design
@@ -51,6 +54,9 @@ dependencies {
     implementation Libs.mapStruct
     implementation Libs.andutils
     implementation Libs.resutils
+    implementation Libs.koin
+    implementation Libs.koinAndroidArchitecture
+    implementation Libs.androidKtx
     kapt Libs.mapStructProc
     kapt Libs.databindingCompiler
 

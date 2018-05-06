@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation Libs.kotlinStd8
+}
+
+sourceCompatibility = Versions.java8
+targetCompatibility = Versions.java8
+
+compileKotlin { kotlinOptions { jvmTarget = Versions.java8 } }
+compileTestKotlin { kotlinOptions { jvmTarget = Versions.java8 } }

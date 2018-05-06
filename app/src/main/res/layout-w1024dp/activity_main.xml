@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -14,5 +13,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/intro" />
+        app:srcCompat="@drawable/intro" />
+
+    <include
+        android:id="@+id/checkTwoPane"
+        layout="@layout/check_two_pane" />
+
 </android.support.constraint.ConstraintLayout>
