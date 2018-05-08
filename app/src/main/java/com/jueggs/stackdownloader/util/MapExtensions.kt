@@ -11,42 +11,42 @@ import com.jueggs.stackdownloader.bo.*
 //data to model
 fun <T> ItemShellDto<T>.mapToBo(): ItemShell<T> = ItemShell(
         items = items ?: emptyList(),
-        hasMore = has_more ?: false,
-        quotaMax = quota_max ?: INVALID_VALUE,
-        quotaRemaining = quota_remaining ?: INVALID_VALUE)
+        hasMore = hasMore ?: false,
+        quotaMax = quotaMax ?: INVALID_VALUE,
+        quotaRemaining = quotaRemaining ?: INVALID_VALUE)
 
 fun QuestionDto.mapToBo(): Question = Question(
         tagsList = tags ?: emptyList(),
-        isAnswered = is_answered ?: false,
-        viewCount = view_count ?: INVALID_VALUE,
-        answerCount = answer_count ?: INVALID_VALUE,
+        isAnswered = isAnswered ?: false,
+        viewCount = viewCount ?: INVALID_VALUE,
+        answerCount = answerCount ?: INVALID_VALUE,
         creationLabel = EMPTY_STRING,
-        questionId = question_id ?: INVALID_VALUE_L,
+        questionId = questionId ?: INVALID_VALUE_L,
         owner = owner?.mapToBo() ?: Owner.EMPTY,
         score = score ?: INVALID_VALUE,
-        creationDate = creation_date ?: INVALID_VALUE_L,
+        creationDate = creationDate ?: INVALID_VALUE_L,
         title = title ?: EMPTY_STRING,
         body = body ?: EMPTY_STRING,
-        bodyMarkdown = body_markdown ?: EMPTY_STRING,
+        bodyMarkdown = bodyMarkdown ?: EMPTY_STRING,
         tagsLabel = EMPTY_STRING)
 
 fun AnswerDto.mapToBo(): Answer = Answer(
-        isAccepted = accepted ?: false,
-        answerId = answer_id ?: INVALID_VALUE_L,
-        questionId = question_id ?: INVALID_VALUE_L,
+        isAccepted = isAccepted ?: false,
+        answerId = answerId ?: INVALID_VALUE_L,
+        questionId = questionId ?: INVALID_VALUE_L,
         owner = owner?.mapToBo() ?: Owner.EMPTY,
         score = score ?: INVALID_VALUE,
-        creationDate = creation_date ?: INVALID_VALUE_L,
+        creationDate = creationDate ?: INVALID_VALUE_L,
         title = title ?: EMPTY_STRING,
         body = body ?: EMPTY_STRING,
-        bodyMarkdown = body_markdown ?: EMPTY_STRING,
+        bodyMarkdown = bodyMarkdown ?: EMPTY_STRING,
         creationLabel = EMPTY_STRING)
 
 fun OwnerDto.mapToBo(): Owner = Owner(
-        userId = user_id ?: INVALID_VALUE_L,
+        userId = userId ?: INVALID_VALUE_L,
         reputation = reputation ?: INVALID_VALUE,
-        profileImage = profile_image ?: EMPTY_STRING,
-        displayName = display_name ?: EMPTY_STRING)
+        profileImage = profileImage ?: EMPTY_STRING,
+        displayName = displayName ?: EMPTY_STRING)
 
 
 //model to entity

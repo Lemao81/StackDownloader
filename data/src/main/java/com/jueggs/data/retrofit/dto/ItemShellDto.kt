@@ -1,7 +1,13 @@
 package com.jueggs.data.retrofit.dto
 
+import com.google.gson.annotations.SerializedName
+
 class ItemShellDto<T>(
+        @SerializedName("items")
         val items: List<T>? = null,
-        val has_more: Boolean? = null,
-        val quota_max: Int? = null,
-        val quota_remaining: Int? = null)
+        @SerializedName("has_more")
+        val hasMore: Boolean? = null,
+        @SerializedName("quota_max")
+        val quotaMax: Int? = null,
+        @SerializedName("quota_remaining")
+        val quotaRemaining: Int? = null)

@@ -36,5 +36,6 @@ dependencies {
     implementation Libs.retrofit2
     implementation Libs.retrofit2GsonConverter
     implementation Libs.jutils
+    implementation Libs.retrofit2CoroutineAdapter
     kapt Libs.roomCompiler
 }

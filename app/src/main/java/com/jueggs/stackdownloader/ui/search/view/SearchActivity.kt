@@ -13,16 +13,21 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun toolbar(): View? = toolbar
     override fun toolbarNavigateBack() = false
 
-    override fun singlePaneFragment() = pairOf(R.id.fragmentContainer, SearchCriteriaFragment.newInstance())
+    override fun singlePaneFragment() = pairOf(R.id.fragment, SearchCriteriaFragment.newInstance())
     override fun twoPaneFragments() = pairOf(
-            pairOf(R.id.fragmentContainer1, SearchCriteriaFragment.newInstance()),
-            pairOf(R.id.fragmentContainer2, SearchResultFragment.newInstance()))
+            pairOf(R.id.fragment1, SearchCriteriaFragment.newInstance()),
+            pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
 
     override fun onStartSearch(searchCriteria: SearchCriteria) {
         if (AppMode.singlePane) {
-            replaceFragment(R.id.fragmentContainer, SearchResultFragment.newInstance())
+            val fragment = SearchResultFragment.newInstance(searchCriteria)
+            replaceFragment(R.id.fragment, fragment)
+            fragment.viewModel.startSearch()
         } else {
-
+            findFragment<SearchResultFragment>(R.id.fragment2).apply {
+                viewModel.searchCriteria = searchCriteria
+                viewModel.startSearch()
+            }
         }
     }
 

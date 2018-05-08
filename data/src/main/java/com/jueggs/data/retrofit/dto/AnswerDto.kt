@@ -1,5 +1,10 @@
 package com.jueggs.data.retrofit.dto
 
+import com.google.gson.annotations.SerializedName
+
 class AnswerDto(
-        var accepted: Boolean? = null,
-        var answer_id: Long? = null) : ContentElementDto()
+        @SerializedName("is_accepted")
+        var isAccepted: Boolean? = null,
+        @SerializedName("answer_id")
+        var answerId: Long? = null
+) : ContentElementDto()

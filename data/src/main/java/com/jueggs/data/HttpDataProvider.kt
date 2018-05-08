@@ -1,12 +1,9 @@
-package com.jueggs.stackdownloader.data
+package com.jueggs.data
 
-import com.jueggs.data.DataProvider
+import com.jueggs.data.retrofit.*
 import com.jueggs.domain.model.SearchCriteria
-import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.data.retrofit.dto.*
-import com.jueggs.stackdownloader.util.*
-import com.jueggs.utils.extension.join
-import com.jueggs.utils.logNetwork
+import com.jueggs.jutils.extension.join
 
 class HttpDataProvider(private val api: StackOverflowApi) : DataProvider {
     override fun provideQuestionData(searchCriteria: SearchCriteria, onSuccess: (ItemShellDto<QuestionDto>) -> Unit, onFail: (String) -> Unit) {

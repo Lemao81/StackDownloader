@@ -11,7 +11,7 @@ object Versions {
     const val fabricPlugin = "1.24.4"
     const val hugoPlugin = "1.2.1"
 
-    const val andutils = "1.0.10"
+    const val andutils = "1.0.11"
     const val jutils = "1.0.1"
     const val firebaseutils = "1.0.1"
     const val resutils = "1.0.1"
@@ -54,6 +54,7 @@ object Versions {
     const val androidKtx = "0.3"
     const val frodo = "0.8.3"
     const val retrofit2 = "2.4.0"
+    const val retrofit2CoroutineAdapter = "1.0.0"
     const val buildTimeTracker = "0.11.0"
     const val archLifecycle = "1.1.1"
 }
@@ -131,6 +132,7 @@ object Libs {
     const val androidKtx = "androidx.core:core-ktx:${Versions.androidKtx}"
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"
     const val retrofit2GsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
+    const val retrofit2CoroutineAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:${Versions.retrofit2CoroutineAdapter}"
 }
 
 object Plugins {
