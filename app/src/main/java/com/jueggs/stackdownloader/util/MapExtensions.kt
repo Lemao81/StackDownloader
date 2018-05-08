@@ -1,17 +1,21 @@
 package com.jueggs.stackdownloader.util
 
+import android.content.Context
+import com.jueggs.andutils.extension.getStringArray
+import com.jueggs.data.retrofit.dto.*
+import com.jueggs.domain.model.SearchCriteria
+import com.jueggs.jutils.*
+import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.bo.*
-import com.jueggs.stackdownloader.retrofit.dto.*
-import com.jueggs.utils.*
 
 //data to model
-fun <T> ItemShellData<T>.mapToBo(): ItemShell<T> = ItemShell(
+fun <T> ItemShellDto<T>.mapToBo(): ItemShell<T> = ItemShell(
         items = items ?: emptyList(),
         hasMore = has_more ?: false,
         quotaMax = quota_max ?: INVALID_VALUE,
         quotaRemaining = quota_remaining ?: INVALID_VALUE)
 
-fun QuestionData.mapToBo(): Question = Question(
+fun QuestionDto.mapToBo(): Question = Question(
         tagsList = tags ?: emptyList(),
         isAnswered = is_answered ?: false,
         viewCount = view_count ?: INVALID_VALUE,
@@ -26,7 +30,7 @@ fun QuestionData.mapToBo(): Question = Question(
         bodyMarkdown = body_markdown ?: EMPTY_STRING,
         tagsLabel = EMPTY_STRING)
 
-fun AnswerData.mapToBo(): Answer = Answer(
+fun AnswerDto.mapToBo(): Answer = Answer(
         isAccepted = accepted ?: false,
         answerId = answer_id ?: INVALID_VALUE_L,
         questionId = question_id ?: INVALID_VALUE_L,
@@ -38,7 +42,7 @@ fun AnswerData.mapToBo(): Answer = Answer(
         bodyMarkdown = body_markdown ?: EMPTY_STRING,
         creationLabel = EMPTY_STRING)
 
-fun OwnerData.mapToBo(): Owner = Owner(
+fun OwnerDto.mapToBo(): Owner = Owner(
         userId = user_id ?: INVALID_VALUE_L,
         reputation = reputation ?: INVALID_VALUE,
         profileImage = profile_image ?: EMPTY_STRING,
@@ -84,9 +88,15 @@ fun OwnerData.mapToBo(): Owner = Owner(
 //    return owner
 //}
 
-fun SearchCriteria.mapToQueryParameter(): QueryParameter.Builder = QueryParameter.Builder()
-        .pagesize(pageSize)
-        .sort(sortOrder)
-        .order(orderType)
-        .tags(tags)
-        .min(minScore)
+
+fun SearchCriteria.mapToQueryParameter(context: Context): QueryParameter = QueryParameter().also {
+    it.limitTo = limitTo
+    it.sort = getSortString(context, sortType)
+    it.order = getOrderString(context, orderType)
+    it.min = score
+    it.tags = tags
+}
+
+fun getSortString(context: Context, index: Int) = context.getStringArray(R.array.sortType)[index]
+
+fun getOrderString(context: Context, index: Int) = context.getStringArray(R.array.orderType)[index]

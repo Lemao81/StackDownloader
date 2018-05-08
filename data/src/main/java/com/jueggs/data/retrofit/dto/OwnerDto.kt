@@ -1,6 +1,6 @@
-package com.jueggs.stackdownloader.retrofit.dto
+package com.jueggs.data.retrofit.dto
 
-class OwnerData(
+class OwnerDto(
         val reputation: Int? = null,
         val user_id: Long? = null,
         val profile_image: String? = null,

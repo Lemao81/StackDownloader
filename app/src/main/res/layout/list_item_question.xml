@@ -7,17 +7,17 @@
 
         <variable
             name="item"
-            type="com.jueggs.stackdownloader.bo.Question" />
+            type="com.jueggs.domain.model.Question" />
 
         <variable
-            name="eventHandler"
+            name="handler"
             type="com.jueggs.stackdownloader.adapter.QuestionAdapter.EventHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> eventHandler.onQuestionClick(item)}"
+        android:onClick="@{() -> handler.onClick(item)}"
         android:padding="8dp">
 
         <TextView

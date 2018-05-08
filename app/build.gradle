@@ -49,8 +49,6 @@ dependencies {
     implementation Libs.appcompat
     implementation Libs.design
     implementation Libs.constraintLayout
-    implementation Libs.retrofit2
-    implementation Libs.retrofit2GsonConverter
     implementation Libs.mapStruct
     implementation Libs.andutils
     implementation Libs.resutils

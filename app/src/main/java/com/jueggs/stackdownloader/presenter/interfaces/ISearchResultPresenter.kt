@@ -1,7 +1,7 @@
 package com.jueggs.stackdownloader.presenter.interfaces
 
 import com.jueggs.stackdownloader.bo.Question
-import com.jueggs.stackdownloader.bo.SearchCriteria
+import com.jueggs.domain.model.SearchCriteria
 
 interface ISearchResultPresenter {
     fun onHomeButtonClick()

@@ -3,68 +3,66 @@ package com.jueggs.stackdownloader.ui.search.view
 import android.view.MenuItem
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
+import com.jueggs.domain.model.*
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
-import com.jueggs.stackdownloader.bo.*
-import com.jueggs.stackdownloader.presenter.interfaces.ISearchResultPresenter
-import com.jueggs.stackdownloader.view.*
+import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.koin.android.architecture.ext.viewModel
 
 class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
-    @Inject
-    lateinit var presenter: ISearchResultPresenter
+    val viewModel by viewModel<SearchResultViewModel>()
 
     private lateinit var questionAdapter: QuestionAdapter
     private lateinit var answerAdapter: AnswerAdapter
 
-    override fun inject() = App.applicationComponent.inject(this)
-    override fun presenter() = presenter as BasePresenter<SearchResultView, SearchResultViewModel>
-    override fun self() = this
     override fun layout() = R.layout.fragment_search_result
-
-    override fun viewModel(): SearchResultViewModel = SearchResultViewModel().apply {
-        questions = emptyList()
-        answers = emptyList()
-    }
+    override fun bindingItems() = mapOf(BR.model to SearchResultBindingViewModel(viewModel))
 
     override fun initialize() {
         setHasOptionsMenu(true)
     }
 
-    override fun initializeViews(model: SearchResultViewModel) {
-        val questionEventHandler = QuestionAdapter.EventHandler(presenter::onQuestionClick)
-        questionAdapter = QuestionAdapter().withEventHandler(questionEventHandler) as QuestionAdapter
+    override fun initializeViews() {
+        questionAdapter = QuestionAdapter().also { it.eventhandler = QuestionAdapter.EventHandler(viewModel) }
         answerAdapter = AnswerAdapter()
 
-        recSearchResultQuestions.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
-        recSearchResultAnswers.withAdapter(answerAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
+        recQuestions.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
+        recAnswers.withAdapter(answerAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
         fabDownload.isEnabled = false
     }
 
     override fun setListeners() {
-        fabDownload.onClick { presenter.onDownload() }
+        viewModel.questions.nonNull().observe(this) { questions ->
+            questionAdapter.setItems(questions, Question::id)
+        }
+        viewModel.answers.nonNull().observe(this) { (question, answers) ->
+            answerAdapter.apply {
+                setHeader(question)
+                setItems(answers)
+            }
+        }
     }
 
     override fun onStartSearch(searchCriteria: SearchCriteria) = presenter.onStartSearch(searchCriteria)
 
     override fun displayQuestions(questions: List<Question>) {
-        recSearchResultAnswers.gone()
-        recSearchResultQuestions.visible()
+        recAnswers.gone()
+        recQuestions.visible()
         questionAdapter.setItems(questions)
     }
 
     override fun displayAnswers(question: Question, answers: List<Answer>) {
-        recSearchResultQuestions.gone()
-        recSearchResultAnswers.scrollToPosition(0)
-        recSearchResultAnswers.visible()
+        recQuestions.gone()
+        recAnswers.scrollToPosition(0)
+        recAnswers.visible()
         answerAdapter.setHeaderAndItems(question, answers)
     }
 
     override fun showSearchResult() {
-        recSearchResultAnswers.gone()
-        recSearchResultQuestions.visible()
+        recAnswers.gone()
+        recQuestions.visible()
     }
 
     override fun showToolbarHomeButton() = (activity as SearchActivity).showToolbarHomeButton()

@@ -28,7 +28,13 @@ android {
 }
 
 dependencies {
+    implementation project(":domain")
+
     implementation Libs.kotlinStd8
     implementation Libs.roomRuntime
+    implementation Libs.roomRxJava
+    implementation Libs.retrofit2
+    implementation Libs.retrofit2GsonConverter
+    implementation Libs.jutils
     kapt Libs.roomCompiler
 }

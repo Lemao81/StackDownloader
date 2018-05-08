@@ -1,12 +1,12 @@
 package com.jueggs.stackdownloader.presenter
 
+import com.jueggs.domain.model.SearchCriteria
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.bo.*
-import com.jueggs.stackdownloader.data.DataProvider
+import com.jueggs.data.DataProvider
 import com.jueggs.stackdownloader.data.entity.DaoSession
 import com.jueggs.stackdownloader.factory.RendererFactory
 import com.jueggs.stackdownloader.presenter.interfaces.ISearchResultPresenter
-import com.jueggs.stackdownloader.util.mapToBo
 import com.jueggs.stackdownloader.view.*
 import com.jueggs.utils.base.BasePresenter
 import com.jueggs.utils.extension.isNetworkConnected
