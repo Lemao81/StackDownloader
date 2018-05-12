@@ -55,6 +55,8 @@ dependencies {
     implementation Libs.koin
     implementation Libs.koinAndroidArchitecture
     implementation Libs.androidKtx
+    implementation Libs.retrofit2
+    implementation Libs.retrofit2GsonConverter
     kapt Libs.mapStructProc
     kapt Libs.databindingCompiler
 

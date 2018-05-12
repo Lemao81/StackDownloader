@@ -13,17 +13,13 @@ import kotlinx.android.synthetic.main.fragment_search_result.*
 import org.koin.android.architecture.ext.viewModel
 
 class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
-    val viewModel by viewModel<SearchResultViewModel>()
+    val viewModel by viewModel<SearchViewModel>()
 
     private lateinit var questionAdapter: QuestionAdapter
     private lateinit var answerAdapter: AnswerAdapter
 
     override fun layout() = R.layout.fragment_search_result
     override fun bindingItems() = mapOf(BR.model to SearchResultBindingViewModel(viewModel))
-
-    override fun pullArguments(arguments: Bundle?) {
-        viewModel.searchCriteria = arguments?.getParcelable<SearchCriteriaDto>(ARG_SEARCHCRITERIA)?.bo
-    }
 
     override fun initialize() {
         setHasOptionsMenu(true)
@@ -39,14 +35,15 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     }
 
     override fun setListeners() {
-        viewModel.questions.nonNull().observe(this) { questions ->
-            questionAdapter.setItems(questions, Question::id)
-            recQuestions.adapter = questionAdapter
+        viewModel.search.nonNull().observe(this) { searchCriteria ->
+
         }
-        viewModel.answers.nonNull().observe(this) { (question, answers) ->
-            answerAdapter.setHeaderAndItems(question, answers)
-            recQuestions.adapter = answerAdapter
-            recQuestions.scrollToPosition(0)
+        viewModel.questions.nonNull().observe(this) { questions -> questionAdapter.setItems(questions, Question::id) }
+        viewModel.answers.nonNull().observe(this) { liveData ->
+            liveData.nonNull().observe(this) { (question, answers) ->
+                answerAdapter.setHeaderAndItems(question, answers)
+                recAnswers.scrollToPosition(0)
+            }
         }
     }
 
@@ -71,13 +68,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
             }
 
     companion object {
-        const val ARG_SEARCHCRITERIA = "ARG_SEARCHCRITERIA"
-
-        fun newInstance(searchCriteria: SearchCriteria? = null): SearchResultFragment {
-            return if (searchCriteria != null)
-                SearchResultFragment().also { it.withArguments(ARG_SEARCHCRITERIA to searchCriteria.dto) }
-            else SearchResultFragment()
-        }
+        fun newInstance(): SearchResultFragment = SearchResultFragment()
     }
 
     interface Listener

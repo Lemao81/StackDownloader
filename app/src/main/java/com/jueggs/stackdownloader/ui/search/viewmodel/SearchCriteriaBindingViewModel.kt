@@ -3,7 +3,7 @@ package com.jueggs.stackdownloader.ui.search.viewmodel
 import android.databinding.*
 import com.jueggs.stackdownloader.BR
 
-class SearchCriteriaBindingViewModel(private val viewModel: SearchCriteriaViewModel) : BaseObservable() {
+class SearchCriteriaBindingViewModel(private val viewModel: SearchViewModel) : BaseObservable() {
     @Bindable
     var limitTo: String = viewModel.limitTo
         set(value) {

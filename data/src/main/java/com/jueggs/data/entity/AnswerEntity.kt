@@ -3,7 +3,7 @@ package com.jueggs.data.entity
 import android.arch.persistence.room.*
 import java.util.*
 
-@Entity
+@Entity(tableName = "Answer")
 class AnswerEntity(
         @PrimaryKey(autoGenerate = true) var id: Long = 0,
         var ownerId: Long = 0,

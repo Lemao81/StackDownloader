@@ -1,10 +1,10 @@
 package com.jueggs.data
 
-import com.jueggs.domain.model.SearchCriteria
-import com.jueggs.stackdownloader.retrofit.dto.*
+import com.jueggs.domain.model.*
+import io.reactivex.Single
 
 interface DataProvider {
-    fun provideQuestionData(searchCriteria: SearchCriteria, onSuccess: (ItemShellData<QuestionData>) -> Unit, onFail: (String) -> Unit)
+    suspend fun fetchQuestions(searchCriteria: SearchCriteria): Single<List<Question>>
 
-    fun provideAnswerData(questionIds: List<Long>, onSuccess: (ItemShellData<AnswerData>) -> Unit, onFail: (String) -> Unit)
+    suspend fun fetchAnswers(questionIds: List<Long>): Single<List<Answer>>
 }

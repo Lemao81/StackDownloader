@@ -1,8 +1,8 @@
 package com.jueggs.stackdownloader.bo.mapper;
 
 //@Mapper
-//public interface AnswerMapper {
-//    AnswerMapper INSTANCE = Mappers.getMapper(AnswerMapper.class);
+//public interface AnswerEntityMapper {
+//    AnswerEntityMapper INSTANCE = Mappers.getMapper(AnswerEntityMapper.class);
 //
 //    @Mapping(source = "answerId", target = "id")
 //    AnswerEntity mapBoToEntity(Answer bo);

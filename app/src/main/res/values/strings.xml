@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">StackDownloader</string>
-    <string name="toast_no_network">No network connection available</string>
     <string name="error_saving_failed">Saving data failed: %s</string>
     <string name="toast_download_successful">Data download successful</string>
 
     <!--errors-->
     <string name="error_nonexistent_tag">This tag doesn´t exist</string>
+    <string name="error_no_network">No network connection available</string>
 </resources>

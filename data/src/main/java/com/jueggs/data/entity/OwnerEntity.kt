@@ -2,7 +2,7 @@ package com.jueggs.data.entity
 
 import android.arch.persistence.room.*
 
-@Entity
+@Entity(tableName = "Owner")
 class OwnerEntity(
         @PrimaryKey(autoGenerate = true) var id: Long = 0,
         var reputation: Int = 0,

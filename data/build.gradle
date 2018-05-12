@@ -27,6 +27,8 @@ android {
     }
 }
 
+kotlin { experimental { coroutines "enable" } }
+
 dependencies {
     implementation project(":domain")
 
@@ -35,7 +37,11 @@ dependencies {
     implementation Libs.roomRxJava
     implementation Libs.retrofit2
     implementation Libs.retrofit2GsonConverter
+    implementation Libs.andutils
     implementation Libs.jutils
     implementation Libs.retrofit2CoroutineAdapter
+    implementation Libs.rxJava
+    implementation Libs.mapStruct
     kapt Libs.roomCompiler
+    kapt Libs.mapStructProc
 }

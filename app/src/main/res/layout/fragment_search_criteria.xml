@@ -17,6 +17,20 @@
         android:padding="8dp"
         tools:context=".ui.search.view.SearchCriteriaFragment">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/guidLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guidRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6" />
+
         <TextView
             android:id="@+id/lblSearchCriteria"
             android:layout_width="wrap_content"
@@ -27,82 +41,90 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/inputScore"
-            android:layout_width="100dp"
+            android:id="@+id/inputFrom"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            app:layout_constraintRight_toLeftOf="@+id/guidLeft"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblSearchCriteria">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/edtScore"
+                android:id="@+id/edtFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Min score..."
-                android:inputType="numberSigned"
-                android:text="@{model.score}" />
+                android:hint="from"
+                android:inputType="date" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputTo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/guidRight"
+            app:layout_constraintTop_toTopOf="@+id/inputFrom">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edtTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="to"
+                android:inputType="date" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/inputLimitTo"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintRight_toLeftOf="@+id/guidLeft"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputScore">
+            app:layout_constraintTop_toBottomOf="@+id/btnLastWeek">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/edtLimitTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Limit to..."
+                android:hint="limit to"
+                android:inputType="numberSigned"
                 android:text="@{model.limitTo}" />
         </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/lglTags"
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:id="@+id/autoTxtTags"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="Tags"
-            android:textAppearance="@style/text_emphasized"
+            android:hint="tag"
+            android:text="@{model.tag}"
+            app:layout_constraintEnd_toStartOf="@+id/fabAddTag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputLimitTo" />
-
-        <AutoCompleteTextView
-            android:id="@+id/edtTag"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:hint="Add tag..."
-            android:text="@{model.tag}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lglTags" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabAddTag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:clickable="true"
             android:onClick="@{() -> model.onAddTag()}"
-            app:layout_constraintBottom_toBottomOf="@+id/edtTag"
-            app:layout_constraintLeft_toRightOf="@+id/edtTag"
-            app:layout_constraintTop_toTopOf="@+id/edtTag"
+            app:layout_constraintBottom_toBottomOf="@+id/autoTxtTags"
+            app:layout_constraintRight_toLeftOf="@+id/guidLeft"
+            app:layout_constraintTop_toTopOf="@+id/autoTxtTags"
             app:srcCompat="@drawable/ic_plus_circle_outline_white_24dp" />
 
         <LinearLayout
             android:id="@+id/linTagContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/edtTag"
-            app:layout_constraintLeft_toRightOf="@+id/fabAddTag"
-            app:layout_constraintTop_toTopOf="@+id/edtTag">
+            app:layout_constraintBottom_toBottomOf="@+id/autoTxtTags"
+            app:layout_constraintLeft_toRightOf="@+id/guidLeft"
+            app:layout_constraintTop_toTopOf="@+id/autoTxtTags">
 
             <TextView
                 android:id="@+id/textView"
@@ -112,45 +134,35 @@
                 tools:text="kotlin" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/lblOrderBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Order by"
-            android:textAppearance="@style/text_emphasized"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtTag" />
+        <!--<TextView-->
+            <!--android:id="@+id/lblSortType"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:text="Sort by"-->
+            <!--android:textAppearance="@style/text_normal"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@id/autoTxtTags" />-->
 
-        <Spinner
-            android:id="@+id/spnOrderBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:entries="@array/orderType"
-            android:selectedItemPosition="@{model.orderType}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblOrderBy" />
+        <!--<Spinner-->
+            <!--android:id="@+id/spnSortType"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:entries="@array/sortType"-->
+            <!--android:selectedItemPosition="@{model.sortType}"-->
+            <!--app:layout_constraintBaseline_toBaselineOf="@+id/lblSortType"-->
+            <!--app:layout_constraintLeft_toRightOf="@+id/lblSortType" />-->
 
-        <TextView
-            android:id="@+id/lblSortBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Sort by"
-            android:textAppearance="@style/text_emphasized"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spnOrderBy" />
-
-        <Spinner
-            android:id="@+id/spnSortBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:entries="@array/sortType"
-            android:selectedItemPosition="@{model.sortType}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblSortBy" />
+        <!--<Spinner-->
+            <!--android:id="@+id/spnOrderType"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:entries="@array/orderType"-->
+            <!--android:selectedItemPosition="@{model.orderType}"-->
+            <!--app:layout_constraintBaseline_toBaselineOf="@id/lblSortType"-->
+            <!--app:layout_constraintLeft_toRightOf="@id/spnSortType" />-->
 
         <ImageButton
             android:id="@+id/ibtnSearch"
@@ -165,5 +177,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_search_white_24dp" />
+
+        <Button
+            android:id="@+id/btnLastWeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Last week"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputFrom" />
+
+        <Button
+            android:id="@+id/btnLastMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Last month"
+            app:layout_constraintBottom_toBottomOf="@+id/btnLastWeek"
+            app:layout_constraintLeft_toRightOf="@+id/btnLastWeek" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

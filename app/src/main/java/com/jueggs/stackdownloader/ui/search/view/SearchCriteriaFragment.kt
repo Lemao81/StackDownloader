@@ -11,18 +11,21 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.android.architecture.ext.viewModel
 
 class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
-    val viewModel by viewModel<SearchCriteriaViewModel>()
+    val viewModel by viewModel<SearchViewModel>()
 
     override fun layout() = R.layout.fragment_search_criteria
     override fun bindingItems(): Map<Int, Any>? = hashMapOf(BR.model to SearchCriteriaBindingViewModel(viewModel))
 
     override fun setListeners() {
-        viewModel.tags.nonNull().observe(this) { tags ->
+        viewModel.availableTags.nonNull().observe(this) { tags ->
+            autoTxtTags.withSimpleAdapter(tags)
+        }
+        viewModel.selectedTags.nonNull().observe(this) { tags ->
             linTagContainer.removeAllViews()
             tags.forEach { linTagContainer.addView(TextView(linTagContainer.context).apply { text = it }) }
         }
         viewModel.errors.nonNull().observe(this) { toast(it) }
-        viewModel.search.nonNull().observe(this) { listener?.onStartSearch(it) }
+        viewModel.search.nonNull().observe(this) { listener?.onStartSearch() }
     }
 
     companion object {
@@ -30,6 +33,6 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
     }
 
     interface Listener {
-        fun onStartSearch(searchCriteria: SearchCriteria)
+        fun onStartSearch()
     }
 }

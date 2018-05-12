@@ -31,7 +31,7 @@ class SearchResultPresenter : BasePresenter<SearchResultView, SearchResultViewMo
     }
 
     override fun onStartSearch(searchCriteria: SearchCriteria) {
-        dataProvider.provideQuestionData(searchCriteria, { itemShellData ->
+        dataProvider.fetchQuestions(searchCriteria, { itemShellData ->
             val questionBos = itemShellData.mapToBo().items.map { it.mapToBo() }
 
             val renderer = rendererFactory.createRenderer<Question>()
@@ -49,7 +49,7 @@ class SearchResultPresenter : BasePresenter<SearchResultView, SearchResultViewMo
 
     override fun onQuestionClick(question: Question) {
         if (app.isNetworkConnected()) {
-            dataProvider.provideAnswerData(arrayListOf(question.questionId), { itemShellData ->
+            dataProvider.fetchAnswers(arrayListOf(question.questionId), { itemShellData ->
                 val answerBos = itemShellData.mapToBo().items.map { it.mapToBo() }
 
                 val questionRenderer = rendererFactory.createRenderer<Question>()
@@ -65,12 +65,12 @@ class SearchResultPresenter : BasePresenter<SearchResultView, SearchResultViewMo
                 view.showLongToast(errorMessage)
             })
         } else
-            view.showLongToast(R.string.toast_no_network)
+            view.showLongToast(R.string.error_no_network)
     }
 
     override fun onDownload() {
         if (app.isNetworkConnected() && viewModel.questions.any()) {
-            dataProvider.provideAnswerData(viewModel.questions.map { it.questionId },
+            dataProvider.fetchAnswers(viewModel.questions.map { it.questionId },
                     { itemShellData ->
                         val answerBos = itemShellData.mapToBo().items.map { it.mapToBo() }
 
@@ -158,7 +158,7 @@ class SearchResultPresenter : BasePresenter<SearchResultView, SearchResultViewMo
                         view.showLongToast(errorMessage)
                     })
         } else
-            view.showLongToast(R.string.toast_no_network)
+            view.showLongToast(R.string.error_no_network)
     }
 
     override fun viewStub(): SearchResultView = SearchResultViewStub()

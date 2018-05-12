@@ -1,11 +1,7 @@
 package com.jueggs.stackdownloader.util
 
-import android.content.Context
-import com.jueggs.andutils.extension.getStringArray
 import com.jueggs.data.retrofit.dto.*
-import com.jueggs.domain.model.SearchCriteria
 import com.jueggs.jutils.*
-import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.bo.*
 
 //data to model
@@ -87,16 +83,3 @@ fun OwnerDto.mapToBo(): Owner = Owner(
 //    owner.displayName = displayName
 //    return owner
 //}
-
-
-fun SearchCriteria.mapToQueryParameter(context: Context): QueryParameter = QueryParameter().also {
-    it.limitTo = limitTo
-    it.sort = getSortString(context, sortType)
-    it.order = getOrderString(context, orderType)
-    it.min = score
-    it.tags = tags
-}
-
-fun getSortString(context: Context, index: Int) = context.getStringArray(R.array.sortType)[index]
-
-fun getOrderString(context: Context, index: Int) = context.getStringArray(R.array.orderType)[index]
