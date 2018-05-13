@@ -25,11 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:text="@{Integer.toString(item.score)}"
             android:textAppearance="@style/text_question_score"
             android:textColor="@null"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:number="@{item.score}"
             tools:text="0" />
 
         <TextView
@@ -48,12 +48,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{Integer.toString(item.answerCount)}"
             android:textAppearance="@style/text_question_score"
             android:textColor="@null"
             app:layout_constraintLeft_toLeftOf="@+id/txtScore"
             app:layout_constraintRight_toRightOf="@+id/txtScore"
             app:layout_constraintTop_toBottomOf="@+id/lblScore"
+            app:number="@{item.answerCount}"
             tools:text="20" />
 
         <TextView
@@ -91,8 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text='@{String.join(", ", item.tags)}'
             android:textAppearance="@style/text_normal"
+            app:join='@{item.tags}'
             app:layout_constraintLeft_toRightOf="@+id/guidScoreTitle"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle"
             tools:text="Kotlin  Android  Firebase" />
@@ -105,10 +105,9 @@
             android:layout_marginEnd="32dp"
             android:textAppearance="@style/text_question_creation"
             android:textColor="@null"
-            app:date="@{item.creationDate}"
-            app:dateFormat="@{@string/format_creation_date}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:renderedDate="@{item.creationDate}"
             tools:text="asked 2 hours ago" />
 
     </android.support.constraint.ConstraintLayout>

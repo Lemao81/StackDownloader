@@ -3,9 +3,9 @@ package com.jueggs.data
 const val STACKOVERFLOW_BASE_URL = "https://api.stackexchange.com/2.2/"
 
 const val QUERY_PARAM_PAGE = "page"
-const val QUERY_PARAM_PAGESIZE = "limitTo"
-const val QUERY_PARAM_FROMDATE = "fromdate"
-const val QUERY_PARAM_TODATE = "todate"
+const val QUERY_PARAM_PAGESIZE = "pageSize"
+const val QUERY_PARAM_FROM = "from"
+const val QUERY_PARAM_TO = "to"
 const val QUERY_PARAM_ORDER = "order"
 const val QUERY_PARAM_MIN = "min"
 const val QUERY_PARAM_MAX = "max"

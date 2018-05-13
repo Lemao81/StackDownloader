@@ -6,18 +6,25 @@ import com.jueggs.data.*
 import com.jueggs.domain.model.SearchCriteria
 import com.jueggs.jutils.extension.join
 
-class QueryParameter(var page: String? = null, var limitTo: String? = null, var fromdate: String? = null, var todate: String? = null, var order: String = "",
-                     var min: String? = null, var max: String? = null, var sort: String = "", var tags: List<String>? = null) {
+class QueryParameter(
+        var page: String? = null,
+        var pageSize: String? = null,
+        var from: String? = null,
+        var to: String? = null,
+        var order: String = "",
+        var sort: String = "",
+        var tags: List<String>? = null
+) {
 
     fun getKeyValueMap(): Map<String, String> {
         val queryParams = mutableMapOf<String, String>()
+
         if (!page.isNullOrEmpty()) queryParams[QUERY_PARAM_PAGE] = page!!
-        if (!limitTo.isNullOrEmpty()) queryParams[QUERY_PARAM_PAGESIZE] = limitTo!!
-        if (!fromdate.isNullOrEmpty()) queryParams[QUERY_PARAM_FROMDATE] = fromdate!!
-        if (!todate.isNullOrEmpty()) queryParams[QUERY_PARAM_TODATE] = todate!!
-        if (!min.isNullOrEmpty()) queryParams[QUERY_PARAM_MIN] = min!!
-        if (!max.isNullOrEmpty()) queryParams[QUERY_PARAM_MAX] = max!!
+        if (!pageSize.isNullOrEmpty()) queryParams[QUERY_PARAM_PAGESIZE] = pageSize!!
+        if (!from.isNullOrEmpty()) queryParams[QUERY_PARAM_FROM] = from!!
+        if (!to.isNullOrEmpty()) queryParams[QUERY_PARAM_TO] = to!!
         if (tags != null && tags!!.any()) queryParams[QUERY_PARAM_TAGGED] = tags!!.join(";")
+
         queryParams[QUERY_PARAM_ORDER] = order
         queryParams[QUERY_PARAM_SORT] = sort
         queryParams[QUERY_PARAM_SITE] = SITE
@@ -28,11 +35,12 @@ class QueryParameter(var page: String? = null, var limitTo: String? = null, var 
 }
 
 fun SearchCriteria.mapToQueryParameter(context: Context): QueryParameter = QueryParameter().also {
-    it.limitTo = limitTo
+    it.pageSize = 50.toString()
     it.sort = getSortString(context, sortType)
     it.order = getOrderString(context, orderType)
-    it.min = score
     it.tags = tags
+    it.from = from?.time.toString()
+    it.to = to?.time.toString()
 }
 
 fun getSortString(context: Context, index: Int) = context.getStringArray(R.array.sortType)[index]

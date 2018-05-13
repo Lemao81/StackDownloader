@@ -58,6 +58,7 @@ dependencies {
     implementation Libs.retrofit2
     implementation Libs.retrofit2GsonConverter
     implementation Libs.kotlinCoroutine
+    implementation Libs.joda
     kapt Libs.mapStructProc
     kapt Libs.databindingCompiler
 

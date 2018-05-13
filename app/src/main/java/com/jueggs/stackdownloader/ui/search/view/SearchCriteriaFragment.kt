@@ -3,6 +3,7 @@ package com.jueggs.stackdownloader.ui.search.view
 import android.widget.TextView
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.helper.DatePicker
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import kotlinx.android.synthetic.main.fragment_search_criteria.*
@@ -11,9 +12,14 @@ import org.koin.android.architecture.ext.viewModel
 
 class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
     val viewModel by viewModel<SearchViewModel>()
+    private lateinit var bindingViewModel: SearchCriteriaBindingViewModel
 
     override fun layout() = R.layout.fragment_search_criteria
-    override fun bindingItems(): Map<Int, Any>? = hashMapOf(BR.model to SearchCriteriaBindingViewModel(viewModel))
+    override fun bindingItems(): Map<Int, Any>? = hashMapOf(BR.model to bindingViewModel)
+
+    override fun initialize() {
+        bindingViewModel = SearchCriteriaBindingViewModel(viewModel)
+    }
 
     override fun setListeners() {
         viewModel.availableTags.nonNull().observe(this) { tags -> autoTxtTags.withSimpleAdapter(tags) }
@@ -23,6 +29,18 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
         }
         viewModel.errors.nonNull().observe(this) { toast(it) }
         viewModel.search.nonNull().observe(this) { listener?.onStartSearch() }
+        viewModel.editFromDate.nonNull().observe(this) {
+            //TODO lib
+            DatePicker(viewModel.from, { selectedDate ->
+                bindingViewModel.from = selectedDate
+            }).show(childFragmentManager)
+        }
+        viewModel.editToDate.nonNull().observe(this) {
+            //TODO lib
+            DatePicker(viewModel.to, { selectedDate ->
+                bindingViewModel.to = selectedDate
+            }).show(childFragmentManager)
+        }
     }
 
     companion object {

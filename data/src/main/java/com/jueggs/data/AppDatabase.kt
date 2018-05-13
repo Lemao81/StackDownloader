@@ -16,7 +16,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         private var INSTANCE: AppDatabase? = null
-        private const val NAME: String = ""
+        private const val NAME: String = "stackdownloader.db"
 
         fun getInstance(context: Context): AppDatabase {
             if (INSTANCE == null) {

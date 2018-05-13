@@ -21,6 +21,8 @@ var appModule = applicationContext {
         retrofit.create(StackOverflowApi::class.java) as StackOverflowApi
     }
     bean { NetworkDataProvider(get(), get()) }
+    bean { RoomRepository(get(), get(), get(), get()) as Repository }
+    bean { NetworkDataProvider(get(), get()) as DataProvider }
 
     viewModel { SearchViewModel(get(), get(), get()) }
 }

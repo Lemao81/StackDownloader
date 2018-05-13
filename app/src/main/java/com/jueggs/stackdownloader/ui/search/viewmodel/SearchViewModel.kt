@@ -1,7 +1,7 @@
 package com.jueggs.stackdownloader.ui.search.viewmodel
 
+import android.app.Application
 import android.arch.lifecycle.*
-import android.content.Context
 import com.jueggs.andutils.extension.isNetworkConnected
 import com.jueggs.andutils.pairOf
 import com.jueggs.andutils.util.AppMode
@@ -10,8 +10,9 @@ import com.jueggs.domain.model.*
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.R
 import kotlinx.coroutines.experimental.async
+import java.util.*
 
-class SearchViewModel(context: Context, private val repository: Repository, private val dataProvider: DataProvider) : AndroidViewModel(context.applicationContext as App) {
+class SearchViewModel(application: Application, private val repository: Repository, private val dataProvider: DataProvider) : AndroidViewModel(application) {
     var availableTags: LiveData<List<String>> = repository.getAllTags()
     var questions: LiveData<List<Question>> = repository.getAllQuestions()
 
@@ -20,12 +21,14 @@ class SearchViewModel(context: Context, private val repository: Repository, priv
     val errors: MutableLiveData<Int> = MutableLiveData()
     val search: MutableLiveData<SearchCriteria> = MutableLiveData()
     val showHomeButton: MutableLiveData<Boolean> = MutableLiveData()
+    val editFromDate: MutableLiveData<Unit> = MutableLiveData()
+    val editToDate: MutableLiveData<Unit> = MutableLiveData()
 
-    var limitTo: String = ""
-    var score: String = ""
     var tag: String = ""
     var orderType: Int = 0
     var sortType: Int = 0
+    var from: Date = Date()
+    var to: Date = Date()
 
     fun onAddTag() {
         availableTags.value?.let {
@@ -37,7 +40,7 @@ class SearchViewModel(context: Context, private val repository: Repository, priv
     }
 
     fun onStartSearch() {
-        val searchCriteria = SearchCriteria(limitTo, score, orderType, sortType, availableTags.value)
+        val searchCriteria = SearchCriteria(orderType, sortType, availableTags.value, from, to)
         search.value = searchCriteria
 
         if (getApplication<App>().isNetworkConnected()) {
@@ -50,6 +53,14 @@ class SearchViewModel(context: Context, private val repository: Repository, priv
 
         if (AppMode.twoPane)
             showHomeButton.value = true
+    }
+
+    fun onEditFromDate() {
+        editFromDate.value = Unit
+    }
+
+    fun onEditToDate() {
+        editToDate.value = Unit
     }
 
     fun hideHomeButton() {

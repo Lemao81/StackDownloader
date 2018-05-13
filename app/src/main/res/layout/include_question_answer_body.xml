@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="@{Integer.toString(item.score)}"
+            app:number="@{item.score}"
             android:textAppearance="@style/text_question_score"
             android:textColor="@null"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,25 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="@{item.body}"
+            app:html="@{item.body}"
             android:textAppearance="@style/text_normal"
             android:textColor="@null"
             app:layout_constraintLeft_toRightOf="@+id/txtScore"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Still couldn´t figure out how exactly you have to do the following with two views arranged inside a ConstraintLayout: They are arranged vertically, so bottom one points to upper one with topToBottomOf. The upper one should have a fixed position done by startToStartOf and topToTopOf (+ margin etc.). Now the bottom one is vertically positioned as mentioned, but the horizontal positioning should be like a 'center to center of', meaning that it always shall adjust horizontally so that its center lies exactly below the center of the upper view. Whenever I play around with chaining, the upper one immediatly jumps around and lose its original position, what kind of alienate me.. How that has to be done?" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/txtTags"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="4dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:text="@{item.tagsLabel}"-->
-        <!--android:textAppearance="@style/text_normal"-->
-        <!--android:textColor="@null"-->
-        <!--app:layout_constraintLeft_toLeftOf="@+id/txtContent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/txtContent"-->
-        <!--tools:text="Kotlin, Firebase, Java" />-->
 
         <TextView
             android:id="@+id/txtCreation"
@@ -60,8 +47,7 @@
             android:layout_marginTop="16dp"
             android:textAppearance="@style/text_question_creation"
             android:textColor="@null"
-            app:date="@{item.creationDate}"
-            app:dateFormat="@{@string/format_creation_date}"
+            app:renderedDate="@{item.creationDate}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtContent"
             tools:text="asked 2 hours ago" />
