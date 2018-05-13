@@ -5,6 +5,9 @@ import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.*
 
 interface StackOverflowApi {
+    @GET("tags")
+    fun fetchTags(@QueryMap queryParameter: Map<String, String>): Deferred<ItemShellDto<TagDto>>
+
     @GET("questions")
     fun fetchQuestions(@QueryMap queryParameter: Map<String, String>): Deferred<ItemShellDto<QuestionDto>>
 

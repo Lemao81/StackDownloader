@@ -13,7 +13,7 @@ import kotlinx.coroutines.experimental.async
 import java.util.*
 
 class SearchViewModel(application: Application, private val repository: Repository, private val dataProvider: DataProvider) : AndroidViewModel(application) {
-    var availableTags: LiveData<List<String>> = repository.getAllTags()
+    var availableTags: LiveData<List<Tag>> = repository.getAllTags()
     var questions: LiveData<List<Question>> = repository.getAllQuestions()
 
     val answers: MutableLiveData<LiveData<Pair<Question, List<Answer>>>> = MutableLiveData()
@@ -32,15 +32,21 @@ class SearchViewModel(application: Application, private val repository: Reposito
 
     fun onAddTag() {
         availableTags.value?.let {
-            if (it.contains(tag))
+            if (it.map { it.name }.contains(tag))
                 selectedTags.value = selectedTags.value?.apply { add(tag) }
             else
                 errors.value = R.string.error_nonexistent_tag
         }
     }
 
+    fun onInitialStart() {
+        if (getApplication<App>().isNetworkConnected()) {
+            async { dataProvider.fetchTags().subscribe { tags -> repository.addTags(tags) } }
+        }
+    }
+
     fun onStartSearch() {
-        val searchCriteria = SearchCriteria(orderType, sortType, availableTags.value, from, to)
+        val searchCriteria = SearchCriteria(orderType, sortType, selectedTags.value, from, to)
         search.value = searchCriteria
 
         if (getApplication<App>().isNetworkConnected()) {

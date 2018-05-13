@@ -11,11 +11,13 @@ class RoomRepository(
         private val ownerDao: OwnerDao,
         private val tagDao: TagDao
 ) : Repository {
+    override fun addTags(tags: List<Tag>) = tagDao.insertTags(tags.map { it.entity })
+
     override fun addQuestions(questions: List<Question>) = questionDao.insertQuestions(questions.map { it.entity })
 
     override fun getAnswersOfQuestion(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestion(questionId), { answers -> answers.map { it.bo } })
 
     override fun getAllQuestions(): LiveData<List<Question>> = Transformations.map(questionDao.getAllQuestions(), { questions -> questions.map { it.bo } })
 
-    override fun getAllTags(): LiveData<List<String>> = Transformations.map(tagDao.getAllTags(), { entities -> entities.filter { it.name != null }.map { it.name!! } })
+    override fun getAllTags(): LiveData<List<Tag>> = Transformations.map(tagDao.getAllTags(), { entities -> entities.filter { it.name != null }.map { it.bo } })
 }

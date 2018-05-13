@@ -21,6 +21,10 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
         bindingViewModel = SearchCriteriaBindingViewModel(viewModel)
     }
 
+    override fun onInitialStart() {
+        viewModel.onInitialStart()
+    }
+
     override fun setListeners() {
         viewModel.availableTags.nonNull().observe(this) { tags -> autoTxtTags.withSimpleAdapter(tags) }
         viewModel.selectedTags.nonNull().observe(this) { tags ->
@@ -44,7 +48,7 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
     }
 
     companion object {
-        fun newInstance(): SearchCriteriaFragment = SearchCriteriaFragment()
+        fun newInstance() = SearchCriteriaFragment()
     }
 
     interface Listener {

@@ -63,7 +63,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
             }
 
     companion object {
-        fun newInstance(): SearchResultFragment = SearchResultFragment()
+        fun newInstance() = SearchResultFragment()
     }
 
     interface Listener

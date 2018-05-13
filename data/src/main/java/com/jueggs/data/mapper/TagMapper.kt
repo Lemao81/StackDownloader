@@ -1,6 +1,7 @@
 package com.jueggs.data.mapper
 
 import com.jueggs.data.entity.TagEntity
+import com.jueggs.data.retrofit.dto.TagDto
 import com.jueggs.domain.model.Tag
 import org.mapstruct.*
 import org.mapstruct.factory.Mappers
@@ -20,3 +21,23 @@ val TagEntity.bo: Tag
 
 val Tag.entity: TagEntity
     get() = TagMapper.INSTANCE.mapBoToEntity(this)
+
+
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+interface TagDtoMapper {
+    @InheritInverseConfiguration
+    fun mapBoToDto(bo: Tag): TagDto
+
+    @Mappings(value = [(Mapping(target = "id", ignore = true))])
+    fun mapDtoToBo(dto: TagDto): Tag
+
+    companion object {
+        val INSTANCE: TagDtoMapper = Mappers.getMapper(TagDtoMapper::class.java)
+    }
+}
+
+val TagDto.bo: Tag
+    get() = TagDtoMapper.INSTANCE.mapDtoToBo(this)
+
+val Tag.dto: TagDto
+    get() = TagDtoMapper.INSTANCE.mapBoToDto(this)

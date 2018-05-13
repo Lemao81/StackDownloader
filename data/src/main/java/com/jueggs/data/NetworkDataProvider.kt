@@ -9,19 +9,31 @@ import com.jueggs.jutils.extension.join
 import io.reactivex.Single
 
 class NetworkDataProvider(private val context: Context, private val apiImpl: StackOverflowApi) : DataProvider {
+    override suspend fun fetchTags(): Single<List<Tag>> {
+        val queryParams = QueryParameter().also {
+            it.pageSize = 100
+            it.sort = SORT_POPULAR
+        }.asMap(false)
+        val data = apiImpl.fetchTags(queryParams).await()
+        val bos = data.items?.map { it.bo }
+
+        return Single.just(bos ?: emptyList())
+    }
 
     override suspend fun fetchQuestions(searchCriteria: SearchCriteria): Single<List<Question>> {
-        val queryParams = searchCriteria.mapToQueryParameter(context).getKeyValueMap()
+        val queryParams = searchCriteria.mapToQueryParameter(context).asMap()
         val data = apiImpl.fetchQuestions(queryParams).await()
         val bos = data.items?.map { it.bo }
+
         return Single.just(bos ?: emptyList())
     }
 
     override suspend fun fetchAnswers(questionIds: List<Long>): Single<List<Answer>> {
         val idJoin = questionIds.join(";")
-        val queryParams = QueryParameter().getKeyValueMap()
+        val queryParams = QueryParameter().asMap()
         val data = apiImpl.fetchAnswersOfQuestions(idJoin, queryParams).await()
         val bos = data.items?.map { it.bo }
+
         return Single.just(bos ?: emptyList())
     }
 }
