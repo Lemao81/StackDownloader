@@ -17,5 +17,5 @@ class RoomRepository(
 
     override fun getAllQuestions(): LiveData<List<Question>> = Transformations.map(questionDao.getAllQuestions(), { questions -> questions.map { it.bo } })
 
-    override fun getAllTags(): LiveData<List<String>> = Transformations.map(tagDao.getAllTags(), { entities -> entities.map { it.name } })
+    override fun getAllTags(): LiveData<List<String>> = Transformations.map(tagDao.getAllTags(), { entities -> entities.filter { it.name != null }.map { it.name!! } })
 }

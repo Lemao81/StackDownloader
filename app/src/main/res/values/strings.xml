@@ -6,4 +6,6 @@
     <!--errors-->
     <string name="error_nonexistent_tag">This tag doesn´t exist</string>
     <string name="error_no_network">No network connection available</string>
+
+    <string name="format_creation_date">MM/dd/yy</string>
 </resources>

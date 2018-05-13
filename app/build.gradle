@@ -57,6 +57,7 @@ dependencies {
     implementation Libs.androidKtx
     implementation Libs.retrofit2
     implementation Libs.retrofit2GsonConverter
+    implementation Libs.kotlinCoroutine
     kapt Libs.mapStructProc
     kapt Libs.databindingCompiler
 

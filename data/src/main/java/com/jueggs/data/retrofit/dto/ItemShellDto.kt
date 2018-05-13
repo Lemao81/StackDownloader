@@ -4,10 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 class ItemShellDto<T>(
         @SerializedName("items")
-        val items: List<T>? = null,
+        var items: List<T>? = null,
         @SerializedName("has_more")
-        val hasMore: Boolean? = null,
+        var hasMore: Boolean? = null,
         @SerializedName("quota_max")
-        val quotaMax: Int? = null,
+        var quotaMax: Int? = null,
         @SerializedName("quota_remaining")
-        val quotaRemaining: Int? = null)
+        var quotaRemaining: Int? = null
+)

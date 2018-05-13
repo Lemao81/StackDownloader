@@ -3,11 +3,11 @@ package com.jueggs.data.retrofit.dto
 import com.google.gson.annotations.SerializedName
 
 class OwnerDto(
-        @SerializedName("reputation")
-        val reputation: Int? = null,
         @SerializedName("user_id")
-        val userId: Long? = null,
+        var id: Long? = null,
+        @SerializedName("reputation")
+        var reputation: Int? = null,
         @SerializedName("profile_image")
-        val profileImage: String? = null,
+        var profileImage: String? = null,
         @SerializedName("display_name")
-        val displayName: String? = null)
+        var name: String? = null)

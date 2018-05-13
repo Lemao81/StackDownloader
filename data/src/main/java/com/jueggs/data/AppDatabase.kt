@@ -2,10 +2,12 @@ package com.jueggs.data
 
 import android.arch.persistence.room.*
 import android.content.Context
+import com.jueggs.andutils.helper.DateConverter
 import com.jueggs.data.dao.*
 import com.jueggs.data.entity.*
 
 @Database(entities = [(AnswerEntity::class), (OwnerEntity::class), (QuestionEntity::class), (TagEntity::class)], version = 1)
+@TypeConverters(value = [(DateConverter::class)])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun answerDao(): AnswerDao
     abstract fun questionDao(): QuestionDao

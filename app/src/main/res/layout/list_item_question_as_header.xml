@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.jueggs.stackdownloader.bo.Question" />
+            type="com.jueggs.domain.model.Question" />
     </data>
 
     <android.support.constraint.ConstraintLayout

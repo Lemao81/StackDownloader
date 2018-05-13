@@ -3,7 +3,6 @@ package com.jueggs.stackdownloader.ui.search.view
 import android.widget.TextView
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
-import com.jueggs.domain.model.SearchCriteria
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import kotlinx.android.synthetic.main.fragment_search_criteria.*
@@ -17,9 +16,7 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
     override fun bindingItems(): Map<Int, Any>? = hashMapOf(BR.model to SearchCriteriaBindingViewModel(viewModel))
 
     override fun setListeners() {
-        viewModel.availableTags.nonNull().observe(this) { tags ->
-            autoTxtTags.withSimpleAdapter(tags)
-        }
+        viewModel.availableTags.nonNull().observe(this) { tags -> autoTxtTags.withSimpleAdapter(tags) }
         viewModel.selectedTags.nonNull().observe(this) { tags ->
             linTagContainer.removeAllViews()
             tags.forEach { linTagContainer.addView(TextView(linTagContainer.context).apply { text = it }) }

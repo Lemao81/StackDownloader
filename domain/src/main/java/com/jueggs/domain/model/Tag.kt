@@ -2,5 +2,5 @@ package com.jueggs.domain.model
 
 class Tag(
         var id: Long = 0,
-        var name: String = ""
+        var name: String? = null
 )

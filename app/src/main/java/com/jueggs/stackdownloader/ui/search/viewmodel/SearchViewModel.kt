@@ -4,10 +4,12 @@ import android.arch.lifecycle.*
 import android.content.Context
 import com.jueggs.andutils.extension.isNetworkConnected
 import com.jueggs.andutils.pairOf
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.data.*
 import com.jueggs.domain.model.*
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.R
+import kotlinx.coroutines.experimental.async
 
 class SearchViewModel(context: Context, private val repository: Repository, private val dataProvider: DataProvider) : AndroidViewModel(context.applicationContext as App) {
     var availableTags: LiveData<List<String>> = repository.getAllTags()
@@ -17,6 +19,7 @@ class SearchViewModel(context: Context, private val repository: Repository, priv
     val selectedTags: MutableLiveData<MutableList<String>> = MutableLiveData()
     val errors: MutableLiveData<Int> = MutableLiveData()
     val search: MutableLiveData<SearchCriteria> = MutableLiveData()
+    val showHomeButton: MutableLiveData<Boolean> = MutableLiveData()
 
     var limitTo: String = ""
     var score: String = ""
@@ -33,17 +36,24 @@ class SearchViewModel(context: Context, private val repository: Repository, priv
         }
     }
 
-    suspend fun onStartSearch() {
+    fun onStartSearch() {
         val searchCriteria = SearchCriteria(limitTo, score, orderType, sortType, availableTags.value)
         search.value = searchCriteria
 
         if (getApplication<App>().isNetworkConnected()) {
-            dataProvider.fetchQuestions(searchCriteria).subscribe { questions -> repository.addQuestions(questions) }
+            async { dataProvider.fetchQuestions(searchCriteria).subscribe { questions -> repository.addQuestions(questions) } }
         }
     }
 
     fun onShowQuestion(question: Question) {
         answers.value = Transformations.map(repository.getAnswersOfQuestion(question.id), { answers -> pairOf(question, answers) })
+
+        if (AppMode.twoPane)
+            showHomeButton.value = true
+    }
+
+    fun hideHomeButton() {
+        showHomeButton.value = false
     }
 
     fun onDownload() {

@@ -1,13 +1,12 @@
 package com.jueggs.stackdownloader.ui.search.view
 
-import android.os.Bundle
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
-import com.jueggs.domain.model.*
+import com.jueggs.andutils.util.AppMode
+import com.jueggs.domain.model.Question
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
-import com.jueggs.stackdownloader.model.dto.SearchCriteriaDto
 import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
 import org.koin.android.architecture.ext.viewModel
@@ -38,31 +37,27 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
         viewModel.search.nonNull().observe(this) { searchCriteria ->
 
         }
-        viewModel.questions.nonNull().observe(this) { questions -> questionAdapter.setItems(questions, Question::id) }
+        viewModel.questions.nonNull().observe(this) { questions ->
+            questionAdapter.setItems(questions, Question::id)
+            recQuestions.adapter = questionAdapter
+        }
         viewModel.answers.nonNull().observe(this) { liveData ->
             liveData.nonNull().observe(this) { (question, answers) ->
                 answerAdapter.setHeaderAndItems(question, answers)
                 recAnswers.scrollToPosition(0)
+                recQuestions.adapter = answerAdapter
             }
         }
-    }
-
-    override fun showToolbarHomeButton() = (activity as SearchActivity).showToolbarHomeButton()
-
-    override fun enableDownloadButton() {
-        fabDownload.isEnabled = true
-    }
-
-    override fun disableDownloadButton() {
-        fabDownload.isEnabled = false
     }
 
     override fun onMenuItemSelected(id: Int) =
             when (id) {
                 android.R.id.home -> {
-                    presenter.onHomeButtonClick()
-                    (activity as SearchActivity).hideToolbarHomeButton()
-                    true
+                    if (AppMode.twoPane) {
+                        recQuestions.adapter = questionAdapter
+                        viewModel.hideHomeButton()
+                        true
+                    } else false
                 }
                 else -> null
             }

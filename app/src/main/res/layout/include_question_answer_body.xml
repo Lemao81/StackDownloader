@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.jueggs.stackdownloader.bo.ContentElement" />
+            type="com.jueggs.domain.model.ListItem" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -58,9 +58,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
-            android:text="@{item.creationLabel}"
             android:textAppearance="@style/text_question_creation"
             android:textColor="@null"
+            app:date="@{item.creationDate}"
+            app:dateFormat="@{@string/format_creation_date}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtContent"
             tools:text="asked 2 hours ago" />
@@ -70,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.owner.displayName}"
+            android:text="@{item.owner.name}"
             android:textAppearance="@style/text_owner"
             android:textColor="@null"
             app:layout_constraintRight_toRightOf="@+id/txtCreation"

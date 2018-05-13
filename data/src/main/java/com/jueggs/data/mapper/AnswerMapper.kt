@@ -1,5 +1,6 @@
 package com.jueggs.data.mapper
 
+import com.jueggs.andutils.helper.DateConverter
 import com.jueggs.data.entity.AnswerEntity
 import com.jueggs.data.retrofit.dto.AnswerDto
 import com.jueggs.domain.model.Answer
@@ -8,7 +9,10 @@ import org.mapstruct.factory.Mappers
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 interface AnswerEntityMapper {
+    @Mappings(value = [(Mapping(source = "owner.id", target = "ownerId"))])
     fun mapBoToEntity(bo: Answer): AnswerEntity
+
+    @InheritInverseConfiguration
     fun mapEntityToBo(dto: AnswerEntity): Answer
 
     companion object {
@@ -23,7 +27,7 @@ val Answer.entity: AnswerEntity
     get() = AnswerEntityMapper.INSTANCE.mapBoToEntity(this)
 
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(DateConverter::class), (OwnerDtoMapper::class)])
 interface AnswerDtoMapper {
     fun mapBoToDto(bo: Answer): AnswerDto
     fun mapDtoToBo(dto: AnswerDto): Answer
@@ -40,9 +44,12 @@ val Answer.dto: AnswerDto
     get() = AnswerDtoMapper.INSTANCE.mapBoToDto(this)
 
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(DateConverter::class)])
 interface AnswerEntityDtoMapper {
+    @InheritInverseConfiguration
     fun mapDtoToEntity(dto: AnswerDto): AnswerEntity
+
+    @Mappings(value = [(Mapping(source = "ownerId", target = "owner.id"))])
     fun mapEntityToDto(entity: AnswerEntity): AnswerDto
 
     companion object {

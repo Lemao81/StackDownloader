@@ -5,12 +5,16 @@ import java.util.*
 
 @Entity(tableName = "Answer")
 class AnswerEntity(
-        @PrimaryKey(autoGenerate = true) var id: Long = 0,
-        var ownerId: Long = 0,
-        var questionId: Long = 0,
-        var isAccepted: Boolean = false,
-        var score: Int = 0,
-        var creationDate: Date = Date(0),
-        var title: String = "",
-        var body: String = ""
-)
+        @PrimaryKey(autoGenerate = true) var id: Long,
+        var questionId: Long,
+        var ownerId: Long,
+        var isAccepted: Boolean?,
+        var score: Int?,
+        var creationDate: Date?,
+        var title: String?,
+        var body: String?,
+        var bodyMarkdown: String?
+) {
+    @Ignore
+    constructor() : this(0, 0, 0, false, 0, Date(), "", "", "")
+}

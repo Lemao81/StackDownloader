@@ -73,111 +73,6 @@
                 android:inputType="date" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/inputLimitTo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintRight_toLeftOf="@+id/guidLeft"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnLastWeek">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edtLimitTo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="limit to"
-                android:inputType="numberSigned"
-                android:text="@{model.limitTo}" />
-        </android.support.design.widget.TextInputLayout>
-
-        <AutoCompleteTextView
-            android:id="@+id/autoTxtTags"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:hint="tag"
-            android:text="@{model.tag}"
-            app:layout_constraintEnd_toStartOf="@+id/fabAddTag"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputLimitTo" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabAddTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="@{() -> model.onAddTag()}"
-            app:layout_constraintBottom_toBottomOf="@+id/autoTxtTags"
-            app:layout_constraintRight_toLeftOf="@+id/guidLeft"
-            app:layout_constraintTop_toTopOf="@+id/autoTxtTags"
-            app:srcCompat="@drawable/ic_plus_circle_outline_white_24dp" />
-
-        <LinearLayout
-            android:id="@+id/linTagContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/autoTxtTags"
-            app:layout_constraintLeft_toRightOf="@+id/guidLeft"
-            app:layout_constraintTop_toTopOf="@+id/autoTxtTags">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="kotlin" />
-        </LinearLayout>
-
-        <!--<TextView-->
-            <!--android:id="@+id/lblSortType"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="16dp"-->
-            <!--android:text="Sort by"-->
-            <!--android:textAppearance="@style/text_normal"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/autoTxtTags" />-->
-
-        <!--<Spinner-->
-            <!--android:id="@+id/spnSortType"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:entries="@array/sortType"-->
-            <!--android:selectedItemPosition="@{model.sortType}"-->
-            <!--app:layout_constraintBaseline_toBaselineOf="@+id/lblSortType"-->
-            <!--app:layout_constraintLeft_toRightOf="@+id/lblSortType" />-->
-
-        <!--<Spinner-->
-            <!--android:id="@+id/spnOrderType"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:entries="@array/orderType"-->
-            <!--android:selectedItemPosition="@{model.orderType}"-->
-            <!--app:layout_constraintBaseline_toBaselineOf="@id/lblSortType"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/spnSortType" />-->
-
-        <ImageButton
-            android:id="@+id/ibtnSearch"
-            android:layout_width="80dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/accent"
-            android:elevation="4dp"
-            android:onClick="@{() -> model.onStartSearch()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_search_white_24dp" />
-
         <Button
             android:id="@+id/btnLastWeek"
             android:layout_width="wrap_content"
@@ -195,6 +90,92 @@
             android:text="Last month"
             app:layout_constraintBottom_toBottomOf="@+id/btnLastWeek"
             app:layout_constraintLeft_toRightOf="@+id/btnLastWeek" />
+
+        <AutoCompleteTextView
+            android:id="@+id/autoTxtTags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:hint="tag"
+            android:text="@{model.tag}"
+            app:layout_constraintEnd_toStartOf="@+id/fabAddTag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLastWeek" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAddTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="@{() -> model.onAddTag()}"
+            app:layout_constraintBottom_toBottomOf="@+id/autoTxtTags"
+            app:layout_constraintRight_toLeftOf="@+id/guidLeft"
+            app:layout_constraintTop_toTopOf="@+id/autoTxtTags"
+            app:srcCompat="@drawable/ic_plus_circle_outline_white_24dp" />
+
+        <LinearLayout
+            android:id="@+id/linTagContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/autoTxtTags">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="kotlin" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lblSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Sort by"
+            android:textAppearance="@style/text_normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linTagContainer" />
+
+        <Spinner
+            android:id="@+id/spnSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/sortType"
+            android:selectedItemPosition="@{model.sortType}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lblSort"
+            app:layout_constraintLeft_toRightOf="@+id/lblSort" />
+
+        <Spinner
+            android:id="@+id/spnOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:entries="@array/orderType"
+            android:selectedItemPosition="@{model.orderType}"
+            app:layout_constraintBottom_toBottomOf="@+id/spnSort"
+            app:layout_constraintLeft_toRightOf="@+id/spnSort" />
+
+        <ImageButton
+            android:id="@+id/ibtnSearch"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/accent"
+            android:elevation="4dp"
+            android:onClick="@{() -> model.onStartSearch()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_search_white_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
