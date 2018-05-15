@@ -11,7 +11,7 @@ object Versions {
     const val fabricPlugin = "1.24.4"
     const val hugoPlugin = "1.2.1"
 
-    const val andutils = "1.0.15"
+    const val andutils = "1.0.16"
     const val jutils = "1.0.1"
     const val firebaseutils = "1.0.1"
     const val resutils = "1.0.1"
@@ -58,6 +58,7 @@ object Versions {
     const val retrofit2CoroutineAdapter = "1.0.0"
     const val buildTimeTracker = "0.11.0"
     const val archLifecycle = "1.1.1"
+    const val okLog = "2.3.0"
 }
 
 object Libs {
@@ -135,6 +136,7 @@ object Libs {
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit2}"
     const val retrofit2GsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
     const val retrofit2CoroutineAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:${Versions.retrofit2CoroutineAdapter}"
+    const val okLog = "com.github.simonpercic:oklog3:${Versions.okLog}"
 }
 
 object Plugins {

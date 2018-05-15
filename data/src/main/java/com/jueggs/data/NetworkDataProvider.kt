@@ -9,6 +9,7 @@ import com.jueggs.jutils.extension.join
 import io.reactivex.Single
 
 class NetworkDataProvider(private val context: Context, private val apiImpl: StackOverflowApi) : DataProvider {
+
     override suspend fun fetchTags(): Single<List<Tag>> {
         val queryParams = QueryParameter().also {
             it.pageSize = 100

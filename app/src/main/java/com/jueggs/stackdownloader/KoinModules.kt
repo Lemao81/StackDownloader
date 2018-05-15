@@ -1,5 +1,7 @@
 package com.jueggs.stackdownloader
 
+import com.github.simonpercic.oklog3.OkLogInterceptor
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.jueggs.data.*
 import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
@@ -15,9 +17,11 @@ var appModule = applicationContext {
     bean { AppDatabase.getInstance(get()).tagDao() }
     bean { AppDatabase.getInstance(get()).ownerDao() }
     bean {
-        val client = OkHttpClient.Builder().build()
-        val retrofitBuilder = Retrofit.Builder().baseUrl(STACKOVERFLOW_BASE_URL).addConverterFactory(GsonConverterFactory.create())
-        val retrofit = retrofitBuilder.client(client).build()
+        val okLogInterceptor = OkLogInterceptor.builder().build()
+        val okHttpclient = OkHttpClient.Builder().addInterceptor(okLogInterceptor).build()
+        val retrofitBuilder = Retrofit.Builder().baseUrl(STACKOVERFLOW_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(CoroutineCallAdapterFactory())
+        val retrofit = retrofitBuilder.client(okHttpclient).build()
         retrofit.create(StackOverflowApi::class.java) as StackOverflowApi
     }
     bean { NetworkDataProvider(get(), get()) }

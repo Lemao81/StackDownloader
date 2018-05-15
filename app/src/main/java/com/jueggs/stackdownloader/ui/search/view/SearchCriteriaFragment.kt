@@ -3,7 +3,6 @@ package com.jueggs.stackdownloader.ui.search.view
 import android.widget.TextView
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
-import com.jueggs.andutils.helper.DatePicker
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import kotlinx.android.synthetic.main.fragment_search_criteria.*
@@ -33,18 +32,8 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
         }
         viewModel.errors.nonNull().observe(this) { toast(it) }
         viewModel.search.nonNull().observe(this) { listener?.onStartSearch() }
-        viewModel.editFromDate.nonNull().observe(this) {
-            //TODO lib
-            DatePicker(viewModel.from, { selectedDate ->
-                bindingViewModel.from = selectedDate
-            }).show(childFragmentManager)
-        }
-        viewModel.editToDate.nonNull().observe(this) {
-            //TODO lib
-            DatePicker(viewModel.to, { selectedDate ->
-                bindingViewModel.to = selectedDate
-            }).show(childFragmentManager)
-        }
+        viewModel.editFromDate.nonNull().observe(this) { datePicker(viewModel.from) { selectedDate -> bindingViewModel.from = selectedDate } }
+        viewModel.editToDate.nonNull().observe(this) { datePicker(viewModel.to) { selectedDate -> bindingViewModel.to = selectedDate } }
     }
 
     companion object {

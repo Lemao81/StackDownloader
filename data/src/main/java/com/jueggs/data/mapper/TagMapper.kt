@@ -25,10 +25,7 @@ val Tag.entity: TagEntity
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 interface TagDtoMapper {
-    @InheritInverseConfiguration
     fun mapBoToDto(bo: Tag): TagDto
-
-    @Mappings(value = [(Mapping(target = "id", ignore = true))])
     fun mapDtoToBo(dto: TagDto): Tag
 
     companion object {
