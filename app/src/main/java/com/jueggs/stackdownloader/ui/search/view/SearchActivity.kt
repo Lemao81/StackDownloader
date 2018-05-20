@@ -1,12 +1,12 @@
 package com.jueggs.stackdownloader.ui.search.view
 
-import android.arch.lifecycle.Observer
 import android.view.View
 import com.jueggs.andutils.base.BaseActivity
+import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.stackdownloader.R
-import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
+import com.jueggs.stackdownloader.ui.search.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import org.koin.android.architecture.ext.viewModel
 
@@ -23,12 +23,20 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
             pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
 
     override fun setListeners() {
+        if (AppMode.singlePane)
+            viewModel.onSearch.nonNull().observe(this) { replaceFragment(R.id.fragment, SearchResultFragment.newInstance()) }
         if (AppMode.twoPane)
-            viewModel.showHomeButton.observe(this, Observer { supportActionBar?.setDisplayHomeAsUpEnabled(it ?: false) })
+            viewModel.answers.nonNull().observe(this) { supportActionBar?.setDisplayHomeAsUpEnabled(true) }
     }
 
-    override fun onStartSearch() {
-        if (AppMode.singlePane)
-            replaceFragment(R.id.fragment, SearchResultFragment.newInstance())
-    }
+    override fun onMenuItemSelected(id: Int) =
+            when (id) {
+                android.R.id.home -> {
+                    if (AppMode.twoPane) {
+                        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                        true
+                    } else false
+                }
+                else -> null
+            }
 }

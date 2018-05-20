@@ -7,7 +7,7 @@ import com.jueggs.domain.model.Question
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
-import com.jueggs.stackdownloader.ui.search.viewmodel.*
+import com.jueggs.stackdownloader.ui.search.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search_result.*
 import org.koin.android.architecture.ext.viewModel
 
@@ -18,25 +18,21 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     private lateinit var answerAdapter: AnswerAdapter
 
     override fun layout() = R.layout.fragment_search_result
-    override fun bindingItems() = mapOf(BR.model to SearchResultBindingViewModel(viewModel))
+    override fun bindingItems() = mapOf(BR.model to viewModel)
 
     override fun initialize() {
         setHasOptionsMenu(true)
     }
 
     override fun initializeViews() {
-        questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel) }
+        questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) }
         answerAdapter = AnswerAdapter()
 
         recQuestions.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
         recAnswers.withAdapter(answerAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
-        fabDownload.isEnabled = false
     }
 
     override fun setListeners() {
-        viewModel.search.nonNull().observe(this) { searchCriteria ->
-
-        }
         viewModel.questions.nonNull().observe(this) { questions ->
             questionAdapter.setItems(questions, Question::id)
             recQuestions.adapter = questionAdapter
@@ -55,7 +51,6 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
                 android.R.id.home -> {
                     if (AppMode.twoPane) {
                         recQuestions.adapter = questionAdapter
-                        viewModel.hideHomeButton()
                         true
                     } else false
                 }

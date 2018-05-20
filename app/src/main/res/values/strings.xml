@@ -4,8 +4,10 @@
     <string name="toast_download_successful">Data download successful</string>
 
     <!--errors-->
-    <string name="error_nonexistent_tag">This tag doesn´t exist</string>
+    <string name="error_nonexistent_tag">Tag doesn´t exist</string>
     <string name="error_no_network">No network connection available</string>
+    <string name="error_tag_already_added">Tag already added</string>
+    <string name="error_no_tag">Please enter a tag</string>
 
     <string name="format_creation_date">MM/dd/yy</string>
 </resources>

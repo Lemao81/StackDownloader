@@ -4,7 +4,8 @@ import com.github.simonpercic.oklog3.OkLogInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.jueggs.data.*
 import com.jueggs.data.retrofit.StackOverflowApi
-import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
+import com.jueggs.stackdownloader.ui.search.SearchViewModel
+import com.jueggs.stackdownloader.ui.search.usecase.AddTagUseCase
 import okhttp3.OkHttpClient
 import org.koin.android.architecture.ext.viewModel
 import org.koin.dsl.module.applicationContext
@@ -28,5 +29,7 @@ var appModule = applicationContext {
     bean { RoomRepository(get(), get(), get(), get()) as Repository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
-    viewModel { SearchViewModel(get(), get(), get()) }
+    bean { AddTagUseCase() }
+
+    viewModel { SearchViewModel(get(), get(), get(), get()) }
 }

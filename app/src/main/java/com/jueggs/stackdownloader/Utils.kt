@@ -1,5 +1,6 @@
 package com.jueggs.stackdownloader
 
+import android.databinding.ObservableField
 import android.os.Build
 
 fun isLollipopOrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
@@ -7,3 +8,5 @@ fun isLollipopOrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.
 fun isNougatOrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 
 //TODO lib
+
+fun <T> ObservableField<T>.getOr(default: T): T = get() ?: default

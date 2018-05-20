@@ -36,8 +36,8 @@ class QueryParameter(
 
 fun SearchCriteria.mapToQueryParameter(context: Context): QueryParameter = QueryParameter().also {
     it.pageSize = 50
-    it.sort = getSortString(context, sortType)
-    it.order = getOrderString(context, orderType)
+    it.sort = getSortString(context, sortType ?: 0)
+    it.order = getOrderString(context, orderType ?: 0)
     it.tags = tags
     it.fromDate = from
     it.toDate = to

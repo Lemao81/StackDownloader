@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.jueggs.stackdownloader.ui.search.viewmodel.SearchCriteriaBindingViewModel" />
+            type="com.jueggs.stackdownloader.ui.search.SearchViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -58,7 +58,7 @@
                 android:hint="from"
                 android:inputType="date"
                 android:onClick="@{() -> model.onEditFromDate()}"
-                app:date="@{model.from}" />
+                app:date="@{model.fromDate}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -78,7 +78,7 @@
                 android:hint="to"
                 android:inputType="date"
                 android:onClick="@{() -> model.onEditToDate()}"
-                app:date="@{model.to}" />
+                app:date="@{model.toDate}" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -118,8 +118,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
+            android:completionThreshold="1"
             android:hint="tag"
-            android:text="@{model.tag}"
+            android:text="@={model.tag}"
             app:layout_constraintEnd_toStartOf="@+id/fabAddTag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnLastWeek" />
