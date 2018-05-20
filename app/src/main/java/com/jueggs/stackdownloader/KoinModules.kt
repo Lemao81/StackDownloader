@@ -5,7 +5,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.Coroutin
 import com.jueggs.data.*
 import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
-import com.jueggs.stackdownloader.ui.search.usecase.AddTagUseCase
+import com.jueggs.stackdownloader.ui.search.usecase.*
 import okhttp3.OkHttpClient
 import org.koin.android.architecture.ext.viewModel
 import org.koin.dsl.module.applicationContext
@@ -30,6 +30,12 @@ var appModule = applicationContext {
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
     bean { AddTagUseCase() }
+    bean { InitialStartUseCase(get(), get()) }
+    bean { StartSearchUseCase(get(), get()) }
+    bean { ShowQuestionUseCase(get()) }
+    bean { DownloadUseCase() }
+    bean { SetPeriodUseCase() }
+    bean { EditDateUseCase() }
 
-    viewModel { SearchViewModel(get(), get(), get(), get()) }
+    viewModel { SearchViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }

@@ -3,22 +3,21 @@ package com.jueggs.stackdownloader.ui.search
 import android.app.Application
 import android.arch.lifecycle.*
 import android.databinding.ObservableField
-import com.jueggs.andutils.extension.isNetworkConnected
-import com.jueggs.andutils.pairOf
-import com.jueggs.data.*
+import com.jueggs.data.Repository
 import com.jueggs.domain.model.*
-import com.jueggs.stackdownloader.*
-import com.jueggs.stackdownloader.R
-import com.jueggs.stackdownloader.ui.search.usecase.AddTagUseCase
-import kotlinx.coroutines.experimental.async
-import org.joda.time.DateTime
+import com.jueggs.stackdownloader.ui.search.usecase.*
 import java.util.*
 
 class SearchViewModel(
         application: Application,
-        private val repository: Repository,
-        private val dataProvider: DataProvider,
-        private val addTagUseCase: AddTagUseCase) : AndroidViewModel(application) {
+        repository: Repository,
+        private val addTagUseCase: AddTagUseCase,
+        private val startSearchUseCase: StartSearchUseCase,
+        private val showQuestionUseCase: ShowQuestionUseCase,
+        private val downloadUseCase: DownloadUseCase,
+        private val setPeriodUseCase: SetPeriodUseCase,
+        private val editDateUseCase: EditDateUseCase,
+        private val initialStartUseCase: InitialStartUseCase) : AndroidViewModel(application) {
 
     var availableTags: LiveData<List<Tag>> = repository.getAllTags()
     val selectedTags: MutableLiveData<MutableList<String>> = MutableLiveData()
@@ -38,52 +37,21 @@ class SearchViewModel(
 
     fun onAddTag() = addTagUseCase.go(this)
 
-    fun onInitialStart() {
-        if (getApplication<App>().isNetworkConnected()) {
-            async { dataProvider.fetchTags().subscribe { tags -> repository.addTags(tags) } }
-        }
-    }
+    fun onInitialStart() = initialStartUseCase.go(this)
 
-    fun onStartSearch() {
-        val searchCriteria = SearchCriteria(orderType.value, sortType.value, selectedTags.value, fromDate.get(), toDate.get())
-        onSearch.value = searchCriteria
+    fun onStartSearch() = startSearchUseCase.go(this)
 
-        if (getApplication<App>().isNetworkConnected()) {
-            async { dataProvider.fetchQuestions(searchCriteria).subscribe { questions -> repository.addQuestions(questions) } }
-        }
-    }
+    fun onShowQuestion(question: Question) = showQuestionUseCase.go(this, question)
 
-    fun onShowQuestion(question: Question) {
-        answers.value = Transformations.map(repository.getAnswersOfQuestion(question.id), { answers -> pairOf(question, answers) })
-    }
+    fun onEditFromDate() = editDateUseCase.from(this)
 
-    fun onEditFromDate() {
-        onEditFromDate.value = Unit
-    }
+    fun onEditToDate() = editDateUseCase.to(this)
 
-    fun onEditToDate() {
-        onEditToDate.value = Unit
-    }
+    fun onDownload() = downloadUseCase.go(this)
 
-    fun onDownload() {
-        if (getApplication<App>().isNetworkConnected()) {
+    fun onToday() = setPeriodUseCase.today(this)
 
-        } else
-            errors.value = R.string.error_no_network
-    }
+    fun onLastWeek() = setPeriodUseCase.lastWeek(this)
 
-    fun onToday() {
-        fromDate.set(Date())
-        toDate.set(Date())
-    }
-
-    fun onLastWeek() {
-        fromDate.set(DateTime().minusWeeks(1).toDate())
-        toDate.set(Date())
-    }
-
-    fun onLastMonth() {
-        fromDate.set(DateTime().minusMonths(1).toDate())
-        toDate.set(Date())
-    }
+    fun onLastMonth() = setPeriodUseCase.lastMonth(this)
 }
