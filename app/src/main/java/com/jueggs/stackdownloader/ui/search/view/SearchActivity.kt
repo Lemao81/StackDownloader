@@ -23,20 +23,23 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
             pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
 
     override fun setListeners() {
-        if (AppMode.singlePane)
-            viewModel.onSearch.nonNull().observe(this) { replaceFragment(R.id.fragment, SearchResultFragment.newInstance()) }
-        if (AppMode.twoPane)
-            viewModel.answers.nonNull().observe(this) { supportActionBar?.setDisplayHomeAsUpEnabled(true) }
+        viewModel.onHideKeyboard.nonNull().observe(this) { hideKeyboard() }
+
+        when {
+            AppMode.singlePane -> {
+                viewModel.onSearch.nonNull().observe(this) {
+                    replaceFragment(R.id.fragment, SearchResultFragment.newInstance())
+                    toggleHomeAsUp(true)
+                }
+            }
+            AppMode.twoPane -> viewModel.answers.nonNull().observe(this) { toggleHomeAsUp(true) }
+        }
     }
 
-    override fun onMenuItemSelected(id: Int) =
-            when (id) {
-                android.R.id.home -> {
-                    if (AppMode.twoPane) {
-                        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                        true
-                    } else false
-                }
-                else -> null
-            }
+    override fun onBackPressed() {
+        if (AppMode.twoPane)
+            toggleHomeAsUp(false)
+
+        super.onBackPressed()
+    }
 }

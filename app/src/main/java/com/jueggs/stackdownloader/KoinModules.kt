@@ -17,6 +17,7 @@ var appModule = applicationContext {
     bean { AppDatabase.getInstance(get()).questionDao() }
     bean { AppDatabase.getInstance(get()).tagDao() }
     bean { AppDatabase.getInstance(get()).ownerDao() }
+    bean { AppDatabase.getInstance(get()).questionTagJoinDao() }
     bean {
         val okLogInterceptor = OkLogInterceptor.builder().build()
         val okHttpclient = OkHttpClient.Builder().addInterceptor(okLogInterceptor).build()
@@ -26,7 +27,7 @@ var appModule = applicationContext {
         retrofit.create(StackOverflowApi::class.java) as StackOverflowApi
     }
     bean { NetworkDataProvider(get(), get()) }
-    bean { RoomRepository(get(), get(), get(), get()) as Repository }
+    bean { RoomRepository(get(), get(), get(), get(), get()) as Repository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
     bean { AddTagUseCase() }

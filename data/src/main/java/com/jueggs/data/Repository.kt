@@ -12,5 +12,7 @@ interface Repository {
 
     fun getAllQuestions(): LiveData<List<Question>>
 
+    fun getAllQuestionsIncludingTags(): LiveData<List<Question>>
+
     fun getAnswersOfQuestion(questionId: Long): LiveData<List<Answer>>
 }

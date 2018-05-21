@@ -6,6 +6,6 @@ import com.jueggs.data.entity.AnswerEntity
 
 @Dao
 interface AnswerDao {
-    @Query("SELECT * FROM Answer WHERE questionId = :questionId")
+    @Query("SELECT * FROM answer WHERE questionId = :questionId")
     fun getAnswersOfQuestion(questionId: Long): LiveData<List<AnswerEntity>>
 }

@@ -1,9 +1,9 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
-import com.jueggs.stackdownloader.R
+import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
 
-class AddTagUseCase() {
+class AddTagUseCase {
     fun go(viewModel: SearchViewModel) {
         viewModel.availableTags.value?.let { availableTags ->
             val tagInput = viewModel.tag.value?.toString() ?: ""
@@ -16,6 +16,7 @@ class AddTagUseCase() {
                     tags.add(tagInput)
                     viewModel.selectedTags.value = tags
                     viewModel.tag.value = ""
+                    viewModel.onHideKeyboard.fire()
                 }
             }
         }

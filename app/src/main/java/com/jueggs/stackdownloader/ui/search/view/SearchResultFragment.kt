@@ -2,17 +2,16 @@ package com.jueggs.stackdownloader.ui.search.view
 
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
-import com.jueggs.andutils.util.AppMode
 import com.jueggs.domain.model.Question
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search_result.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.android.architecture.ext.sharedViewModel
 
 class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
-    val viewModel by viewModel<SearchViewModel>()
+    val viewModel by sharedViewModel<SearchViewModel>()
 
     private lateinit var questionAdapter: QuestionAdapter
     private lateinit var answerAdapter: AnswerAdapter
@@ -20,9 +19,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     override fun layout() = R.layout.fragment_search_result
     override fun bindingItems() = mapOf(BR.model to viewModel)
 
-    override fun initialize() {
-        setHasOptionsMenu(true)
-    }
+    override fun initialize() = setHasOptionsMenu(true)
 
     override fun initializeViews() {
         questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) }
@@ -46,16 +43,13 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
         }
     }
 
-    override fun onMenuItemSelected(id: Int) =
-            when (id) {
-                android.R.id.home -> {
-                    if (AppMode.twoPane) {
-                        recQuestions.adapter = questionAdapter
-                        true
-                    } else false
-                }
-                else -> null
-            }
+    override fun onBackPressed(): Boolean {
+        if (recQuestions.adapter is AnswerAdapter) {
+            recQuestions.adapter = questionAdapter
+            return true
+        }
+        return false
+    }
 
     companion object {
         fun newInstance() = SearchResultFragment()

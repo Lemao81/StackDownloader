@@ -21,13 +21,14 @@ class SearchViewModel(
 
     var availableTags: LiveData<List<Tag>> = repository.getAllTags()
     val selectedTags: MutableLiveData<MutableList<String>> = MutableLiveData()
-    var questions: LiveData<List<Question>> = repository.getAllQuestions()
+    var questions: LiveData<List<Question>> = repository.getAllQuestionsIncludingTags()
     val answers: MutableLiveData<LiveData<Pair<Question, List<Answer>>>> = MutableLiveData()
     val errors: MutableLiveData<Int> = MutableLiveData()
 
     val onSearch: MutableLiveData<SearchCriteria> = MutableLiveData()
     val onEditFromDate: MutableLiveData<Unit> = MutableLiveData()
     val onEditToDate: MutableLiveData<Unit> = MutableLiveData()
+    val onHideKeyboard: MutableLiveData<Unit> = MutableLiveData()
 
     val tag: MutableLiveData<CharSequence> = MutableLiveData()
     val orderType: MutableLiveData<Int> = MutableLiveData()
