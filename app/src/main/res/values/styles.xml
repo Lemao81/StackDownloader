@@ -14,25 +14,25 @@
     </style>
 
     <style name="text_normal">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="text_question_score">
-        <item name="android:textSize">17sp</item>
+    <style name="text_score">
+        <item name="android:textSize">@dimen/text_size_score</item>
         <item name="android:textColor">@color/stackoverflow_dark_grey</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="text_question_score_label">
-        <item name="android:textSize">11sp</item>
+    <style name="text_score_label">
+        <item name="android:textSize">@dimen/text_size_score_label</item>
         <item name="android:textColor">@color/stackoverflow_dark_grey</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="text_question_title">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">@dimen/text_size_question_title</item>
         <item name="android:textColor">@color/stackoverflow_blue</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -43,8 +43,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="text_question_creation">
-        <item name="android:textSize">11sp</item>
+    <style name="text_creation_date">
+        <item name="android:textSize">@dimen/text_size_creation_date</item>
         <item name="android:textColor">@color/stackoverflow_light_grey</item>
         <item name="android:textStyle">normal</item>
     </style>

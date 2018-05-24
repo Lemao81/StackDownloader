@@ -11,7 +11,7 @@ import java.util.*
 class SearchViewModel(
         application: Application,
         repository: Repository,
-        private val addTagUseCase: AddTagUseCase,
+        private val editTagUseCase: EditTagUseCase,
         private val startSearchUseCase: StartSearchUseCase,
         private val showQuestionUseCase: ShowQuestionUseCase,
         private val downloadUseCase: DownloadUseCase,
@@ -36,7 +36,9 @@ class SearchViewModel(
     val fromDate: ObservableField<Date> = ObservableField(Date())
     val toDate: ObservableField<Date> = ObservableField(Date())
 
-    fun onAddTag() = addTagUseCase.go(this)
+    fun onAddTag() = editTagUseCase.add(this)
+
+    fun onRemoveTag(tagName: String) = editTagUseCase.remove(this, tagName)
 
     fun onInitialStart() = initialStartUseCase.go(this)
 

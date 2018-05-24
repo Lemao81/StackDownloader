@@ -3,8 +3,8 @@ package com.jueggs.stackdownloader.ui.search.usecase
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
 
-class AddTagUseCase {
-    fun go(viewModel: SearchViewModel) {
+class EditTagUseCase {
+    fun add(viewModel: SearchViewModel) {
         viewModel.availableTags.value?.let { availableTags ->
             val tagInput = viewModel.tag.value?.toString() ?: ""
 
@@ -20,5 +20,9 @@ class AddTagUseCase {
                 }
             }
         }
+    }
+
+    fun remove(viewModel: SearchViewModel, tagName: String) {
+        viewModel.selectedTags.value = viewModel.selectedTags.value?.apply { remove(tagName) }
     }
 }

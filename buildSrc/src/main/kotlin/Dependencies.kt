@@ -5,17 +5,18 @@ object Versions {
     const val versionCode = 1
     const val versionName = "1.0"
 
-    const val customPlugins = "1.0.1"
+    const val customPlugins = "1.0.3"
     const val gmsPlugin = "3.1.0"
     const val gradlePlugin = "3.1.1"
     const val fabricPlugin = "1.24.4"
     const val hugoPlugin = "1.2.1"
 
-    const val andutils = "1.0.18"
+    const val andutils = "1.0.21"
     const val jutils = "1.0.1"
     const val firebaseutils = "1.0.1"
     const val resutils = "1.0.1"
     const val rangebar = "1.0.1"
+    const val stackoverflowtag = "1.0.1"
 
     const val java7 = "1.7"
     const val java8 = "1.8"
@@ -67,6 +68,7 @@ object Libs {
     const val firebaseutils = "com.jueggs:firebaseutils:${Versions.firebaseutils}"
     const val resutils = "com.jueggs:resutils:${Versions.resutils}"
     const val rangebar = "com.jueggs.customview:rangebar:${Versions.rangebar}"
+    const val stackoverflowtag = "com.jueggs.customview:stackoverflowtag:${Versions.stackoverflowtag}"
 
     const val kotlinStd7 = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlin}"
     const val kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jre8:${Versions.kotlin}"
@@ -128,8 +130,11 @@ object Libs {
     const val roomRuntime = "android.arch.persistence.room:runtime:${Versions.room}"
     const val roomCompiler = "android.arch.persistence.room:compiler:${Versions.room}"
     const val roomRxJava = "android.arch.persistence.room:rxjava2:${Versions.room}"
-    const val archLifecycle = "android.arch.lifecycle:extensions:${Versions.archLifecycle}"
+    const val archLifecycleExtensions = "android.arch.lifecycle:extensions:${Versions.archLifecycle}"
     const val archLifecycleCompiler = "android.arch.lifecycle:compiler:${Versions.archLifecycle}"
+    const val archLifecycleRuntime = "android.arch.lifecycle:runtime:${Versions.archLifecycle}"
+    const val archLifecycleViewModel = "android.arch.lifecycle:viewmodel:${Versions.archLifecycle}"
+    const val archLiveDataCore = "android.arch.lifecycle:livedata-core:${Versions.archLifecycle}"
     const val mockito = "org.mockito:mockito-core:${Versions.mockito}"
     const val powermock = "org.powermock:powermock:${Versions.powermock}"
     const val androidKtx = "androidx.core:core-ktx:${Versions.androidKtx}"

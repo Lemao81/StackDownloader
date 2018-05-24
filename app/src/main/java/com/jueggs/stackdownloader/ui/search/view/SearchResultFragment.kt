@@ -25,27 +25,26 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
         questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) }
         answerAdapter = AnswerAdapter()
 
-        recQuestions.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
-        recAnswers.withAdapter(answerAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
+        recItems.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
     }
 
     override fun setListeners() {
         viewModel.questions.nonNull().observe(this) { questions ->
             questionAdapter.setItems(questions, Question::id)
-            recQuestions.adapter = questionAdapter
+            recItems.adapter = questionAdapter
         }
         viewModel.answers.nonNull().observe(this) { liveData ->
             liveData.nonNull().observe(this) { (question, answers) ->
                 answerAdapter.setHeaderAndItems(question, answers)
-                recAnswers.scrollToPosition(0)
-                recQuestions.adapter = answerAdapter
+                recItems.scrollToPosition(0)
+                recItems.adapter = answerAdapter
             }
         }
     }
 
     override fun onBackPressed(): Boolean {
-        if (recQuestions.adapter is AnswerAdapter) {
-            recQuestions.adapter = questionAdapter
+        if (recItems.adapter is AnswerAdapter) {
+            recItems.adapter = questionAdapter
             return true
         }
         return false

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_score">15sp</dimen>
+    <dimen name="text_size_score_label">10sp</dimen>
+    <dimen name="text_size_question_title">13sp</dimen>
+    <dimen name="text_size_creation_date">9sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
+</resources>

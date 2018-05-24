@@ -30,7 +30,7 @@ var appModule = applicationContext {
     bean { RoomRepository(get(), get(), get(), get(), get()) as Repository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
-    bean { AddTagUseCase() }
+    bean { EditTagUseCase() }
     bean { InitialStartUseCase(get(), get()) }
     bean { StartSearchUseCase(get(), get()) }
     bean { ShowQuestionUseCase(get()) }

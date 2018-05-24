@@ -61,6 +61,7 @@ dependencies {
     implementation Libs.joda
     implementation Libs.okLog
     implementation Libs.retrofit2CoroutineAdapter
+    implementation Libs.stackoverflowtag
     kapt Libs.mapStructProc
     kapt Libs.databindingCompiler
 

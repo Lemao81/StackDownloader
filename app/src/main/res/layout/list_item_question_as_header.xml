@@ -19,7 +19,7 @@
             android:id="@+id/txtTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{item.title}"
+            app:html="@{item.title}"
             android:textAppearance="@style/text_question_title_extended"
             android:textColor="@null"
             app:layout_constraintEnd_toEndOf="parent"

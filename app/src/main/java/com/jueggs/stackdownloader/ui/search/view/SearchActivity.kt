@@ -28,7 +28,7 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
         when {
             AppMode.singlePane -> {
                 viewModel.onSearch.nonNull().observe(this) {
-                    replaceFragment(R.id.fragment, SearchResultFragment.newInstance())
+                    addFragment(R.id.fragment, SearchResultFragment.newInstance())
                     toggleHomeAsUp(true)
                 }
             }

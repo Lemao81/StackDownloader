@@ -1,12 +1,13 @@
 package com.jueggs.stackdownloader.ui.search.view
 
-import android.widget.TextView
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
+import com.jueggs.customview.stackoverflowtag.StackoverflowTag
 import com.jueggs.stackdownloader.BR
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search_criteria.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.toast
 import org.koin.android.architecture.ext.sharedViewModel
 import java.util.*
@@ -22,8 +23,14 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
     override fun setListeners() {
         viewModel.availableTags.nonNull().observe(this) { tags -> autoTxtTags.withSimpleAdapter(tags.map { it.name }) }
         viewModel.selectedTags.nonNull().observe(this) { tags ->
-            linTagContainer.removeAllViews()
-            tags.forEach { linTagContainer.addView(TextView(linTagContainer.context).apply { text = it }) }
+            if (context != null) {
+                linTagContainer.removeAllViews()
+                tags.forEach { tag ->
+                    val tagView = StackoverflowTag(context!!, tag)
+                    tagView.onClick { viewModel.onRemoveTag(tagView.tagName) }
+                    linTagContainer.addView(tagView)
+                }
+            }
         }
         viewModel.errors.nonNull().observe(this) { toast(it) }
         viewModel.onEditFromDate.nonNull().observe(this) { datePicker(viewModel.fromDate.getOr(Date()), viewModel.fromDate::set) }
