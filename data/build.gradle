@@ -49,4 +49,7 @@ dependencies {
     implementation Libs.mapStruct
     kapt Libs.roomCompiler
     kapt Libs.mapStructProc
+
+    androidTestImplementation Libs.jUnit
+    androidTestImplementation Libs.testRunner
 }

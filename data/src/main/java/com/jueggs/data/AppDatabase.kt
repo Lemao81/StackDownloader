@@ -28,6 +28,8 @@ abstract class AppDatabase : RoomDatabase() {
             return INSTANCE!!
         }
 
+        fun getInMemoryInstance(context: Context) = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+
         fun destroyInstance() {
             INSTANCE = null
         }

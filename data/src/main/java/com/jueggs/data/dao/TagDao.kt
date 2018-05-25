@@ -8,11 +8,11 @@ import com.jueggs.data.entity.TagEntity
 @Dao
 interface TagDao {
     @Query("SELECT * FROM tag")
-    fun getAllTagsAsync(): LiveData<List<TagEntity>>
+    fun getAllLive(): LiveData<List<TagEntity>>
 
     @Query("SELECT * FROM tag")
-    fun getAllTagsSync(): List<TagEntity>
+    fun getAll(): List<TagEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insertTags(tags: List<TagEntity>)
+    fun insertAll(tags: List<TagEntity>)
 }

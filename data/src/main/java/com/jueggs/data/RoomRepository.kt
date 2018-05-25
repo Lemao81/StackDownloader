@@ -14,32 +14,38 @@ class RoomRepository(
         private val questionTagDao: QuestionTagJoinDao
 ) : Repository {
     override fun getAllQuestionsIncludingTags(): LiveData<List<Question>> {
-        return Transformations.map(questionDao.getAllQuestionsIncludingTags(), { questionsWithTags ->
+        return Transformations.map(questionDao.getAllIncludingTagsLive(), { questionsWithTags ->
             questionsWithTags.map { questionWithTag -> questionWithTag.question.bo.also { it.tags = questionWithTag.tags.map { it.tagName } } }
         })
     }
 
-    override fun getAnswersOfQuestion(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestion(questionId), { answers -> answers.map { it.bo } })
+    override fun getAnswersOfQuestion(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestionLive(questionId), { answers -> answers.map { it.bo } })
 
-    override fun getAllQuestions(): LiveData<List<Question>> = Transformations.map(questionDao.getAllQuestions(), { questions -> questions.map { it.bo } })
+    override fun getAllQuestions(): LiveData<List<Question>> = Transformations.map(questionDao.getAllLive(), { questions -> questions.map { it.bo } })
 
-    override fun getAllTags(): LiveData<List<Tag>> = Transformations.map(tagDao.getAllTagsAsync(), { entities -> entities.map { it.bo } })
+    override fun getAllTags(): LiveData<List<Tag>> = Transformations.map(tagDao.getAllLive(), { entities -> entities.map { it.bo } })
 
-    override fun addTags(tags: List<Tag>) = tagDao.insertTags(tags.map { it.entity })
+    override fun addTags(tags: List<Tag>) = tagDao.insertAll(tags.map { it.entity })
 
     override fun addQuestions(questions: List<Question>) {
-        questionDao.insertQuestions(questions.map { it.entity })
+        questionDao.insertAll(questions.map { it.entity })
 
-        val tagEntities = tagDao.getAllTagsSync()
+        val tagEntities = tagDao.getAll()
 
+        val questionTagJoins = mutableListOf<QuestionTagJoinEntity>()
         questions.forEach { question ->
             question.tags.forEach { tag ->
                 tagEntities.singleOrNull { it.name == tag }?.let { tagEntity ->
-                    questionTagDao.insertQuestionTagJoin(QuestionTagJoinEntity(question.id, tagEntity.name))
+                    questionTagJoins.add(QuestionTagJoinEntity(question.id, tagEntity.name))
                 }
             }
         }
+        questionTagDao.insertAll(questionTagJoins)
 
-        questions.map { it.owner }.filterNotNull().distinctBy { it.id }.forEach { ownerDao.insertOwner(it.entity) }
+        ownerDao.insertAll(questions.map { it.owner }.filterNotNull().distinctBy { it.id }.map { it.entity })
+    }
+
+    override fun deleteDownloadedData() {
+
     }
 }

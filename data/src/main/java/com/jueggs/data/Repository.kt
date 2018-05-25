@@ -15,4 +15,6 @@ interface Repository {
     fun getAllQuestionsIncludingTags(): LiveData<List<Question>>
 
     fun getAnswersOfQuestion(questionId: Long): LiveData<List<Answer>>
+
+    fun deleteDownloadedData()
 }

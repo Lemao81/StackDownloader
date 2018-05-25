@@ -8,11 +8,20 @@ import com.jueggs.data.entity.*
 @Dao
 interface QuestionDao {
     @Insert(onConflict = REPLACE)
-    fun insertQuestions(questions: List<QuestionEntity>)
+    fun insertAll(questions: List<QuestionEntity>)
 
     @Query("SELECT * FROM question")
-    fun getAllQuestions(): LiveData<List<QuestionEntity>>
+    fun getAllLive(): LiveData<List<QuestionEntity>>
 
     @Query("SELECT * FROM question")
-    fun getAllQuestionsIncludingTags(): LiveData<List<QuestionWithTags>>
+    fun getAll(): List<QuestionEntity>
+
+    @Query("SELECT * FROM question")
+    fun getAllIncludingTagsLive(): LiveData<List<QuestionWithTags>>
+
+    @Query("SELECT * FROM question")
+    fun getAllIncludingTags(): List<QuestionWithTags>
+
+    @Query("DELETE FROM question")
+    fun deleteAll()
 }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.*
 import android.databinding.ObservableField
 import com.jueggs.data.Repository
 import com.jueggs.domain.model.*
+import com.jueggs.stackdownloader.App
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import java.util.*
 
@@ -19,13 +20,16 @@ class SearchViewModel(
         private val editDateUseCase: EditDateUseCase,
         private val initialStartUseCase: InitialStartUseCase) : AndroidViewModel(application) {
 
+    val app: App
+        get() = getApplication()
+
     var availableTags: LiveData<List<Tag>> = repository.getAllTags()
     val selectedTags: MutableLiveData<MutableList<String>> = MutableLiveData()
     var questions: LiveData<List<Question>> = repository.getAllQuestionsIncludingTags()
     val answers: MutableLiveData<LiveData<Pair<Question, List<Answer>>>> = MutableLiveData()
     val errors: MutableLiveData<Int> = MutableLiveData()
 
-    val onSearch: MutableLiveData<SearchCriteria> = MutableLiveData()
+    val onSearch: MutableLiveData<Unit> = MutableLiveData()
     val onEditFromDate: MutableLiveData<Unit> = MutableLiveData()
     val onEditToDate: MutableLiveData<Unit> = MutableLiveData()
     val onHideKeyboard: MutableLiveData<Unit> = MutableLiveData()

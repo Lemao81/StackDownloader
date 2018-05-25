@@ -1,6 +1,7 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
-import com.jueggs.stackdownloader.*
+import com.jueggs.andutils.extension.fire
+import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
 
 class EditTagUseCase {

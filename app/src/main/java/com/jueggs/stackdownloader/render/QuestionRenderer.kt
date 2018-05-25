@@ -3,7 +3,7 @@ package com.jueggs.stackdownloader.render
 import android.text.Html
 import com.jueggs.andutils.helper.DateRenderer
 import com.jueggs.domain.model.Question
-import com.jueggs.stackdownloader.isNougatOrAbove
+import com.jueggs.stackdownloader.util.isNougatOrAbove
 
 class QuestionRenderer(val dateRenderer: DateRenderer) : Renderer<Question> {
     override fun render(question: Question) {

@@ -2,13 +2,13 @@ package com.jueggs.data.dao
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
-import com.jueggs.data.entity.*
+import com.jueggs.data.entity.QuestionTagJoinEntity
 
 @Dao
 interface QuestionTagJoinDao {
     @Insert(onConflict = REPLACE)
-    fun insertQuestionTagJoin(questionTagJoin: QuestionTagJoinEntity)
+    fun insertAll(questionTagJoins: List<QuestionTagJoinEntity>)
 
-    @Query("SELECT * FROM tag INNER JOIN question_tag ON tag.name=question_tag.tagName WHERE question_tag.questionId=:questionId")
-    fun getTagsOfQuestion(questionId: Long): List<TagEntity>
+    @Query("SELECT * FROM question_tag")
+    fun getAll(): List<QuestionTagJoinEntity>
 }
