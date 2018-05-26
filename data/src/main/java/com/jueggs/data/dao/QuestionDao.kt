@@ -16,11 +16,11 @@ interface QuestionDao {
     @Query("SELECT * FROM question")
     fun getAll(): List<QuestionEntity>
 
-    @Query("SELECT * FROM question")
-    fun getAllIncludingTagsLive(): LiveData<List<QuestionWithTags>>
+    @Query("SELECT * FROM question INNER JOIN owner ON question.ownerId = owner.owner_id")
+    fun getAllIncludingOwnerAndTagsLive(): LiveData<List<QuestionOwnerTagJoin>>
 
-    @Query("SELECT * FROM question")
-    fun getAllIncludingTags(): List<QuestionWithTags>
+    @Query("SELECT * FROM question INNER JOIN owner ON question.ownerId = owner.owner_id")
+    fun getAllIncludingOwnerAndTags(): List<QuestionOwnerTagJoin>
 
     @Query("DELETE FROM question")
     fun deleteAll()

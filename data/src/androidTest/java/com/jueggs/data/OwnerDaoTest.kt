@@ -3,8 +3,9 @@ package com.jueggs.data
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.jueggs.data.dao.OwnerDao
-import org.hamcrest.core.IsEqual
+import org.hamcrest.core.IsEqual.equalTo
 import org.junit.*
+import org.junit.Assert.assertThat
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -27,6 +28,6 @@ class OwnerDaoTest {
         ownerDao.insertAll(owner)
         val allOwner = ownerDao.getAll()
 
-        Assert.assertThat(allOwner.size, IsEqual.equalTo(owner.size))
+        assertThat(allOwner.size, equalTo(owner.size))
     }
 }

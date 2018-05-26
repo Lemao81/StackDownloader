@@ -18,7 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{() -> handler.onClick(item)}"
-        android:padding="8dp">
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp">
 
         <TextView
             android:id="@+id/txtScore"
@@ -74,45 +77,54 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.14" />
 
-        <TextView
-            android:id="@+id/txtTitle"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:maxLines="2"
-            app:html="@{item.title}"
-            android:textAppearance="@style/text_question_title"
-            android:textColor="@null"
-            app:layout_constraintBottom_toTopOf="@+id/txtCreation"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/lblAnswers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/guidScoreTitle"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="How to change a global variable from a anonymous class implementation in kotlin. How to change a global variable from a anonymous class implementation in kotlin. How to change a global variable from a anonymous class implementation in kotlin" />
+            app:layout_constraintTop_toTopOf="@+id/txtScore">
 
-        <TextView
-            android:id="@+id/txtTags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/text_normal"
-            app:join='@{item.tags}'
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/txtTitle"
-            app:layout_constraintLeft_toRightOf="@+id/guidScoreTitle"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-            tools:text="Kotlin  Android  Firebase" />
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textAppearance="@style/text_question_title"
+                android:textColor="@null"
+                app:html="@{item.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="How to change a global variable from a anonymous class implementation in kotlin. How to change a global variable from a anonymous class implementation in kotlin. How to change a global variable from a anonymous class implementation in kotlin" />
 
-        <TextView
-            android:id="@+id/txtCreation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/text_creation_date"
-            android:textColor="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-            app:renderedDate="@{item.creationDate}"
-            tools:text="asked 2 hours ago" />
+            <TextView
+                android:id="@+id/txtCreation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="@style/text_creation_date"
+                android:textColor="@null"
+                app:layout_constraintBottom_toBottomOf="@+id/tagContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tagContainer"
+                app:renderedDate="@{item.creationDate}"
+                tools:text="asked 2 hours ago" />
+
+            <LinearLayout
+                android:id="@+id/tagContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="@+id/txtTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+                app:tagViews="@{item.tags}">
+
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

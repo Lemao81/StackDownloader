@@ -11,4 +11,7 @@ interface OwnerDao {
 
     @Query("SELECT * FROM owner")
     fun getAll(): List<OwnerEntity>
+
+    @Query("DELETE FROM owner")
+    fun deleteAll()
 }

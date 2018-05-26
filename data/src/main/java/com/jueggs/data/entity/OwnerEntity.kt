@@ -4,7 +4,9 @@ import android.arch.persistence.room.*
 
 @Entity(tableName = "Owner")
 class OwnerEntity(
-        @PrimaryKey(autoGenerate = true) var id: Long,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "owner_id")
+        var id: Long?,
         var reputation: Int?,
         var profileImage: String?,
         var name: String?

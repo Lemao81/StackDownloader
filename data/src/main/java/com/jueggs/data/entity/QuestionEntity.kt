@@ -5,8 +5,9 @@ import java.util.*
 
 @Entity(tableName = "Question")
 class QuestionEntity(
-        @PrimaryKey(autoGenerate = true) var id: Long,
-        var ownerId: Long,
+        @PrimaryKey(autoGenerate = true)
+        var id: Long,
+        var ownerId: Long?,
         var isAnswered: Boolean?,
         var viewCount: Int?,
         var answerCount: Int?,

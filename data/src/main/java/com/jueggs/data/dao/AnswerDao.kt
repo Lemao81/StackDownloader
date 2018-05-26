@@ -11,4 +11,7 @@ interface AnswerDao {
 
     @Query("SELECT * FROM answer WHERE questionId = :questionId")
     fun getAnswersOfQuestion(questionId: Long): List<AnswerEntity>
+
+    @Query("DELETE FROM answer")
+    fun deleteAll()
 }

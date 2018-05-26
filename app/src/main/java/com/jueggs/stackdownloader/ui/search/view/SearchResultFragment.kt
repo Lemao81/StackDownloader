@@ -33,12 +33,10 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
         }
-        viewModel.answers.nonNull().observe(this) { liveData ->
-            liveData.nonNull().observe(this) { (question, answers) ->
-                answerAdapter.setHeaderAndItems(question, answers)
-                recItems.scrollToPosition(0)
-                recItems.adapter = answerAdapter
-            }
+        viewModel.answers.nonNull().observe(this) { (question, answers) ->
+            answerAdapter.setHeaderAndItems(question, answers)
+            recItems.scrollToPosition(0)
+            recItems.adapter = answerAdapter
         }
     }
 

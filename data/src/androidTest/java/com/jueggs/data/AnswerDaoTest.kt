@@ -24,6 +24,11 @@ class AnswerDaoTest {
 
     @Test
     fun test_that_all_answers_of_question_are_retrieved() {
+        //TODO
+    }
 
+    @Test
+    fun test_that_all_answers_are_deleted() {
+        //TODO
     }
 }

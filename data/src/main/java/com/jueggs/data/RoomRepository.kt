@@ -13,13 +13,22 @@ class RoomRepository(
         private val tagDao: TagDao,
         private val questionTagDao: QuestionTagJoinDao
 ) : Repository {
-    override fun getAllQuestionsIncludingTags(): LiveData<List<Question>> {
-        return Transformations.map(questionDao.getAllIncludingTagsLive(), { questionsWithTags ->
+    override fun getAllQuestionsIncludingTagsLive(): LiveData<List<Question>> {
+        return Transformations.map(questionDao.getAllIncludingOwnerAndTagsLive(), { questionsWithTags ->
             questionsWithTags.map { questionWithTag -> questionWithTag.question.bo.also { it.tags = questionWithTag.tags.map { it.tagName } } }
         })
     }
 
-    override fun getAnswersOfQuestion(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestionLive(questionId), { answers -> answers.map { it.bo } })
+    override fun getAllQuestionsIncludingOwnerAndTags(): List<Question> = questionDao.getAllIncludingOwnerAndTags().map { join ->
+        join.question.bo.also {
+            it.tags = join.tags.map { it.tagName }
+            it.owner = join.owner.bo
+        }
+    }
+
+    override fun getAnswersOfQuestionLive(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestionLive(questionId), { answers -> answers.map { it.bo } })
+
+    override fun getAnswersOfQuestion(questionId: Long): List<Answer> = answerDao.getAnswersOfQuestion(questionId).map { it.bo }
 
     override fun getAllQuestions(): LiveData<List<Question>> = Transformations.map(questionDao.getAllLive(), { questions -> questions.map { it.bo } })
 
@@ -46,6 +55,9 @@ class RoomRepository(
     }
 
     override fun deleteDownloadedData() {
-
+        questionDao.deleteAll()
+        answerDao.deleteAll()
+        ownerDao.deleteAll()
+        questionTagDao.deleteAll()
     }
 }

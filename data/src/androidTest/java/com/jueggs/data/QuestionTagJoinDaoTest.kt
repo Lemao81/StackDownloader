@@ -7,6 +7,7 @@ import com.jueggs.data.entity.QuestionTagJoinEntity
 import org.hamcrest.core.IsEqual.equalTo
 import org.junit.*
 import org.junit.Assert.assertThat
+import org.junit.Assert.assertTrue
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -45,5 +46,31 @@ class QuestionTagJoinDaoTest {
         val allJoins = questionTagJoinDao.getAll()
 
         assertThat(joins.size, equalTo(allJoins.size))
+    }
+
+    @Test
+    fun test_that_question_tag_joins_are_deleted() {
+        val questions = TestUtils.createQuestions(2)
+        questionDao.insertAll(questions)
+        val tags = TestUtils.createTags(3)
+        tagDao.insertAll(tags)
+
+        val joins = listOf(
+                QuestionTagJoinEntity(questions[0].id, tags[0].name),
+                QuestionTagJoinEntity(questions[0].id, tags[1].name),
+                QuestionTagJoinEntity(questions[1].id, tags[0].name),
+                QuestionTagJoinEntity(questions[1].id, tags[1].name),
+                QuestionTagJoinEntity(questions[1].id, tags[2].name)
+        )
+        questionTagJoinDao.insertAll(joins)
+        var allJoins = questionTagJoinDao.getAll()
+
+        assertTrue(allJoins.isNotEmpty())
+
+        questionTagJoinDao.deleteAll()
+
+        allJoins = questionTagJoinDao.getAll()
+
+        assertTrue(allJoins.isEmpty())
     }
 }

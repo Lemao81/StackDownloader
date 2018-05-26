@@ -15,7 +15,7 @@ class QuestionAdapter : SingleLayoutDatabindingAdapter<Question, Long>(R.layout.
         payloads.forEach { payload ->
             when (payload) {
                 Payload.Tags -> {
-
+                    //TODO
                 }
             }
         }

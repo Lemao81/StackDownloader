@@ -11,4 +11,7 @@ interface QuestionTagJoinDao {
 
     @Query("SELECT * FROM question_tag")
     fun getAll(): List<QuestionTagJoinEntity>
+
+    @Query("DELETE FROM question_tag")
+    fun deleteAll()
 }
