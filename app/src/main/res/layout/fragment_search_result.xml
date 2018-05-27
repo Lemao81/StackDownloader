@@ -38,6 +38,7 @@
             android:focusable="true"
             android:onClick="@{() -> model.onDownload()}"
             app:fabSize="normal"
+            app:invisible="@{model.isDataDownloaded}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_file_download_white_24dp" />

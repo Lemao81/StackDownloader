@@ -5,10 +5,9 @@ import com.jueggs.andutils.base.BaseActivity
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
 import com.jueggs.andutils.util.AppMode
-import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
-import org.jetbrains.anko.defaultSharedPreferences
 import org.koin.android.architecture.ext.viewModel
 
 class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchResultFragment.Listener {
@@ -19,12 +18,16 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun toolbarNavigateBack() = false
 
     override fun singlePaneFragment() =
-            if (defaultSharedPreferences.getBoolean(PREFS_DATA_DOWNLOADED, false)) pairOf(R.id.fragment, SearchResultFragment.newInstance())
-            else pairOf(R.id.fragment, SearchCriteriaFragment.newInstance())
+            if (viewModel.isDataDownloaded)
+                pairOf(R.id.fragment, SearchResultFragment.newInstance())
+            else
+                pairOf(R.id.fragment, SearchCriteriaFragment.newInstance())
 
     override fun twoPaneFragments() = pairOf(
             pairOf(R.id.fragment1, SearchCriteriaFragment.newInstance()),
             pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
+
+    override fun onInitialStart() = viewModel.onInitialStart()
 
     override fun setListeners() {
         viewModel.onHideKeyboard.nonNull().observe(this) { hideKeyboard() }

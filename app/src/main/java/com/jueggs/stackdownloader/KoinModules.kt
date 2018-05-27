@@ -34,7 +34,7 @@ var appModule = applicationContext {
     bean { InitialStartUseCase(get(), get()) }
     bean { StartSearchUseCase(get(), get()) }
     bean { ShowQuestionUseCase(get()) }
-    bean { DownloadUseCase() }
+    bean { DownloadUseCase(get(), get()) }
     bean { SetPeriodUseCase() }
     bean { EditDateUseCase() }
 

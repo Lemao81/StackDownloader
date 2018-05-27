@@ -3,10 +3,12 @@ package com.jueggs.stackdownloader.ui.search
 import android.app.Application
 import android.arch.lifecycle.*
 import android.databinding.ObservableField
+import androidx.core.content.edit
 import com.jueggs.data.Repository
 import com.jueggs.domain.model.*
-import com.jueggs.stackdownloader.App
+import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.usecase.*
+import org.jetbrains.anko.defaultSharedPreferences
 import java.util.*
 
 class SearchViewModel(
@@ -22,6 +24,10 @@ class SearchViewModel(
 
     val app: App
         get() = getApplication()
+
+    var isDataDownloaded: Boolean
+        get() = app.defaultSharedPreferences.getBoolean(PREFS_DATA_DOWNLOADED, false)
+        set(value) = app.defaultSharedPreferences.edit { putBoolean(PREFS_DATA_DOWNLOADED, value) }
 
     var availableTags: LiveData<List<Tag>> = repository.getAllTags()
     val selectedTags: MutableLiveData<MutableList<String>> = MutableLiveData()

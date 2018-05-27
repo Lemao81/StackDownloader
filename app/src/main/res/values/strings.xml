@@ -8,6 +8,7 @@
     <string name="error_no_network">No network connection available</string>
     <string name="error_tag_already_added">Tag already added</string>
     <string name="error_no_tag">Please enter a tag</string>
+    <string name="error_no_data_downloaded">No downloaded data available</string>
 
     <string name="format_creation_date">MM/dd/yy</string>
 </resources>

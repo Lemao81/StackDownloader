@@ -8,11 +8,13 @@ interface Repository {
 
     fun addQuestions(questions: List<Question>)
 
+    fun addAnswers(answers: List<Answer>)
+
     fun getAllTags(): LiveData<List<Tag>>
 
     fun getAllQuestions(): LiveData<List<Question>>
 
-    fun getAllQuestionsIncludingTagsLive(): LiveData<List<Question>>
+    fun getAllQuestionsIncludingOwnerAndTagsLive(): LiveData<List<Question>>
 
     fun getAllQuestionsIncludingOwnerAndTags(): List<Question>
 

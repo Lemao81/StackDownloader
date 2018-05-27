@@ -1,6 +1,5 @@
 package com.jueggs.stackdownloader.util
 
-import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
 import android.os.Build
 import android.widget.LinearLayout
@@ -20,4 +19,3 @@ fun LinearLayout.setTagViews(tagNames: List<String>) {
 }
 
 //TODO lib
-fun MutableLiveData<Unit>.postFire() = postValue(Unit)

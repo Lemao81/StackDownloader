@@ -41,5 +41,17 @@ class TestUtils {
 
             return result
         }
+
+        fun createAnswers(count: Int): List<AnswerEntity> {
+            val result = mutableListOf<AnswerEntity>()
+
+            (1..count).forEach {
+                result.add(AnswerEntity(it.toLong(), randomLong(), randomLong(), false, randomInt(), randomDate(), randomString.nextString(), randomString.nextString(),
+                        randomString.nextString()))
+            }
+            assertThat(result.size, equalTo(count))
+
+            return result
+        }
     }
 }
