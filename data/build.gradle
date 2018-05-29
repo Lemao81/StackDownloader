@@ -52,4 +52,6 @@ dependencies {
 
     androidTestImplementation Libs.jUnit
     androidTestImplementation Libs.testRunner
+
+    testImplementation Libs.jUnit
 }

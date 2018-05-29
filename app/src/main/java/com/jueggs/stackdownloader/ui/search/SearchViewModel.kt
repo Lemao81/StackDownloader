@@ -34,11 +34,13 @@ class SearchViewModel(
     var questions: MutableLiveData<List<Question>> = MutableLiveData()
     val answers: MutableLiveData<Pair<Question, List<Answer>>> = MutableLiveData()
     val errors: MutableLiveData<Int> = MutableLiveData()
+    val toasts: MutableLiveData<Int> = MutableLiveData()
 
     val onSearch: MutableLiveData<Unit> = MutableLiveData()
     val onEditFromDate: MutableLiveData<Unit> = MutableLiveData()
     val onEditToDate: MutableLiveData<Unit> = MutableLiveData()
     val onHideKeyboard: MutableLiveData<Unit> = MutableLiveData()
+    val onShowProgress: MutableLiveData<Boolean> = MutableLiveData()
 
     val tag: MutableLiveData<CharSequence> = MutableLiveData()
     val orderType: MutableLiveData<Int> = MutableLiveData()

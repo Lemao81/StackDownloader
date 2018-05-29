@@ -1,5 +1,7 @@
 package com.jueggs.data
 
+import java.util.*
+
 const val STACKOVERFLOW_BASE_URL = "https://api.stackexchange.com/2.2/"
 
 const val QUERY_PARAM_PAGE = "page"
@@ -30,3 +32,17 @@ const val SORT_NAME = "name"
 
 const val ORDER_DESC = "desc"
 const val ORDER_ASC = "asc"
+
+
+//TODO lib
+class UnixDateConverter {
+    fun dateToLong(date: Date?): Long? = date?.unixTime
+
+    fun longToDate(long: Long?): Date? = long?.unixDate
+}
+
+val Date.unixTime: Long
+    get() = time / 1000
+
+val Long.unixDate: Date
+    get() = Date(this * 1000)

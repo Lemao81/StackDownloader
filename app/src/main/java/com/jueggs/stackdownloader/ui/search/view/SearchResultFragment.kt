@@ -32,6 +32,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
         viewModel.questions.nonNull().observe(this) { questions ->
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
+            viewModel.onShowProgress.value = false
         }
         viewModel.answers.nonNull().observe(this) { (question, answers) ->
             answerAdapter.setHeaderAndItems(question, answers)

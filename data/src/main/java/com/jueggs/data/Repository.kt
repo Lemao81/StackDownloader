@@ -18,9 +18,9 @@ interface Repository {
 
     fun getAllQuestionsIncludingOwnerAndTags(): List<Question>
 
-    fun getAnswersOfQuestionLive(questionId: Long): LiveData<List<Answer>>
+    fun getAnswersOfQuestionIncludingOwnerLive(questionId: Long): LiveData<List<Answer>>
 
-    fun getAnswersOfQuestion(questionId: Long): List<Answer>
+    fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<Answer>
 
     fun deleteDownloadedData()
 }

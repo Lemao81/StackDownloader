@@ -10,7 +10,7 @@ import kotlinx.coroutines.experimental.async
 class ShowQuestionUseCase(private val repository: Repository) {
     fun go(viewModel: SearchViewModel, question: Question) {
         if (viewModel.isDataDownloaded)
-            async { viewModel.answers.postValue(pairOf(question, repository.getAnswersOfQuestion(question.id))) }
+            async { viewModel.answers.postValue(pairOf(question, repository.getAnswersOfQuestionIncludingOwner(question.id))) }
         else
             viewModel.errors.value = R.string.error_no_data_downloaded
     }

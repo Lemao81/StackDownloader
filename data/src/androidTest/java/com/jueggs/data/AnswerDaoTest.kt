@@ -14,12 +14,14 @@ class AnswerDaoTest {
     private lateinit var database: AppDatabase
     private lateinit var answerDao: AnswerDao
     private lateinit var questionDao: QuestionDao
+    private lateinit var ownerDao: OwnerDao
 
     @Before
     fun setup() {
         database = AppDatabase.getInMemoryInstance(InstrumentationRegistry.getContext())
         answerDao = database.answerDao()
         questionDao = database.questionDao()
+        ownerDao = database.ownerDao()
     }
 
     @After
@@ -35,7 +37,7 @@ class AnswerDaoTest {
     }
 
     @Test
-    fun test_that_all_answers_of_question_are_retrieved() {
+    fun test_that_all_answers_of_question_including_owner_are_retrieved() {
         val questions = TestUtils.createQuestions(2)
         questionDao.insertAll(questions)
 
@@ -45,18 +47,32 @@ class AnswerDaoTest {
         answers[2].questionId = questions[1].id
         answers[3].questionId = questions[1].id
         answers[4].questionId = questions[1].id
-        answerDao.insertAll(answers)
 
-        val answersOfQuestion1 = answerDao.getAnswersOfQuestion(questions[0].id)
-        val answersOfQuestion2 = answerDao.getAnswersOfQuestion(questions[1].id)
+        val owner = TestUtils.createOwners(5)
+        answers[0].ownerId = owner[0].id ?: 1
+        answers[1].ownerId = owner[1].id ?: 2
+        answers[2].ownerId = owner[2].id ?: 3
+        answers[3].ownerId = owner[3].id ?: 4
+        answers[4].ownerId = owner[4].id ?: 5
+
+        answerDao.insertAll(answers)
+        ownerDao.insertAll(owner)
+
+        val answersOfQuestion1 = answerDao.getAnswersOfQuestionIncludingOwner(questions[0].id)
+        val answersOfQuestion2 = answerDao.getAnswersOfQuestionIncludingOwner(questions[1].id)
 
         assertThat(answersOfQuestion1.size, equalTo(2))
         assertThat(answersOfQuestion2.size, equalTo(3))
-        assertThat(answersOfQuestion1[0].id, equalTo(answers[0].id))
-        assertThat(answersOfQuestion1[1].id, equalTo(answers[1].id))
-        assertThat(answersOfQuestion2[0].id, equalTo(answers[2].id))
-        assertThat(answersOfQuestion2[1].id, equalTo(answers[3].id))
-        assertThat(answersOfQuestion2[2].id, equalTo(answers[4].id))
+        assertThat(answersOfQuestion1[0].answer.id, equalTo(answers[0].id))
+        assertThat(answersOfQuestion1[1].answer.id, equalTo(answers[1].id))
+        assertThat(answersOfQuestion2[0].answer.id, equalTo(answers[2].id))
+        assertThat(answersOfQuestion2[1].answer.id, equalTo(answers[3].id))
+        assertThat(answersOfQuestion2[2].answer.id, equalTo(answers[4].id))
+        assertThat(answersOfQuestion1[0].owner.id, equalTo(owner[0].id))
+        assertThat(answersOfQuestion1[1].owner.id, equalTo(owner[1].id))
+        assertThat(answersOfQuestion2[0].owner.id, equalTo(owner[2].id))
+        assertThat(answersOfQuestion2[1].owner.id, equalTo(owner[3].id))
+        assertThat(answersOfQuestion2[2].owner.id, equalTo(owner[4].id))
     }
 
     @Test

@@ -50,9 +50,13 @@ class RoomRepository(
         }
     }
 
-    override fun getAnswersOfQuestionLive(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestionLive(questionId), { answers -> answers.map { it.bo } })
+    override fun getAnswersOfQuestionIncludingOwnerLive(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestionIncludingOwnerLive(questionId), { joins ->
+        joins.map { join -> join.answer.bo.also { it.owner = join.owner.bo } }
+    })
 
-    override fun getAnswersOfQuestion(questionId: Long): List<Answer> = answerDao.getAnswersOfQuestion(questionId).map { it.bo }
+    override fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<Answer> = answerDao.getAnswersOfQuestionIncludingOwner(questionId).map { join ->
+        join.answer.bo.also { it.owner = join.owner.bo }
+    }
 
     override fun getAllQuestions(): LiveData<List<Question>> = Transformations.map(questionDao.getAllLive(), { questions -> questions.map { it.bo } })
 

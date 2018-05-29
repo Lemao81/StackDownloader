@@ -1,6 +1,6 @@
 package com.jueggs.data.mapper
 
-import com.jueggs.andutils.helper.DateConverter
+import com.jueggs.data.UnixDateConverter
 import com.jueggs.data.entity.QuestionEntity
 import com.jueggs.data.retrofit.dto.QuestionDto
 import com.jueggs.domain.model.Question
@@ -27,7 +27,7 @@ val Question.entity: QuestionEntity
     get() = QuestionEntityMapper.INSTANCE.mapBoToEntity(this)
 
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(DateConverter::class), (OwnerDtoMapper::class)])
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(UnixDateConverter::class), (OwnerDtoMapper::class)])
 interface QuestionDtoMapper {
     fun mapBoToDto(bo: Question): QuestionDto
     fun mapDtoToBo(dto: QuestionDto): Question
@@ -44,7 +44,7 @@ val Question.dto: QuestionDto
     get() = QuestionDtoMapper.INSTANCE.mapBoToDto(this)
 
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(DateConverter::class)])
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(UnixDateConverter::class)])
 interface QuestionEntityDtoMapper {
     @InheritInverseConfiguration
     fun mapDtoToEntity(dto: QuestionDto): QuestionEntity

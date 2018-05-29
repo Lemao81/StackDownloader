@@ -4,7 +4,7 @@ import android.databinding.BindingAdapter
 import android.os.Build
 import android.widget.LinearLayout
 import com.jueggs.andutils.util.AppMode
-import com.jueggs.customview.stackoverflowtag.*
+import com.jueggs.customview.stackoverflowtag.StackoverflowTag
 
 fun isLollipopOrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
@@ -14,7 +14,7 @@ fun isNougatOrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 fun LinearLayout.setTagViews(tagNames: List<String>) {
     removeAllViews()
     tagNames.take(if (AppMode.singlePane) 3 else 5).forEach {
-        addView(StackoverflowTag(context, it, Size.SMALL))
+        addView(StackoverflowTag(context, it))
     }
 }
 

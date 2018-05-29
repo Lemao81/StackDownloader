@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">StackDownloader</string>
     <string name="error_saving_failed">Saving data failed: %s</string>
-    <string name="toast_download_successful">Data download successful</string>
 
     <!--errors-->
     <string name="error_nonexistent_tag">Tag doesn´t exist</string>
@@ -9,6 +8,9 @@
     <string name="error_tag_already_added">Tag already added</string>
     <string name="error_no_tag">Please enter a tag</string>
     <string name="error_no_data_downloaded">No downloaded data available</string>
+
+    <!--toasts-->
+    <string name="toast_data_downloaded">Data downloaded</string>
 
     <string name="format_creation_date">MM/dd/yy</string>
 </resources>

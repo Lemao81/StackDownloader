@@ -8,6 +8,7 @@ import com.jueggs.andutils.util.AppMode
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
+import org.jetbrains.anko.*
 import org.koin.android.architecture.ext.viewModel
 
 class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchResultFragment.Listener {
@@ -29,14 +30,33 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
 
     override fun onInitialStart() = viewModel.onInitialStart()
 
+    @Suppress("PLUGIN_WARNING")
     override fun setListeners() {
         viewModel.onHideKeyboard.nonNull().observe(this) { hideKeyboard() }
+        viewModel.onShowProgress.nonNull().observe(this) { show -> if (show) progress.visible() else progress.gone() }
+        viewModel.errors.nonNull().observe(this) { longToast(it) }
+        viewModel.toasts.nonNull().observe(this) { toast(it) }
 
         when {
             AppMode.singlePane -> {
                 viewModel.onSearch.nonNull().observe(this) {
                     addFragment(R.id.fragment, SearchResultFragment.newInstance())
                     toggleHomeAsUp(true)
+                }
+                botNavigation.setOnNavigationItemSelectedListener { item ->
+                    when (item.itemId) {
+                        R.id.menuSearch -> {
+                            replaceFragment(R.id.fragment, SearchCriteriaFragment.newInstance())
+                            item.isEnabled = true
+                            true
+                        }
+                        R.id.menuItems -> {
+                            replaceFragment(R.id.fragment, SearchResultFragment.newInstance())
+                            item.isEnabled = true
+                            true
+                        }
+                        else -> false
+                    }
                 }
             }
             AppMode.twoPane -> viewModel.answers.nonNull().observe(this) { toggleHomeAsUp(true) }

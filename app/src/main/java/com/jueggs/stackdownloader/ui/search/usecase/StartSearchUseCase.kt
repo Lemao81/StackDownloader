@@ -10,6 +10,7 @@ import kotlinx.coroutines.experimental.async
 class StartSearchUseCase(private val repository: Repository, private val dataProvider: DataProvider) {
     fun go(viewModel: SearchViewModel) {
         if (viewModel.app.isNetworkConnected()) {
+            viewModel.onShowProgress.value = true
             val searchCriteria = SearchCriteria(viewModel.orderType.value, viewModel.sortType.value, viewModel.selectedTags.value, viewModel.fromDate.get(), viewModel.toDate.get())
             async {
                 repository.deleteDownloadedData()
