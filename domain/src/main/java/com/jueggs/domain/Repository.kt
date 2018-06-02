@@ -1,6 +1,5 @@
-package com.jueggs.data
+package com.jueggs.domain
 
-import android.arch.lifecycle.LiveData
 import com.jueggs.domain.model.*
 
 interface Repository {
@@ -10,15 +9,11 @@ interface Repository {
 
     fun addAnswers(answers: List<Answer>)
 
-    fun getAllTags(): LiveData<List<Tag>>
+    fun getAllTags(): List<Tag>
 
-    fun getAllQuestions(): LiveData<List<Question>>
-
-    fun getAllQuestionsIncludingOwnerAndTagsLive(): LiveData<List<Question>>
+    fun getAllQuestionIds(): List<Long>
 
     fun getAllQuestionsIncludingOwnerAndTags(): List<Question>
-
-    fun getAnswersOfQuestionIncludingOwnerLive(questionId: Long): LiveData<List<Answer>>
 
     fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<Answer>
 

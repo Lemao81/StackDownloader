@@ -28,5 +28,19 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> model.onDownload()}"
+            app:fabSize="normal"
+            app:invisible="@{model.isDataDownloaded}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_file_download_white_24dp" />
     </android.support.constraint.ConstraintLayout>
 </layout>

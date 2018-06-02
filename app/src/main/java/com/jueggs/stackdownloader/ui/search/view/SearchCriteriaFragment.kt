@@ -4,7 +4,7 @@ import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
 import com.jueggs.customview.stackoverflowtag.StackoverflowTag
 import com.jueggs.stackdownloader.*
-import com.jueggs.stackdownloader.ui.search.SearchViewModel
+import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search_criteria.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.koin.android.architecture.ext.sharedViewModel

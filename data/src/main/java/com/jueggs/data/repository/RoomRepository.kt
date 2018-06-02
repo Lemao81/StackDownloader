@@ -1,9 +1,9 @@
-package com.jueggs.data
+package com.jueggs.data.repository
 
-import android.arch.lifecycle.*
 import com.jueggs.data.dao.*
 import com.jueggs.data.entity.QuestionTagJoinEntity
 import com.jueggs.data.mapper.*
+import com.jueggs.domain.Repository
 import com.jueggs.domain.model.*
 
 class RoomRepository(
@@ -37,11 +37,7 @@ class RoomRepository(
         ownerDao.insertAll(answers.map { it.owner }.filterNotNull().distinctBy { it.id }.map { it.entity })
     }
 
-    override fun getAllQuestionsIncludingOwnerAndTagsLive(): LiveData<List<Question>> {
-        return Transformations.map(questionDao.getAllIncludingOwnerAndTagsLive(), { questionsWithTags ->
-            questionsWithTags.map { questionWithTag -> questionWithTag.question.bo.also { it.tags = questionWithTag.tags.map { it.tagName } } }
-        })
-    }
+    override fun getAllQuestionIds(): List<Long> = questionDao.getAllIds()
 
     override fun getAllQuestionsIncludingOwnerAndTags(): List<Question> = questionDao.getAllIncludingOwnerAndTags().map { join ->
         join.question.bo.also {
@@ -50,17 +46,9 @@ class RoomRepository(
         }
     }
 
-    override fun getAnswersOfQuestionIncludingOwnerLive(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestionIncludingOwnerLive(questionId), { joins ->
-        joins.map { join -> join.answer.bo.also { it.owner = join.owner.bo } }
-    })
-
     override fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<Answer> = answerDao.getAnswersOfQuestionIncludingOwner(questionId).map { join ->
         join.answer.bo.also { it.owner = join.owner.bo }
     }
-
-    override fun getAllQuestions(): LiveData<List<Question>> = Transformations.map(questionDao.getAllLive(), { questions -> questions.map { it.bo } })
-
-    override fun getAllTags(): LiveData<List<Tag>> = Transformations.map(tagDao.getAllLive(), { entities -> entities.map { it.bo } })
 
     override fun deleteDownloadedData() {
         questionDao.deleteAll()

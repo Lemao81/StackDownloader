@@ -3,7 +3,17 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation Libs.kotlinStd8
+    implementation Libs.rxJava
+    implementation Libs.kotlinCoroutine
+
+    testImplementation Libs.jUnit
+    testImplementation Libs.mockito
+    testImplementation Libs.mockitoKotlin
+    testImplementation Libs.kotlinCoroutine
+    testImplementation Libs.jutils
 }
+
+kotlin { experimental { coroutines "enable" } }
 
 sourceCompatibility = Versions.java8
 targetCompatibility = Versions.java8

@@ -1,8 +1,9 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
 import com.jueggs.andutils.extension.isNetworkConnected
-import com.jueggs.data.*
-import com.jueggs.stackdownloader.ui.search.SearchViewModel
+import com.jueggs.domain.*
+import com.jueggs.stackdownloader.App
+import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import kotlinx.coroutines.experimental.async
 import org.joda.time.DateTime
 import java.util.*
@@ -10,16 +11,16 @@ import java.util.*
 class InitialStartUseCase(private val repository: Repository, private val dataProvider: DataProvider) {
     fun go(viewModel: SearchViewModel) {
         if (viewModel.isDataDownloaded) {
-            async { viewModel.questions.postValue(repository.getAllQuestionsIncludingOwnerAndTags()) }
+            async { viewModel.searchResultViewModel.questions.postValue(repository.getAllQuestionsIncludingOwnerAndTags()) }
         } else {
-            if (viewModel.app.isNetworkConnected()) {
+            if (viewModel.getApplication<App>().isNetworkConnected()) {
                 async { dataProvider.fetchTags().subscribe { tags -> repository.addTags(tags) } }
             }
 
             //TODO development
-            viewModel.tag.value = "java"
-            viewModel.fromDate.set(DateTime().minusWeeks(1).toDate())
-            viewModel.toDate.set(Date())
+            viewModel.searchCriteriaViewModel.tag.value = "java"
+            viewModel.searchCriteriaViewModel.fromDate.set(DateTime().minusWeeks(1).toDate())
+            viewModel.searchCriteriaViewModel.toDate.set(Date())
         }
     }
 }

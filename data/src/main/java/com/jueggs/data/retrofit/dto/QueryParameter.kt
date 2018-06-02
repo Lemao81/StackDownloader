@@ -1,10 +1,10 @@
 package com.jueggs.data.retrofit.dto
 
 import android.content.Context
-import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.extension.getStringArray
 import com.jueggs.data.*
 import com.jueggs.domain.model.SearchCriteria
-import com.jueggs.jutils.extension.join
+import com.jueggs.jutils.extension.*
 import java.util.*
 
 class QueryParameter(
@@ -22,8 +22,8 @@ class QueryParameter(
 
         map[QUERY_PARAM_PAGE] = page?.toString()
         map[QUERY_PARAM_PAGESIZE] = pageSize?.toString()
-        map[QUERY_PARAM_FROMDATE] = fromDate?.unix?.toString()
-        map[QUERY_PARAM_TODATE] = toDate?.unix?.toString()
+        map[QUERY_PARAM_FROMDATE] = fromDate?.unixTime?.toString()
+        map[QUERY_PARAM_TODATE] = toDate?.unixTime?.toString()
         map[QUERY_PARAM_ORDER] = order
         map[QUERY_PARAM_SORT] = sort
         map[QUERY_PARAM_TAGGED] = tags?.join(";")

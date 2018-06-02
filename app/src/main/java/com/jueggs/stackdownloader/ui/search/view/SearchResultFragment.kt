@@ -6,7 +6,7 @@ import com.jueggs.domain.model.Question
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
-import com.jueggs.stackdownloader.ui.search.SearchViewModel
+import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.fragment_search_result.*
 import org.koin.android.architecture.ext.sharedViewModel
 

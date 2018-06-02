@@ -1,6 +1,6 @@
 package com.jueggs.data.mapper
 
-import com.jueggs.data.UnixDateConverter
+import com.jueggs.andutils.helper.UnixDateConverter
 import com.jueggs.data.entity.QuestionEntity
 import com.jueggs.data.retrofit.dto.QuestionDto
 import com.jueggs.domain.model.Question

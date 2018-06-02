@@ -1,8 +1,11 @@
 package com.jueggs.stackdownloader.util
 
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.databinding.BindingAdapter
 import android.os.Build
 import android.widget.LinearLayout
+import com.jueggs.andutils.extension.isNetworkConnected
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.customview.stackoverflowtag.StackoverflowTag
 
@@ -18,4 +21,12 @@ fun LinearLayout.setTagViews(tagNames: List<String>) {
     }
 }
 
+
 //TODO lib
+fun <TApplication : Application> AndroidViewModel.doWithNetworkConnection(action: () -> Unit): () -> Unit {
+    if (getApplication<TApplication>().isNetworkConnected())
+        action()
+    return action
+}
+
+infix fun (() -> Unit).otherwise(otherwiseAction: () -> Unit) = otherwiseAction()

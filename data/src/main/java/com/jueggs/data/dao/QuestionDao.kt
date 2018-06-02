@@ -10,17 +10,20 @@ interface QuestionDao {
     @Insert(onConflict = REPLACE)
     fun insertAll(questions: List<QuestionEntity>)
 
-    @Query("SELECT * FROM question")
-    fun getAllLive(): LiveData<List<QuestionEntity>>
+    @Query("SELECT id FROM question")
+    fun getAllIds(): List<Long>
 
     @Query("SELECT * FROM question")
     fun getAll(): List<QuestionEntity>
 
-    @Query("SELECT * FROM question INNER JOIN owner ON question.ownerId = owner.owner_id")
-    fun getAllIncludingOwnerAndTagsLive(): LiveData<List<QuestionOwnerTagJoin>>
+    @Query("SELECT * FROM question")
+    fun getAllLive(): LiveData<List<QuestionEntity>>
 
     @Query("SELECT * FROM question INNER JOIN owner ON question.ownerId = owner.owner_id")
     fun getAllIncludingOwnerAndTags(): List<QuestionOwnerTagJoin>
+
+    @Query("SELECT * FROM question INNER JOIN owner ON question.ownerId = owner.owner_id")
+    fun getAllIncludingOwnerAndTagsLive(): LiveData<List<QuestionOwnerTagJoin>>
 
     @Query("DELETE FROM question")
     fun deleteAll()

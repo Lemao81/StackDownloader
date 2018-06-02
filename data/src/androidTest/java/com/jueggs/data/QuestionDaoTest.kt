@@ -40,6 +40,16 @@ class QuestionDaoTest {
     }
 
     @Test
+    fun test_that_all_ids_are_retrieved() {
+        val questions = TestUtils.createQuestions(3)
+        val idsExpected = questions.map { it.id }
+        questionDao.insertAll(questions)
+        val ids = questionDao.getAllIds();
+
+        assertThat(ids, equalTo(idsExpected))
+    }
+
+    @Test
     fun test_that_all_questions_are_deleted() {
         val questions = TestUtils.createQuestions(3)
         questionDao.insertAll(questions)

@@ -3,8 +3,12 @@ package com.jueggs.stackdownloader
 import com.github.simonpercic.oklog3.OkLogInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.jueggs.data.*
+import com.jueggs.data.dataprovider.*
+import com.jueggs.data.repository.*
 import com.jueggs.data.retrofit.StackOverflowApi
-import com.jueggs.stackdownloader.ui.search.SearchViewModel
+import com.jueggs.domain.*
+import com.jueggs.domain.usecase.*
+import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import okhttp3.OkHttpClient
 import org.koin.android.architecture.ext.viewModel
@@ -30,13 +34,12 @@ var appModule = applicationContext {
     bean { RoomRepository(get(), get(), get(), get(), get()) as Repository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
-    bean { EditTagUseCase() }
+    bean { AddTagUseCase() }
     bean { InitialStartUseCase(get(), get()) }
     bean { StartSearchUseCase(get(), get()) }
     bean { ShowQuestionUseCase(get()) }
     bean { DownloadUseCase(get(), get()) }
     bean { SetPeriodUseCase() }
-    bean { EditDateUseCase() }
 
     viewModel { SearchViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }

@@ -1,9 +1,11 @@
-package com.jueggs.data
+package com.jueggs.data.dataprovider
 
 import android.content.Context
+import com.jueggs.data.SORT_POPULAR
 import com.jueggs.data.mapper.bo
 import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.data.retrofit.dto.*
+import com.jueggs.domain.DataProvider
 import com.jueggs.domain.model.*
 import com.jueggs.jutils.extension.join
 import io.reactivex.Single
