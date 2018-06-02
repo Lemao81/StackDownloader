@@ -11,6 +11,8 @@ interface Repository {
 
     fun getAllTags(): List<Tag>
 
+    fun getAllTagNames(): List<String>
+
     fun getAllQuestionIds(): List<Long>
 
     fun getAllQuestionsIncludingOwnerAndTags(): List<Question>

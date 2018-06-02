@@ -23,8 +23,10 @@ fun LinearLayout.setTagViews(tagNames: List<String>) {
 
 
 //TODO lib
-fun <TApplication : Application> AndroidViewModel.doWithNetworkConnection(action: () -> Unit): () -> Unit {
-    if (getApplication<TApplication>().isNetworkConnected())
+fun <TApplication : Application> AndroidViewModel.doWithNetworkConnection(action: () -> Unit): () -> Unit = getApplication<TApplication>().doWithNetworkConnection(action)
+
+fun Application.doWithNetworkConnection(action: () -> Unit): () -> Unit {
+    if (isNetworkConnected())
         action()
     return action
 }

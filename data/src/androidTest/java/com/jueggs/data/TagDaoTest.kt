@@ -30,4 +30,16 @@ class TagDaoTest {
 
         assertThat(allTags.size, equalTo(tags.size))
     }
+
+    @Test
+    fun test_that_all_names_are_retrieved() {
+        val tags = TestUtils.createTags(3)
+        tagDao.insertAll(tags)
+        val names = tagDao.getAllNames()
+
+        assertThat(names.size, equalTo(3))
+        assertThat(names[0], equalTo(tags[0].name))
+        assertThat(names[1], equalTo(tags[1].name))
+        assertThat(names[2], equalTo(tags[2].name))
+    }
 }

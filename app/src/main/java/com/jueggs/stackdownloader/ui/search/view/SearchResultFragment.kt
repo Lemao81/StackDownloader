@@ -17,24 +17,23 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     private lateinit var answerAdapter: AnswerAdapter
 
     override fun layout() = R.layout.fragment_search_result
-    override fun bindingItems() = mapOf(BR.model to viewModel)
+    override fun bindingItems() = mapOf(BR.model to viewModel.resultViewModel)
 
     override fun initialize() = setHasOptionsMenu(true)
 
     override fun initializeViews() {
-        questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) }
+        questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel.resultViewModel::onShowQuestion) }
         answerAdapter = AnswerAdapter()
 
         recItems.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
     }
 
     override fun setListeners() {
-        viewModel.questions.nonNull().observe(this) { questions ->
+        viewModel.resultViewModel.questions.nonNull().observe(this) { questions ->
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
-            viewModel.onShowProgress.value = false
         }
-        viewModel.answers.nonNull().observe(this) { (question, answers) ->
+        viewModel.resultViewModel.answers.nonNull().observe(this) { (question, answers) ->
             answerAdapter.setHeaderAndItems(question, answers)
             recItems.scrollToPosition(0)
             recItems.adapter = answerAdapter

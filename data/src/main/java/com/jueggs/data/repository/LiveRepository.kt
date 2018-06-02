@@ -8,5 +8,5 @@ interface LiveRepository {
 
     fun getAnswersOfQuestionIncludingOwner(questionId: Long): LiveData<List<Answer>>
 
-    fun getAllTags(): LiveData<List<Tag>>
+    fun getAllTagNames(): LiveData<List<String>>
 }

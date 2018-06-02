@@ -3,13 +3,12 @@ package com.jueggs.stackdownloader
 import com.github.simonpercic.oklog3.OkLogInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.jueggs.data.*
-import com.jueggs.data.dataprovider.*
+import com.jueggs.data.dataprovider.NetworkDataProvider
 import com.jueggs.data.repository.*
 import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.domain.*
 import com.jueggs.domain.usecase.*
-import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
-import com.jueggs.stackdownloader.ui.search.usecase.*
+import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import okhttp3.OkHttpClient
 import org.koin.android.architecture.ext.viewModel
 import org.koin.dsl.module.applicationContext
@@ -32,14 +31,16 @@ var appModule = applicationContext {
     }
     bean { NetworkDataProvider(get(), get()) }
     bean { RoomRepository(get(), get(), get(), get(), get()) as Repository }
+    bean { RoomLiveRepository(get(), get(), get()) as LiveRepository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
-    bean { AddTagUseCase() }
+    bean { AddTagUseCase(get()) }
     bean { InitialStartUseCase(get(), get()) }
-    bean { StartSearchUseCase(get(), get()) }
+    bean { SearchUseCase(get(), get()) }
     bean { ShowQuestionUseCase(get()) }
     bean { DownloadUseCase(get(), get()) }
-    bean { SetPeriodUseCase() }
+    bean { SearchCriteriaViewModel(get(), get(), get(), get()) }
+    bean { SearchResultViewModel(get(), get()) }
 
-    viewModel { SearchViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
 }

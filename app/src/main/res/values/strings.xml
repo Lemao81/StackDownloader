@@ -9,6 +9,8 @@
     <string name="error_no_tag">Please enter a tag</string>
     <string name="error_no_data_downloaded">No downloaded data available</string>
     <string name="error_download_failed">Something went wrong, data could not be downloaded</string>
+    <string name="error_add_tag_failed">Something went wrong, tag could not be added</string>
+    <string name="error_search_failed">Something went wrong, search could not be done</string>
 
     <!--toasts-->
     <string name="toast_data_downloaded">Data downloaded</string>

@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel" />
+            type="com.jueggs.stackdownloader.ui.search.viewmodel.SearchCriteriaViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

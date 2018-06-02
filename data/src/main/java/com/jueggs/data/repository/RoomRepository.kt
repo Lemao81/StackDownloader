@@ -37,6 +37,12 @@ class RoomRepository(
         ownerDao.insertAll(answers.map { it.owner }.filterNotNull().distinctBy { it.id }.map { it.entity })
     }
 
+    override fun getAllTags(): List<Tag> = tagDao.getAll().map { it.bo }
+
+    override fun getAllTagNames(): List<String> {
+        TODO("not implemented")
+    }
+
     override fun getAllQuestionIds(): List<Long> = questionDao.getAllIds()
 
     override fun getAllQuestionsIncludingOwnerAndTags(): List<Question> = questionDao.getAllIncludingOwnerAndTags().map { join ->

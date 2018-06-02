@@ -21,5 +21,5 @@ class RoomLiveRepository(
         joins.map { join -> join.answer.bo.also { it.owner = join.owner.bo } }
     })
 
-    override fun getAllTags(): LiveData<List<Tag>> = Transformations.map(tagDao.getAllLive(), { entities -> entities.map { it.bo } })
+    override fun getAllTagNames(): LiveData<List<String>> = tagDao.getAllNamesLive()
 }

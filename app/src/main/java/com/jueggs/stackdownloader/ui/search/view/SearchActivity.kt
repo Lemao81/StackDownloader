@@ -7,7 +7,6 @@ import com.jueggs.andutils.pairOf
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
-import com.jueggs.stackdownloader.util.checkItem
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.*
 import org.koin.android.architecture.ext.viewModel
@@ -29,18 +28,20 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
             pairOf(R.id.fragment1, SearchCriteriaFragment.newInstance()),
             pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
 
-    override fun onInitialStart() = viewModel.onInitialStart()
+    override fun onInitialStart() {
+        viewModel.onInitialStart()
+    }
 
     @Suppress("PLUGIN_WARNING")
     override fun setListeners() {
         viewModel.onHideKeyboard.nonNull().observe(this) { hideKeyboard() }
         viewModel.onShowProgress.nonNull().observe(this) { show -> if (show) progress.visible() else progress.gone() }
-        viewModel.onError.nonNull().observe(this) { longToast(it) }
+        viewModel.onLongToast.nonNull().observe(this) { longToast(it) }
         viewModel.onToast.nonNull().observe(this) { toast(it) }
 
         when {
             AppMode.singlePane -> {
-                viewModel.onSearch.nonNull().observe(this) {
+                viewModel.criteriaViewModel.onSearch.nonNull().observe(this) {
                     addFragment(R.id.fragment, SearchResultFragment.newInstance())
                     viewModel.checkedNavigationItem.value = R.id.menuItems
                     toggleHomeAsUp(true)
@@ -60,7 +61,7 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
                     }
                 }
             }
-            AppMode.twoPane -> viewModel.answers.nonNull().observe(this) { toggleHomeAsUp(true) }
+            AppMode.twoPane -> viewModel.resultViewModel.answers.nonNull().observe(this) { toggleHomeAsUp(true) }
         }
     }
 
