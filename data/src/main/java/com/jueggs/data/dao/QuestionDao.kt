@@ -6,25 +6,46 @@ import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.jueggs.data.entity.*
 
 @Dao
-interface QuestionDao {
+abstract class QuestionDao : BaseDao<QuestionEntity> {
     @Insert(onConflict = REPLACE)
-    fun insertAll(questions: List<QuestionEntity>)
+    abstract fun insertAll(questions: List<QuestionEntity>)
 
     @Query("SELECT id FROM question")
-    fun getAllIds(): List<Long>
+    abstract fun getAllIds(): List<Long>
 
     @Query("SELECT * FROM question")
-    fun getAll(): List<QuestionEntity>
+    abstract fun getAll(): List<QuestionEntity>
 
     @Query("SELECT * FROM question")
-    fun getAllLive(): LiveData<List<QuestionEntity>>
+    abstract fun getAllLive(): LiveData<List<QuestionEntity>>
 
+    @Transaction
     @Query("SELECT * FROM question INNER JOIN owner ON question.ownerId = owner.owner_id")
-    fun getAllIncludingOwnerAndTags(): List<QuestionOwnerTagJoin>
+    abstract fun getAllIncludingOwnerAndTags(): List<QuestionOwnerTagJoin>
 
+    @Transaction
     @Query("SELECT * FROM question INNER JOIN owner ON question.ownerId = owner.owner_id")
-    fun getAllIncludingOwnerAndTagsLive(): LiveData<List<QuestionOwnerTagJoin>>
+    abstract fun getAllIncludingOwnerAndTagsLive(): LiveData<List<QuestionOwnerTagJoin>>
 
     @Query("DELETE FROM question")
-    fun deleteAll()
+    abstract fun deleteAll()
+
+    @Transaction
+    open fun replaceAll(questions: List<QuestionEntity>) {
+        deleteAll()
+        insertAll(questions)
+    }
+}
+
+//TODO lib
+@Dao
+interface BaseDao<T> {
+    @Insert(onConflict = REPLACE)
+    fun insert(vararg element: T)
+
+    @Update(onConflict = REPLACE)
+    fun update(vararg element: T)
+
+    @Delete
+    fun delete(vararg element: T)
 }

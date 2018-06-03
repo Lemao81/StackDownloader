@@ -7,6 +7,8 @@ interface Repository {
 
     fun addQuestions(questions: List<Question>)
 
+    fun replaceQuestions(questions: List<Question>)
+
     fun addAnswers(answers: List<Answer>)
 
     fun getAllTags(): List<Tag>

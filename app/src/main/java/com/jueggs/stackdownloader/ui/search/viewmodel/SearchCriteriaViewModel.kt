@@ -69,21 +69,20 @@ class SearchCriteriaViewModel(
     }
 
     fun onStartSearch() = application.doWithNetworkConnection {
-        doShowingProgress(onShowProgress) {
-            launch(UI) {
-                val criteria = SearchCriteria(orderType.value, sortType.value, _selectedTags.value, fromDate.get(), toDate.get())
+        onShowProgress.fireTrue()
+        launch(UI) {
+            val criteria = SearchCriteria(orderType.value, sortType.value, _selectedTags.value, fromDate.get(), toDate.get())
 
-                val result = withContext(CommonPool) {
-                    searchUseCase.execute(SearchRequest(criteria)).deferredResult.await()
-                }
+            val result = withContext(CommonPool) {
+                searchUseCase.execute(SearchRequest(criteria)).deferredResult.await()
+            }
 
-                when (result) {
-                    Success -> onSearch.fire()
-                    is Failure -> {
-                        onLongToast.fireId(R.string.error_search_failed)
-                        if (AppMode.isDebug)
-                            throw result.exception
-                    }
+            when (result) {
+                Success -> onSearch.fire()
+                is Failure -> {
+                    onLongToast.fireId(R.string.error_search_failed)
+                    if (AppMode.isDebug)
+                        throw result.exception
                 }
             }
         }

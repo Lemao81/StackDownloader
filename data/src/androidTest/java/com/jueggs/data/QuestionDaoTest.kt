@@ -44,7 +44,7 @@ class QuestionDaoTest {
         val questions = TestUtils.createQuestions(3)
         val idsExpected = questions.map { it.id }
         questionDao.insertAll(questions)
-        val ids = questionDao.getAllIds();
+        val ids = questionDao.getAllIds()
 
         assertThat(ids, equalTo(idsExpected))
     }

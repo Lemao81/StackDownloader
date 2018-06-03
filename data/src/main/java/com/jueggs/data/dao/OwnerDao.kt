@@ -5,13 +5,19 @@ import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.jueggs.data.entity.OwnerEntity
 
 @Dao
-interface OwnerDao {
+abstract class OwnerDao : BaseDao<OwnerEntity> {
     @Insert(onConflict = REPLACE)
-    fun insertAll(owner: List<OwnerEntity>)
+    abstract fun insertAll(owner: List<OwnerEntity>)
+
+    @Transaction
+    open fun replaceAll(owner: List<OwnerEntity>) {
+        deleteAll()
+        insertAll(owner)
+    }
 
     @Query("SELECT * FROM owner")
-    fun getAll(): List<OwnerEntity>
+    abstract fun getAll(): List<OwnerEntity>
 
     @Query("DELETE FROM owner")
-    fun deleteAll()
+    abstract fun deleteAll()
 }

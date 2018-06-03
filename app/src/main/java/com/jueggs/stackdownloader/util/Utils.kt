@@ -24,20 +24,25 @@ fun LinearLayout.setTagViews(tagNames: List<String>) {
 
 
 //TODO lib
-fun <TApplication : Application> AndroidViewModel.doWithNetworkConnection(action: () -> Unit): () -> Unit = getApplication<TApplication>().doWithNetworkConnection(action)
+fun <TApplication : Application> AndroidViewModel.doWithNetworkConnection(action: () -> Unit): () -> Boolean = getApplication<TApplication>().doWithNetworkConnection(action)
 
-fun Application.doWithNetworkConnection(action: () -> Unit): () -> Unit {
-    if (isNetworkConnected())
+fun Application.doWithNetworkConnection(action: () -> Unit): () -> Boolean {
+    val condition = this::isNetworkConnected
+    if (condition())
         action()
-    return action
+    return condition
 }
 
-infix fun (() -> Unit).otherwise(otherwiseAction: () -> Unit) = otherwiseAction()
+infix fun (() -> Boolean).otherwise(otherwiseAction: () -> Unit) {
+    val condition = this
+    if (!condition())
+        otherwiseAction()
+}
 
-fun doShowingProgress(progress: MutableLiveData<Boolean>, action: () -> Unit) {
-    progress.fireTrue()
+fun doShowingProgress(showProgress: MutableLiveData<Boolean>, action: () -> Unit) {
+    showProgress.fireTrue()
     action()
-    progress.fireFalse()
+    showProgress.fireFalse()
 }
 
 val AppMode.isDebug: Boolean

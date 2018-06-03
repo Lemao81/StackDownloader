@@ -4,15 +4,17 @@ import android.view.View
 import com.jueggs.andutils.base.BaseActivity
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
-import com.jueggs.andutils.util.AppMode
 import com.jueggs.stackdownloader.R
+import com.jueggs.stackdownloader.ui.search.delegate.AppModeDelegate
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.*
 import org.koin.android.architecture.ext.viewModel
+import org.koin.android.ext.android.inject
 
 class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchResultFragment.Listener {
     val viewModel by viewModel<SearchViewModel>()
+    val delegate: AppModeDelegate<SearchActivity> by inject()
 
     override fun layout() = R.layout.activity_search
     override fun toolbar(): View? = toolbar
@@ -34,41 +36,19 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
 
     @Suppress("PLUGIN_WARNING")
     override fun setListeners() {
-        viewModel.onHideKeyboard.nonNull().observe(this) { hideKeyboard() }
-        viewModel.onShowProgress.nonNull().observe(this) { show -> if (show) progress.visible() else progress.gone() }
-        viewModel.onLongToast.nonNull().observe(this) { longToast(it) }
-        viewModel.onToast.nonNull().observe(this) { toast(it) }
-
-        when {
-            AppMode.singlePane -> {
-                viewModel.criteriaViewModel.onSearch.nonNull().observe(this) {
-                    addFragment(R.id.fragment, SearchResultFragment.newInstance())
-                    viewModel.checkedNavigationItem.value = R.id.menuItems
-                    toggleHomeAsUp(true)
-                }
-                viewModel.checkedNavigationItem.nonNull().observe(this) { botNavigation.checkItem(it) }
-                botNavigation.setOnNavigationItemSelectedListener { item ->
-                    when (item.itemId) {
-                        R.id.menuSearch -> {
-                            replaceFragment(R.id.fragment, SearchCriteriaFragment.newInstance())
-                            true
-                        }
-                        R.id.menuItems -> {
-                            replaceFragment(R.id.fragment, SearchResultFragment.newInstance())
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            }
-            AppMode.twoPane -> viewModel.resultViewModel.answers.nonNull().observe(this) { toggleHomeAsUp(true) }
+        viewModel.apply {
+            onHideKeyboard.nonNull().observe(this@SearchActivity) { hideKeyboard() }
+            onShowProgress.nonNull().observe(this@SearchActivity) { show -> if (show) progress.visible() else progress.gone() }
+            onToast.nonNull().observe(this@SearchActivity) { toast(it) }
+            onLongToast.nonNull().observe(this@SearchActivity) { longToast(it) }
+            resultViewModel.questions.nonNull().observe(this@SearchActivity) { progress.gone() }
         }
+
+        delegate.setListeners(this)
     }
 
     override fun onBackPressed() {
-        if (AppMode.twoPane)
-            toggleHomeAsUp(false)
-
+        delegate.onBackPressed(this)
         super.onBackPressed()
     }
 }

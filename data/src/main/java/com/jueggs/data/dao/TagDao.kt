@@ -6,16 +6,16 @@ import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.jueggs.data.entity.TagEntity
 
 @Dao
-interface TagDao {
+abstract class TagDao : BaseDao<TagEntity> {
     @Query("SELECT * FROM tag")
-    fun getAll(): List<TagEntity>
+    abstract fun getAll(): List<TagEntity>
 
     @Query("SELECT name FROM tag")
-    fun getAllNames(): List<String>
+    abstract fun getAllNames(): List<String>
 
     @Query("SELECT name FROM tag")
-    fun getAllNamesLive(): LiveData<List<String>>
+    abstract fun getAllNamesLive(): LiveData<List<String>>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(tags: List<TagEntity>)
+    abstract fun insertAll(tags: List<TagEntity>)
 }

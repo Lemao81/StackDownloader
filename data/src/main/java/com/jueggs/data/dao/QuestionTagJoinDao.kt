@@ -5,13 +5,19 @@ import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.jueggs.data.entity.QuestionTagJoinEntity
 
 @Dao
-interface QuestionTagJoinDao {
+abstract class QuestionTagJoinDao : BaseDao<QuestionTagJoinEntity> {
     @Insert(onConflict = REPLACE)
-    fun insertAll(questionTagJoins: List<QuestionTagJoinEntity>)
+    abstract fun insertAll(questionTagJoins: List<QuestionTagJoinEntity>)
+
+    @Transaction
+    open fun replaceAll(questionTagJoins: List<QuestionTagJoinEntity>) {
+        deleteAll()
+        insertAll(questionTagJoins)
+    }
 
     @Query("SELECT * FROM question_tag")
-    fun getAll(): List<QuestionTagJoinEntity>
+    abstract fun getAll(): List<QuestionTagJoinEntity>
 
     @Query("DELETE FROM question_tag")
-    fun deleteAll()
+    abstract fun deleteAll()
 }

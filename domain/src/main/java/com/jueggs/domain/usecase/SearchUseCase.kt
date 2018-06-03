@@ -11,9 +11,8 @@ class SearchUseCase(private val repository: Repository, private val dataProvider
 
         val deferred = async {
             try {
-                repository.deleteDownloadedData()
                 val questions = dataProvider.fetchQuestions(request.criteria).blockingGet()
-                repository.addQuestions(questions)
+                repository.replaceQuestions(questions)
                 Success
             } catch (exception: Exception) {
                 Failure(exception)

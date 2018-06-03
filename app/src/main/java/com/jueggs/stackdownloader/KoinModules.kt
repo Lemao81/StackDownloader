@@ -2,12 +2,14 @@ package com.jueggs.stackdownloader
 
 import com.github.simonpercic.oklog3.OkLogInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.data.*
 import com.jueggs.data.dataprovider.NetworkDataProvider
 import com.jueggs.data.repository.*
 import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.domain.*
 import com.jueggs.domain.usecase.*
+import com.jueggs.stackdownloader.ui.search.delegate.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import okhttp3.OkHttpClient
 import org.koin.android.architecture.ext.viewModel
@@ -33,6 +35,8 @@ var appModule = applicationContext {
     bean { RoomRepository(get(), get(), get(), get(), get()) as Repository }
     bean { RoomLiveRepository(get(), get(), get()) as LiveRepository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
+
+    bean { if(AppMode.singlePane) SinglePaneSearchDelegate() else TwoPaneSearchDelegate() }
 
     bean { AddTagUseCase(get()) }
     bean { InitialStartUseCase(get(), get()) }

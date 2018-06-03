@@ -6,19 +6,25 @@ import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import com.jueggs.data.entity.*
 
 @Dao
-interface AnswerDao {
+abstract class AnswerDao : BaseDao<AnswerEntity> {
     @Insert(onConflict = REPLACE)
-    fun insertAll(answers: List<AnswerEntity>)
+    abstract fun insertAll(answers: List<AnswerEntity>)
+
+    @Transaction
+    open fun replaceAll(answers: List<AnswerEntity>) {
+        deleteAll()
+        insertAll(answers)
+    }
 
     @Query("SELECT * FROM answer")
-    fun getAll(): List<AnswerEntity>
+    abstract fun getAll(): List<AnswerEntity>
 
     @Query("SELECT * FROM answer INNER JOIN owner ON answer.ownerId = owner.owner_id WHERE questionId = :questionId")
-    fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<AnswerOwnerJoin>
+    abstract fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<AnswerOwnerJoin>
 
     @Query("SELECT * FROM answer INNER JOIN owner ON answer.ownerId = owner.owner_id WHERE questionId = :questionId")
-    fun getAnswersOfQuestionIncludingOwnerLive(questionId: Long): LiveData<List<AnswerOwnerJoin>>
+    abstract fun getAnswersOfQuestionIncludingOwnerLive(questionId: Long): LiveData<List<AnswerOwnerJoin>>
 
     @Query("DELETE FROM answer")
-    fun deleteAll()
+    abstract fun deleteAll()
 }

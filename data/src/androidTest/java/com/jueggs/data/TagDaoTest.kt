@@ -6,6 +6,7 @@ import com.jueggs.data.dao.TagDao
 import org.hamcrest.core.IsEqual.equalTo
 import org.junit.*
 import org.junit.Assert.assertThat
+import org.junit.Assert.assertTrue
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -38,8 +39,8 @@ class TagDaoTest {
         val names = tagDao.getAllNames()
 
         assertThat(names.size, equalTo(3))
-        assertThat(names[0], equalTo(tags[0].name))
-        assertThat(names[1], equalTo(tags[1].name))
-        assertThat(names[2], equalTo(tags[2].name))
+        assertTrue(names.contains(tags[0].name))
+        assertTrue(names.contains(tags[1].name))
+        assertTrue(names.contains(tags[2].name))
     }
 }
