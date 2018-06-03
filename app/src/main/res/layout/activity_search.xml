@@ -58,7 +58,7 @@
             app:itemBackground="@color/primary"
             app:itemIconTint="@drawable/bottom_navigation_state"
             app:itemTextColor="@drawable/bottom_navigation_state"
-            app:layout_behavior="com.jueggs.stackdownloader.util.BottomNavigationBehaviour"
+            app:layout_behavior="com.jueggs.andutils.helper.BottomNavigationBehaviour"
             app:layout_insetEdge="bottom"
             app:menu="@menu/bottom_navigation" />
 

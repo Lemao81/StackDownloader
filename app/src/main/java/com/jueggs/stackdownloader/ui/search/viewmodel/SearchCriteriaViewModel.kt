@@ -4,11 +4,14 @@ import android.app.Application
 import android.arch.lifecycle.*
 import android.databinding.ObservableField
 import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.data.repository.LiveRepository
 import com.jueggs.domain.model.*
 import com.jueggs.domain.usecase.*
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.util.*
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
 import org.joda.time.DateTime
 import java.util.*
 
@@ -37,17 +40,26 @@ class SearchCriteriaViewModel(
     val toDate: ObservableField<Date> = ObservableField(Date())
 
     fun onAddTag() {
-        val result = addTagUseCase.execute(AddTagRequest(tag.value, _selectedTags.value))
+        launch(UI) {
+            val request = AddTagRequest(tag.value, _selectedTags.value)
+            val result = withContext(CommonPool) {
+                addTagUseCase.execute(request).deferredResult.await()
+            }
 
-        when (result) {
-            EmptyInput -> onLongToast.fireId(R.string.error_no_tag)
-            TagAlreadyAdded -> onLongToast.fireId(R.string.error_tag_already_added)
-            TagNotAvailable -> onLongToast.fireId(R.string.error_nonexistent_tag)
-            is AddTagFailure -> onLongToast.fireId(R.string.error_add_tag_failed)
-            is TagAdded -> {
-                _selectedTags.value = result.tags
-                tag.value = ""
-                onHideKeyboard.fire()
+            when (result) {
+                EmptyInput -> onLongToast.fireId(R.string.error_no_tag)
+                TagAlreadyAdded -> onLongToast.fireId(R.string.error_tag_already_added)
+                TagNotAvailable -> onLongToast.fireId(R.string.error_nonexistent_tag)
+                is AddTagFailure -> {
+                    onLongToast.fireId(R.string.error_add_tag_failed)
+                    if (AppMode.isDebug)
+                        throw result.exception
+                }
+                is TagAdded -> {
+                    _selectedTags.value = result.tags
+                    tag.value = ""
+                    onHideKeyboard.fire()
+                }
             }
         }
     }
@@ -56,20 +68,26 @@ class SearchCriteriaViewModel(
         _selectedTags.value = _selectedTags.value?.apply { remove(tagName) }
     }
 
-    fun onStartSearch() {
-        application.doWithNetworkConnection {
-            onShowProgress.fireTrue()
-            val searchCriteria = SearchCriteria(orderType.value, sortType.value, _selectedTags.value, fromDate.get(), toDate.get())
+    fun onStartSearch() = application.doWithNetworkConnection {
+        doShowingProgress(onShowProgress) {
+            launch(UI) {
+                val criteria = SearchCriteria(orderType.value, sortType.value, _selectedTags.value, fromDate.get(), toDate.get())
 
-            searchUseCase.execute(SearchRequest(searchCriteria)).deferredResult.doOnSuccess {
-                when (it) {
-                    Success -> onSearch.fire()
-                    is Failure -> onLongToast.fireId(R.string.error_search_failed)
+                val result = withContext(CommonPool) {
+                    searchUseCase.execute(SearchRequest(criteria)).deferredResult.await()
                 }
-                onShowProgress.fireFalse()
+
+                when (result) {
+                    Success -> onSearch.fire()
+                    is Failure -> {
+                        onLongToast.fireId(R.string.error_search_failed)
+                        if (AppMode.isDebug)
+                            throw result.exception
+                    }
+                }
             }
-        } otherwise { onLongToast.fireId(R.string.error_no_network) }
-    }
+        }
+    } otherwise { onLongToast.fireId(R.string.error_no_network) }
 
     fun onEditFromDate() = onEditFromDate.fire()
 

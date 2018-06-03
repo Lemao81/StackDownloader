@@ -7,6 +7,8 @@ import com.jueggs.data.repository.LiveRepository
 import com.jueggs.domain.model.*
 import com.jueggs.domain.usecase.ShowQuestionUseCase
 import com.jueggs.stackdownloader.R
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
 
 class SearchResultViewModel(
         liveRepository: LiveRepository,
@@ -20,11 +22,19 @@ class SearchResultViewModel(
         get() = _answers
 
     fun onShowQuestion(question: Question) {
-        val result = showQuestionUseCase.execute(ShowQuestionRequest(question))
+        launch(UI) {
+            val result = withContext(CommonPool) {
+                showQuestionUseCase.execute(ShowQuestionRequest(question)).deferredResult.await()
+            }
 
-        if (result.answers.isEmpty())
-            onLongToast.fireId(R.string.error_no_data_downloaded)
-        else
-            _answers.value = pairOf(question, result.answers)
+            when (result) {
+                is AnswerResult -> {
+                    if (result.answers.isEmpty())
+                        onLongToast.fireId(R.string.error_no_data_downloaded)
+                    else
+                        _answers.value = pairOf(question, result.answers)
+                }
+            }
+        }
     }
 }

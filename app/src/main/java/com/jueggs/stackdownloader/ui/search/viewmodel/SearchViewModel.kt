@@ -4,11 +4,14 @@ import android.app.Application
 import android.arch.lifecycle.*
 import androidx.core.content.edit
 import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.domain.model.*
 import com.jueggs.domain.usecase.*
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.util.*
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
 import org.jetbrains.anko.defaultSharedPreferences
 import org.joda.time.DateTime
 import java.util.*
@@ -51,27 +54,36 @@ class SearchViewModel(
 
     val checkedNavigationItem: MutableLiveData<Int> = MutableLiveData()
 
-    fun onInitialStart() = doWithNetworkConnection<App> {
-        initialStartUseCase.execute()
+    fun onInitialStart() {
+        doWithNetworkConnection<App> {
+            initialStartUseCase.execute()
+        }
+        criteriaViewModel.fromDate.set(DateTime().minusWeeks(1).toDate())
+        criteriaViewModel.toDate.set(Date())
 
         //TODO for developing reasons, remove later
         criteriaViewModel.tag.value = "java"
-        criteriaViewModel.fromDate.set(DateTime().minusWeeks(1).toDate())
-        criteriaViewModel.toDate.set(Date())
     }
 
     fun onDownload() = doWithNetworkConnection<App> {
-        _onShowProgress.fireTrue()
-        downloadUseCase.execute().deferredResult
-                .doOnSuccess {
-                    when (it) {
-                        Success -> {
-                            isDataDownloaded = true
-                            _onToast.fireId(R.string.toast_data_downloaded)
-                        }
-                        is Failure -> _onLongToast.fireId(R.string.error_download_failed)
-                    }
-                    _onShowProgress.fireFalse()
+        doShowingProgress(_onShowProgress) {
+            launch(UI) {
+                val result = withContext(CommonPool) {
+                    downloadUseCase.execute().deferredResult.await()
                 }
+
+                when (result) {
+                    Success -> {
+                        isDataDownloaded = true
+                        _onToast.fireId(R.string.toast_data_downloaded)
+                    }
+                    is Failure -> {
+                        _onLongToast.fireId(R.string.error_download_failed)
+                        if (AppMode.isDebug)
+                            throw result.exception
+                    }
+                }
+            }
+        }
     } otherwise { _onLongToast.fireId(R.string.error_no_network) }
 }

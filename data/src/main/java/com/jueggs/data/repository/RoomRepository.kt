@@ -39,9 +39,7 @@ class RoomRepository(
 
     override fun getAllTags(): List<Tag> = tagDao.getAll().map { it.bo }
 
-    override fun getAllTagNames(): List<String> {
-        TODO("not implemented")
-    }
+    override fun getAllTagNames(): List<String> = tagDao.getAllNames()
 
     override fun getAllQuestionIds(): List<Long> = questionDao.getAllIds()
 

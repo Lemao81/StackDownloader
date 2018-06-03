@@ -2,11 +2,13 @@ package com.jueggs.domain
 
 import com.jueggs.domain.model.*
 import com.jueggs.domain.usecase.DownloadUseCase
-import com.jueggs.jutils.*
 import com.jueggs.jutils.extension.*
+import com.jueggs.jutils.givenSuspended
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Single
+import kotlinx.coroutines.experimental.runBlocking
 import org.junit.*
+import org.junit.Assert.assertTrue
 import org.mockito.Mockito.mock
 
 class DownloadUseCaseTest {
@@ -26,69 +28,69 @@ class DownloadUseCaseTest {
 
     @Test
     fun `test that exception getting questions is returned`() {
-        // given
-        val exception = RuntimeException()
-        given { repoMock.getAllQuestionIds() } willThrow exception
+        runBlocking {
+            // given
+            val exception = RuntimeException()
+            given { repoMock.getAllQuestionIds() } willThrow exception
 
-        // act
-        val testSubscriber = useCase.execute().deferredResult.test().awaitDone(3, SECONDS)
+            // act
+            val deferred = useCase.execute().deferredResult.await()
 
-        // assert
-        verifyZeroInteractions(providerMock)
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertComplete()
-        testSubscriber.assertValue { it is Failure && it.exception == exception }
+            // assert
+            verifyZeroInteractions(providerMock)
+            assertTrue(deferred is Failure && deferred.exception == exception)
+        }
     }
 
     @Test
     fun `test that exception fetching answers is returned`() {
-        // given
-        val exception = RuntimeException()
-        given { repoMock.getAllQuestionIds() } willReturn questionIds
-        givenSuspended { providerMock.fetchAnswers(questionIds) } willThrow exception
+        runBlocking {
+            // given
+            val exception = RuntimeException()
+            given { repoMock.getAllQuestionIds() } willReturn questionIds
+            givenSuspended { providerMock.fetchAnswers(questionIds) } willThrow exception
 
-        // act
-        val testSubscriber = useCase.execute().deferredResult.test().awaitDone(3, SECONDS)
+            // act
+            val deferred = useCase.execute().deferredResult.await()
 
-        // assert
-        verify(repoMock).getAllQuestionIds()
-        verifyNoMoreInteractions(repoMock)
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertComplete()
-        testSubscriber.assertValue { it is Failure && it.exception == exception }
+            // assert
+            verify(repoMock).getAllQuestionIds()
+            verifyNoMoreInteractions(repoMock)
+            assertTrue(deferred is Failure && deferred.exception == exception)
+        }
     }
 
     @Test
     fun `test that exception adding answers is returned`() {
-        // given
-        val exception = RuntimeException()
-        given { repoMock.getAllQuestionIds() } willReturn questionIds
-        givenSuspended { providerMock.fetchAnswers(questionIds) } willReturn Single.just(answers)
-        given { repoMock.addAnswers(any()) } willThrow exception
+        runBlocking {
+            // given
+            val exception = RuntimeException()
+            given { repoMock.getAllQuestionIds() } willReturn questionIds
+            givenSuspended { providerMock.fetchAnswers(questionIds) } willReturn Single.just(answers)
+            given { repoMock.addAnswers(any()) } willThrow exception
 
-        // act
-        val testSubscriber = useCase.execute().deferredResult.test().awaitDone(3, SECONDS)
+            // act
+            val deferred = useCase.execute().deferredResult.await()
 
-        // assert
-        then(repoMock).should(times(1)).addAnswers(answers)
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertComplete()
-        testSubscriber.assertValue { it is Failure && it.exception == exception }
+            // assert
+            then(repoMock).should(times(1)).addAnswers(answers)
+            assertTrue(deferred is Failure && deferred.exception == exception)
+        }
     }
 
     @Test
     fun `test that answers are persisted and success returned`() {
-        // given
-        given { repoMock.getAllQuestionIds() } willReturn questionIds
-        givenSuspended { providerMock.fetchAnswers(questionIds) } willReturn Single.just(answers)
+        runBlocking {
+            // given
+            given { repoMock.getAllQuestionIds() } willReturn questionIds
+            givenSuspended { providerMock.fetchAnswers(questionIds) } willReturn Single.just(answers)
 
-        // act
-        val testSubscriber = useCase.execute().deferredResult.test().awaitDone(3, SECONDS)
+            // act
+            val deferred = useCase.execute().deferredResult.await()
 
-        // assert
-        then(repoMock).should(times(1)).addAnswers(answers)
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertComplete()
-        testSubscriber.assertValue { it === Success }
+            // assert
+            then(repoMock).should(times(1)).addAnswers(answers)
+            assertTrue(deferred is Success)
+        }
     }
 }
