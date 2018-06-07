@@ -9,7 +9,7 @@ import com.jueggs.data.repository.LiveRepository
 import com.jueggs.domain.model.*
 import com.jueggs.domain.usecase.*
 import com.jueggs.stackdownloader.R
-import com.jueggs.stackdownloader.util.*
+import com.jueggs.stackdownloader.util.isDebug
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import org.joda.time.DateTime
@@ -47,11 +47,11 @@ class SearchCriteriaViewModel(
             }
 
             when (result) {
-                EmptyInput -> onLongToast.fireId(R.string.error_no_tag)
-                TagAlreadyAdded -> onLongToast.fireId(R.string.error_tag_already_added)
-                TagNotAvailable -> onLongToast.fireId(R.string.error_nonexistent_tag)
+                EmptyInput -> onLongToast.fire(R.string.error_no_tag)
+                TagAlreadyAdded -> onLongToast.fire(R.string.error_tag_already_added)
+                TagNotAvailable -> onLongToast.fire(R.string.error_nonexistent_tag)
                 is AddTagFailure -> {
-                    onLongToast.fireId(R.string.error_add_tag_failed)
+                    onLongToast.fire(R.string.error_add_tag_failed)
                     if (AppMode.isDebug)
                         throw result.exception
                 }
@@ -80,13 +80,13 @@ class SearchCriteriaViewModel(
             when (result) {
                 Success -> onSearch.fire()
                 is Failure -> {
-                    onLongToast.fireId(R.string.error_search_failed)
+                    onLongToast.fire(R.string.error_search_failed)
                     if (AppMode.isDebug)
                         throw result.exception
                 }
             }
         }
-    } otherwise { onLongToast.fireId(R.string.error_no_network) }
+    } otherwise { onLongToast.fire(R.string.error_no_network) }
 
     fun onEditFromDate() = onEditFromDate.fire()
 

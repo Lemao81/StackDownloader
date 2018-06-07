@@ -3,6 +3,7 @@ package com.jueggs.data.dao
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import com.jueggs.andutils.interfaces.BaseDao
 import com.jueggs.data.entity.*
 
 @Dao

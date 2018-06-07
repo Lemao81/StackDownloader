@@ -14,7 +14,8 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
     val viewModel by sharedViewModel<SearchViewModel>()
 
     override fun layout() = R.layout.fragment_search_criteria
-    override fun bindingItems(): Map<Int, Any>? = hashMapOf(BR.model to viewModel.criteriaViewModel)
+    override fun bindingItems() = mapOf(BR.model to viewModel.criteriaViewModel)
+    override fun toolbarTitle() = R.string.title_search_criteria
 
     override fun setListeners() {
         viewModel.criteriaViewModel.availableTags.nonNull().observe(this) { autoTxtTags.withSimpleAdapter(it) }
@@ -37,6 +38,8 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
     }
 
     companion object {
+        val TAG = SearchCriteriaFragment::class.simpleName
+
         fun newInstance() = SearchCriteriaFragment()
     }
 

@@ -1,9 +1,10 @@
 package com.jueggs.data.entity
 
 import android.arch.persistence.room.*
+import android.arch.persistence.room.ForeignKey.CASCADE
 import java.util.*
 
-@Entity(tableName = "Answer")
+@Entity(tableName = "Answer", foreignKeys = [(ForeignKey(entity = QuestionEntity::class, parentColumns = arrayOf("id"), childColumns = arrayOf("questionId"), onDelete = CASCADE))])
 class AnswerEntity(
         @PrimaryKey(autoGenerate = true)
         var id: Long,

@@ -12,7 +12,7 @@ class RoomLiveRepository(
 ) : LiveRepository {
 
     override fun getAllQuestionsIncludingOwnerAndTags(): LiveData<List<Question>> {
-        return Transformations.map(questionDao.getAllIncludingOwnerAndTagsLive(), { questionsWithTags ->
+        return Transformations.map(questionDao.getAllIncludingOwnerAndTagsLiveDistinct(), { questionsWithTags ->
             questionsWithTags.map { questionWithTag -> questionWithTag.question.bo.also { it.tags = questionWithTag.tags.map { it.tagName } } }
         })
     }
@@ -21,5 +21,5 @@ class RoomLiveRepository(
         joins.map { join -> join.answer.bo.also { it.owner = join.owner.bo } }
     })
 
-    override fun getAllTagNames(): LiveData<List<String>> = tagDao.getAllNamesLive()
+    override fun getAllTagNames(): LiveData<List<String>> = tagDao.getAllNamesLiveDistinct()
 }

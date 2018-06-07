@@ -1,7 +1,7 @@
 package com.jueggs.stackdownloader.ui.search.viewmodel
 
 import android.arch.lifecycle.*
-import com.jueggs.andutils.extension.fireId
+import com.jueggs.andutils.extension.fire
 import com.jueggs.andutils.pairOf
 import com.jueggs.data.repository.LiveRepository
 import com.jueggs.domain.model.*
@@ -30,7 +30,7 @@ class SearchResultViewModel(
             when (result) {
                 is AnswerResult -> {
                     if (result.answers.isEmpty())
-                        onLongToast.fireId(R.string.error_no_data_downloaded)
+                        onLongToast.fire(R.string.error_no_data_downloaded)
                     else
                         _answers.value = pairOf(question, result.answers)
                 }

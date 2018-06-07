@@ -88,4 +88,27 @@ class AnswerDaoTest {
 
         assertTrue(allAnswers.isEmpty())
     }
+
+    @Test
+    fun test_that_question_delete_cascades_answer_delete() {
+        val questions = TestUtils.createQuestions(2)
+        questionDao.insertAll(questions)
+
+        val answers = TestUtils.createAnswers(5)
+        answers[0].questionId = questions[0].id
+        answers[1].questionId = questions[0].id
+        answers[2].questionId = questions[1].id
+        answers[3].questionId = questions[1].id
+        answers[4].questionId = questions[1].id
+        answerDao.insertAll(answers)
+
+        var allAnswers = answerDao.getAll()
+
+        assertTrue(allAnswers.isNotEmpty())
+
+        questionDao.deleteAll()
+        allAnswers = answerDao.getAll()
+
+        assertTrue(allAnswers.isEmpty())
+    }
 }

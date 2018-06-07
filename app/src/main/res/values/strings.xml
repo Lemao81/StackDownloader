@@ -2,6 +2,8 @@
     <string name="app_name">StackDownloader</string>
     <string name="error_saving_failed">Saving data failed: %s</string>
 
+    <string name="title_search_criteria">Search Criteria</string>
+
     <!--errors-->
     <string name="error_nonexistent_tag">Tag doesn´t exist</string>
     <string name="error_no_network">No network connection available</string>

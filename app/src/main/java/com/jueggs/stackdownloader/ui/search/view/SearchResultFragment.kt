@@ -18,6 +18,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
 
     override fun layout() = R.layout.fragment_search_result
     override fun bindingItems() = mapOf(BR.model to viewModel.resultViewModel)
+    override fun toolbarTitle() = R.string.app_name
 
     override fun initialize() = setHasOptionsMenu(true)
 
@@ -49,6 +50,8 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     }
 
     companion object {
+        val TAG = SearchResultFragment::class.simpleName
+
         fun newInstance() = SearchResultFragment()
     }
 

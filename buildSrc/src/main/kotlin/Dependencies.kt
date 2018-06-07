@@ -11,10 +11,10 @@ object Versions {
     const val fabricPlugin = "1.24.4"
     const val hugoPlugin = "1.2.1"
 
-    const val andutils = "1.0.25"
+    const val andutils = "1.0.27"
     const val jutils = "1.0.7"
     const val firebaseutils = "1.0.1"
-    const val resutils = "1.0.1"
+    const val resutils = "1.0.3"
     const val rangebar = "1.0.2"
     const val stackoverflowtag = "1.0.5"
 

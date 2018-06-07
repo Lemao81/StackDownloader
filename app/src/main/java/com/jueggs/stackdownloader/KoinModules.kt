@@ -36,7 +36,7 @@ var appModule = applicationContext {
     bean { RoomLiveRepository(get(), get(), get()) as LiveRepository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
-    bean { if(AppMode.singlePane) SinglePaneSearchDelegate() else TwoPaneSearchDelegate() }
+    bean { if(AppMode.singlePane) SinglePaneSearchViewDelegate() else TwoPaneSearchViewDelegate() }
 
     bean { AddTagUseCase(get()) }
     bean { InitialStartUseCase(get(), get()) }

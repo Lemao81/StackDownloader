@@ -30,6 +30,3 @@ const val SORT_NAME = "name"
 
 const val ORDER_DESC = "desc"
 const val ORDER_ASC = "asc"
-
-
-//TODO lib

@@ -9,7 +9,7 @@ import com.jueggs.domain.model.*
 import com.jueggs.domain.usecase.*
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.R
-import com.jueggs.stackdownloader.util.*
+import com.jueggs.stackdownloader.util.isDebug
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import org.jetbrains.anko.defaultSharedPreferences
@@ -41,8 +41,8 @@ class SearchViewModel(
         get() = _onShowProgress
 
     init {
-        _onLongToast.addSource(criteriaViewModel.onLongToast) { _onLongToast.fireId(it!!) }
-        _onLongToast.addSource(resultViewModel.onLongToast) { _onLongToast.fireId(it!!) }
+        _onLongToast.addSource(criteriaViewModel.onLongToast) { _onLongToast.fire(it!!) }
+        _onLongToast.addSource(resultViewModel.onLongToast) { _onLongToast.fire(it!!) }
         _onHideKeyboard.addSource(criteriaViewModel.onHideKeyboard) { _onHideKeyboard.fire() }
         //TODO lib
         _onShowProgress.addSource(criteriaViewModel.onShowProgress) { _onShowProgress.value = it }
@@ -51,8 +51,6 @@ class SearchViewModel(
     var isDataDownloaded: Boolean
         get() = getApplication<App>().defaultSharedPreferences.getBoolean(PREFS_DATA_DOWNLOADED, false)
         set(value) = getApplication<App>().defaultSharedPreferences.edit { putBoolean(PREFS_DATA_DOWNLOADED, value) }
-
-    val checkedNavigationItem: MutableLiveData<Int> = MutableLiveData()
 
     fun onInitialStart() {
         doWithNetworkConnection<App> {
@@ -66,24 +64,25 @@ class SearchViewModel(
     }
 
     fun onDownload() = doWithNetworkConnection<App> {
-        doShowingProgress(_onShowProgress) {
-            launch(UI) {
-                val result = withContext(CommonPool) {
-                    downloadUseCase.execute().deferredResult.await()
-                }
+        _onShowProgress.fireTrue()
 
-                when (result) {
-                    Success -> {
-                        isDataDownloaded = true
-                        _onToast.fireId(R.string.toast_data_downloaded)
-                    }
-                    is Failure -> {
-                        _onLongToast.fireId(R.string.error_download_failed)
-                        if (AppMode.isDebug)
-                            throw result.exception
-                    }
+        launch(UI) {
+            val result = withContext(CommonPool) {
+                downloadUseCase.execute().deferredResult.await()
+            }
+
+            when (result) {
+                Success -> {
+                    isDataDownloaded = true
+                    _onToast.fire(R.string.toast_data_downloaded)
+                }
+                is Failure -> {
+                    _onLongToast.fire(R.string.error_download_failed)
+                    if (AppMode.isDebug)
+                        throw result.exception
                 }
             }
+            _onShowProgress.fireFalse()
         }
-    } otherwise { _onLongToast.fireId(R.string.error_no_network) }
+    } otherwise { _onLongToast.fire(R.string.error_no_network) }
 }

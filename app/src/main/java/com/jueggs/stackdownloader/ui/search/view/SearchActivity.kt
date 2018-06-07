@@ -4,7 +4,7 @@ import android.view.View
 import com.jueggs.andutils.base.BaseActivity
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
-import com.jueggs.stackdownloader.R
+import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.delegate.AppModeDelegate
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
@@ -17,25 +17,17 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     val delegate: AppModeDelegate<SearchActivity> by inject()
 
     override fun layout() = R.layout.activity_search
+    override fun bindingItems() = mapOf(BR.model to viewModel)
     override fun toolbar(): View? = toolbar
     override fun toolbarNavigateBack() = false
-
-    override fun singlePaneFragment() =
-            if (viewModel.isDataDownloaded)
-                pairOf(R.id.fragment, SearchResultFragment.newInstance())
-            else
-                pairOf(R.id.fragment, SearchCriteriaFragment.newInstance())
 
     override fun twoPaneFragments() = pairOf(
             pairOf(R.id.fragment1, SearchCriteriaFragment.newInstance()),
             pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
 
-    override fun onInitialStart() {
-        viewModel.onInitialStart()
-    }
-
-    @Suppress("PLUGIN_WARNING")
     override fun setListeners() {
+        delegate.setListeners(this)
+
         viewModel.apply {
             onHideKeyboard.nonNull().observe(this@SearchActivity) { hideKeyboard() }
             onShowProgress.nonNull().observe(this@SearchActivity) { show -> if (show) progress.visible() else progress.gone() }
@@ -43,8 +35,11 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
             onLongToast.nonNull().observe(this@SearchActivity) { longToast(it) }
             resultViewModel.questions.nonNull().observe(this@SearchActivity) { progress.gone() }
         }
+    }
 
-        delegate.setListeners(this)
+    override fun onInitialStart() {
+        delegate.onInitialStart(this)
+        viewModel.onInitialStart()
     }
 
     override fun onBackPressed() {

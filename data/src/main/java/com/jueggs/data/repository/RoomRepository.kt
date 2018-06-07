@@ -15,40 +15,23 @@ class RoomRepository(
 ) : Repository {
     override fun addTags(tags: List<Tag>) = tagDao.insertAll(tags.map { it.entity })
 
-    @Deprecated("replaced by replaceQuestions")
-    override fun addQuestions(questions: List<Question>) {
-        questionDao.insertAll(questions.map { it.entity })
-
-        val tagEntities = tagDao.getAll()
-        val questionTagJoins = mutableListOf<QuestionTagJoinEntity>()
-        questions.forEach { question ->
-            question.tags.forEach { tag ->
-                tagEntities.singleOrNull { it.name == tag }?.let { tagEntity ->
-                    questionTagJoins.add(QuestionTagJoinEntity(question.id, tagEntity.name))
-                }
-            }
-        }
-
-        questionTagDao.insertAll(questionTagJoins)
-        ownerDao.insertAll(questions.map { it.owner }.filterNotNull().distinctBy { it.id }.map { it.entity })
-    }
-
     override fun replaceQuestions(questions: List<Question>) {
-        answerDao.deleteAll()
         questionDao.replaceAll(questions.map { it.entity })
 
-        val tagEntities = tagDao.getAll()
+        val tags = tagDao.getAll()
         val questionTagJoins = mutableListOf<QuestionTagJoinEntity>()
+
         questions.forEach { question ->
-            question.tags.forEach { tag ->
-                tagEntities.singleOrNull { it.name == tag }?.let { tagEntity ->
+            question.tags.forEach { tagName ->
+                tags.singleOrNull { it.name == tagName }?.let { tagEntity ->
                     questionTagJoins.add(QuestionTagJoinEntity(question.id, tagEntity.name))
                 }
             }
         }
 
         questionTagDao.replaceAll(questionTagJoins)
-        ownerDao.replaceAll(questions.map { it.owner }.filterNotNull().distinctBy { it.id }.map { it.entity })
+        val owners = questions.map { it.owner }.filterNotNull().distinctBy { it.id }.map { it.entity }
+        ownerDao.replaceAll(owners)
     }
 
     override fun addAnswers(answers: List<Answer>) {
@@ -71,13 +54,5 @@ class RoomRepository(
 
     override fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<Answer> = answerDao.getAnswersOfQuestionIncludingOwner(questionId).map { join ->
         join.answer.bo.also { it.owner = join.owner.bo }
-    }
-
-    @Deprecated("replaced by replaceQuestions")
-    override fun deleteDownloadedData() {
-//        questionDao.deleteAll()
-//        answerDao.deleteAll()
-//        ownerDao.deleteAll()
-//        questionTagDao.deleteAll()
     }
 }
