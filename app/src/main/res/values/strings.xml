@@ -13,6 +13,7 @@
     <string name="error_download_failed">Something went wrong, data could not be downloaded</string>
     <string name="error_add_tag_failed">Something went wrong, tag could not be added</string>
     <string name="error_search_failed">Something went wrong, search could not be done</string>
+    <string name="error_no_answers">Question has no answers yet</string>
 
     <!--toasts-->
     <string name="toast_data_downloaded">Data downloaded</string>

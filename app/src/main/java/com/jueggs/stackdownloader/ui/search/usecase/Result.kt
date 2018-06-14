@@ -1,5 +1,7 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
+import com.jueggs.domain.model.*
+
 sealed class UseCaseResult
 
 object Loading : UseCaseResult()
@@ -17,3 +19,5 @@ object TagAlreadyAdded : UseCaseResult()
 object TagNotAvailable : UseCaseResult()
 
 data class TagAdded(val tags: MutableList<String>) : UseCaseResult()
+
+data class Answers(val question: Question, val answers: List<Answer>) : UseCaseResult()

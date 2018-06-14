@@ -2,12 +2,16 @@ package com.jueggs.stackdownloader.ui.search.view
 
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.domain.model.Question
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
+import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
+import com.jueggs.stackdownloader.util.isDebug
 import kotlinx.android.synthetic.main.fragment_search_result.*
+import org.jetbrains.anko.support.v4.longToast
 import org.koin.android.architecture.ext.sharedViewModel
 
 class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
@@ -34,10 +38,24 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
         }
-        viewModel.resultViewModel.answers.nonNull().observe(this) { (question, answers) ->
-            answerAdapter.setHeaderAndItems(question, answers)
-            recItems.scrollToPosition(0)
-            recItems.adapter = answerAdapter
+        viewModel.resultViewModel.showQuestionResult.nonNull().observe(this) { result ->
+            when (result) {
+                is Answers -> {
+                    if (result.answers.isEmpty() && result.question.answerCount == 0)
+                        longToast(R.string.error_no_answers)
+                    else if (result.answers.isEmpty())
+                        longToast(R.string.error_no_data_downloaded)
+                    else {
+                        answerAdapter.setHeaderAndItems(result.question, result.answers)
+                        recItems.scrollToPosition(0)
+                        recItems.adapter = answerAdapter
+                    }
+                }
+                is Error -> {
+                    longToast(R.string.error_add_tag_failed)
+                    if (AppMode.isDebug) throw result.throwable
+                }
+            }
         }
     }
 

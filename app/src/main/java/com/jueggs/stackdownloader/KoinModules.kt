@@ -8,7 +8,6 @@ import com.jueggs.data.dataprovider.NetworkDataProvider
 import com.jueggs.data.repository.*
 import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.domain.*
-import com.jueggs.domain.usecase.*
 import com.jueggs.stackdownloader.ui.search.delegate.*
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.*
@@ -40,7 +39,7 @@ var appModule = applicationContext {
     bean { if (AppMode.singlePane) SinglePaneSearchViewDelegate() else TwoPaneSearchViewDelegate() }
 
     bean { AddTagUseCase(get()) }
-    bean { InitialStartUseCase(get(), get()) }
+    bean { InitialStartUseCase(get(), get(), get()) }
     bean { ShowQuestionUseCase(get()) }
     bean { DownloadUseCase(get(), get(), get()) }
     bean { SearchUseCase(get(), get(), get()) }

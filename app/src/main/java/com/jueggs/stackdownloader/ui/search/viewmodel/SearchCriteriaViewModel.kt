@@ -4,19 +4,16 @@ import android.arch.lifecycle.*
 import android.databinding.ObservableField
 import com.jueggs.andutils.extension.fire
 import com.jueggs.data.repository.LiveRepository
-import com.jueggs.domain.model.*
+import com.jueggs.domain.model.SearchCriteria
 import com.jueggs.stackdownloader.ui.search.usecase.*
-import com.jueggs.stackdownloader.ui.search.usecase.UseCaseResult
 import org.joda.time.DateTime
 import java.util.*
 
 class SearchCriteriaViewModel(
         liveRepository: LiveRepository,
-        private val addTagUseCase: AddTagUseCase,
-        private val searchUseCase: SearchUseCase
+        private val searchUseCase: SearchUseCase,
+        private val addTagUseCase: AddTagUseCase
 ) {
-    val onLongToast: MutableLiveData<Int> = MutableLiveData()
-    val onShowProgress: MutableLiveData<Boolean> = MutableLiveData()
     val onEditFromDate: MutableLiveData<Unit> = MutableLiveData()
     val onEditToDate: MutableLiveData<Unit> = MutableLiveData()
 
@@ -35,17 +32,11 @@ class SearchCriteriaViewModel(
     val fromDate: ObservableField<Date> = ObservableField(Date())
     val toDate: ObservableField<Date> = ObservableField(Date())
 
-    fun onAddTag() {
-        addTagInput.value = tag.value
-    }
+    fun onAddTag() = addTagInput.postValue(tag.value)
 
-    fun onRemoveTag(tagName: String) {
-        selectedTags.value = selectedTags.value?.apply { remove(tagName) }
-    }
+    fun onRemoveTag(tagName: String) = selectedTags.postValue(selectedTags.value?.apply { remove(tagName) })
 
-    fun onStartSearch() {
-        searchInput.value = SearchCriteria(orderType.value, sortType.value, selectedTags.value, fromDate.get(), toDate.get())
-    }
+    fun onStartSearch() = searchInput.postValue(SearchCriteria(orderType.value, sortType.value, selectedTags.value, fromDate.get(), toDate.get()))
 
     fun onEditFromDate() = onEditFromDate.fire()
 

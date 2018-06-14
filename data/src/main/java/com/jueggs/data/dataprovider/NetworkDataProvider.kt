@@ -13,15 +13,23 @@ import kotlinx.coroutines.experimental.launch
 
 class NetworkDataProvider(private val context: Context, private val apiImpl: StackOverflowApi) : DataProvider {
 
-    override suspend fun fetchTags(): Single<List<Tag>> {
-        val queryParams = QueryParameter().also {
-            it.pageSize = 100
-            it.sort = SORT_POPULAR
-        }.asMap(false)
-        val data = apiImpl.fetchTags(queryParams).await()
-        val bos = data.items?.map { it.bo }
+    override fun fetchTags(): Single<List<Tag>> {
+        return Single.create { emitter ->
+            launch {
+                try {
+                    val queryParams = QueryParameter().also {
+                        it.pageSize = 100
+                        it.sort = SORT_POPULAR
+                    }.asMap(false)
+                    val data = apiImpl.fetchTags(queryParams).await()
+                    val bos = data.items?.map { it.bo } ?: throw NoDataException()
 
-        return Single.just(bos ?: emptyList())
+                    emitter.onSuccess(bos)
+                } catch (exception: Exception) {
+                    emitter.onError(exception)
+                }
+            }
+        }
     }
 
     override fun fetchQuestions(searchCriteria: SearchCriteria): Single<List<Question>> {

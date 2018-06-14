@@ -6,6 +6,7 @@ import com.jueggs.domain.*
 import com.jueggs.domain.model.SearchCriteria
 
 class SearchUseCase(private val context: Context, private val repository: Repository, private val dataProvider: DataProvider) : UseCase<SearchRequest>() {
+
     override fun doExecute(request: SearchRequest) {
         try {
             context.doWithNetworkConnection {

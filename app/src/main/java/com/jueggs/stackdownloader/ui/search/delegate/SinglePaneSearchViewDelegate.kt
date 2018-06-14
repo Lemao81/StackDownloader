@@ -1,9 +1,11 @@
 package com.jueggs.stackdownloader.ui.search.delegate
 
 import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.view.*
+import com.jueggs.stackdownloader.util.isDebug
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.*
 
@@ -38,6 +40,7 @@ class SinglePaneSearchViewDelegate : AppModeDelegate<SearchActivity> {
                     is Error -> {
                         progress.gone()
                         longToast(R.string.error_search_failed)
+                        if (AppMode.isDebug) throw result.throwable
                     }
                 }
             }

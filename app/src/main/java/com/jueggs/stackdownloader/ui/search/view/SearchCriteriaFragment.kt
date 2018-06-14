@@ -44,15 +44,14 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
                 EmptyInput -> longToast(R.string.error_no_tag)
                 TagAlreadyAdded -> longToast(R.string.error_tag_already_added)
                 TagNotAvailable -> longToast(R.string.error_nonexistent_tag)
-                is Error -> {
-                    longToast(R.string.error_add_tag_failed)
-                    if (AppMode.isDebug)
-                        throw result.throwable
-                }
                 is TagAdded -> {
                     activity?.hideKeyboard()
                     viewModel.criteriaViewModel.selectedTags.value = result.tags
                     viewModel.criteriaViewModel.tag.value = ""
+                }
+                is Error -> {
+                    longToast(R.string.error_add_tag_failed)
+                    if (AppMode.isDebug) throw result.throwable
                 }
             }
         }

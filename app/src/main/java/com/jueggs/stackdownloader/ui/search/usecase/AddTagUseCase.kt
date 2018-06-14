@@ -1,7 +1,6 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
 import com.jueggs.domain.Repository
-import com.jueggs.domain.model.AddTagRequest
 import kotlinx.coroutines.experimental.launch
 
 class AddTagUseCase(private val repository: Repository) : UseCase<AddTagRequest>() {
@@ -25,3 +24,5 @@ class AddTagUseCase(private val repository: Repository) : UseCase<AddTagRequest>
         }
     }
 }
+
+data class AddTagRequest(val tag: CharSequence?, val selectedTags: MutableList<String>?)

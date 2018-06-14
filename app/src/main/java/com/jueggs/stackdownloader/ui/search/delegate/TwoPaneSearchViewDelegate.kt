@@ -8,7 +8,7 @@ class TwoPaneSearchViewDelegate : AppModeDelegate<SearchActivity> {
 
     override fun setListeners(activity: SearchActivity) {
         activity.apply {
-            viewModel.resultViewModel.answers.nonNull().observe(this) { activity.toggleHomeAsUp(true) }
+            viewModel.resultViewModel.showQuestionResult.nonNull().observe(this) { activity.toggleHomeAsUp(true) }
         }
     }
 
