@@ -10,6 +10,7 @@ import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.domain.*
 import com.jueggs.domain.usecase.*
 import com.jueggs.stackdownloader.ui.search.delegate.*
+import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.*
 import okhttp3.OkHttpClient
 import org.koin.android.architecture.ext.viewModel
@@ -36,14 +37,14 @@ var appModule = applicationContext {
     bean { RoomLiveRepository(get(), get(), get()) as LiveRepository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
-    bean { if(AppMode.singlePane) SinglePaneSearchViewDelegate() else TwoPaneSearchViewDelegate() }
+    bean { if (AppMode.singlePane) SinglePaneSearchViewDelegate() else TwoPaneSearchViewDelegate() }
 
     bean { AddTagUseCase(get()) }
     bean { InitialStartUseCase(get(), get()) }
-    bean { SearchUseCase(get(), get()) }
     bean { ShowQuestionUseCase(get()) }
-    bean { DownloadUseCase(get(), get()) }
-    bean { SearchCriteriaViewModel(get(), get(), get(), get()) }
+    bean { DownloadUseCase(get(), get(), get()) }
+    bean { SearchUseCase(get(), get(), get()) }
+    bean { SearchCriteriaViewModel(get(), get(), get()) }
     bean { SearchResultViewModel(get(), get()) }
 
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }

@@ -6,7 +6,7 @@ import io.reactivex.Single
 interface DataProvider {
     suspend fun fetchTags(): Single<List<Tag>>
 
-    suspend fun fetchQuestions(searchCriteria: SearchCriteria): Single<List<Question>>
+    fun fetchQuestions(searchCriteria: SearchCriteria): Single<List<Question>>
 
-    suspend fun fetchAnswers(questionIds: List<Long>): Single<List<Answer>>
+    fun fetchAnswers(questionIds: List<Long>): Single<List<Answer>>
 }

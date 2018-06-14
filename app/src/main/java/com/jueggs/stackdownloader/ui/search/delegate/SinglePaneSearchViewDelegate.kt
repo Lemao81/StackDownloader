@@ -2,9 +2,10 @@ package com.jueggs.stackdownloader.ui.search.delegate
 
 import com.jueggs.andutils.extension.*
 import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.view.*
 import kotlinx.android.synthetic.main.activity_search.*
-import org.jetbrains.anko.defaultSharedPreferences
+import org.jetbrains.anko.*
 
 @Suppress("PLUGIN_WARNING")
 class SinglePaneSearchViewDelegate : AppModeDelegate<SearchActivity> {
@@ -22,12 +23,23 @@ class SinglePaneSearchViewDelegate : AppModeDelegate<SearchActivity> {
 
     override fun setListeners(activity: SearchActivity) {
         activity.apply {
-            viewModel.criteriaViewModel.onSearch.nonNull().observe(this) {
-                //TODO lib
-                activity.detachFragment(activity.findFragment(SearchCriteriaFragment.TAG!!))
-                activity.attachOrAddFragment(R.id.fragment, lazy { SearchResultFragment.newInstance() }, false, SearchResultFragment.TAG)
-                botNavigation.selectedItemId = R.id.menuItems
-                toggleHomeAsUp(true)
+            viewModel.criteriaViewModel.searchResult.nonNull().observe(this) { result ->
+                when (result) {
+                    NoNetwork -> longToast(R.string.error_no_network)
+                    Loading -> progress.visible()
+                    Complete -> {
+                        activity.detachFragment(activity.findFragment(SearchCriteriaFragment.TAG!!))
+                        activity.attachOrAddFragment(R.id.fragment, lazy { SearchResultFragment.newInstance() }, false, SearchResultFragment.TAG)
+                        botNavigation.checkItem(R.id.menuItems)
+                        toggleHomeAsUp(true)
+
+                        progress.gone()
+                    }
+                    is Error -> {
+                        progress.gone()
+                        longToast(R.string.error_search_failed)
+                    }
+                }
             }
 
             botNavigation.setOnNavigationItemSelectedListener { item ->

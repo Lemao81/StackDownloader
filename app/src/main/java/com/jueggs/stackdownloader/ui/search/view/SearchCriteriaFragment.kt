@@ -2,11 +2,15 @@ package com.jueggs.stackdownloader.ui.search.view
 
 import com.jueggs.andutils.base.BaseFragment
 import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.customview.stackoverflowtag.StackoverflowTag
 import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
+import com.jueggs.stackdownloader.util.isDebug
 import kotlinx.android.synthetic.main.fragment_search_criteria.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.support.v4.longToast
 import org.koin.android.architecture.ext.sharedViewModel
 import java.util.*
 
@@ -34,6 +38,23 @@ class SearchCriteriaFragment : BaseFragment<SearchCriteriaFragment.Listener>() {
         }
         viewModel.criteriaViewModel.onEditToDate.nonNull().observe(this) {
             datePicker(viewModel.criteriaViewModel.toDate.getOr(Date()), viewModel.criteriaViewModel.toDate::set)
+        }
+        viewModel.criteriaViewModel.addTagResult.nonNull().observe(this) { result ->
+            when (result) {
+                EmptyInput -> longToast(R.string.error_no_tag)
+                TagAlreadyAdded -> longToast(R.string.error_tag_already_added)
+                TagNotAvailable -> longToast(R.string.error_nonexistent_tag)
+                is Error -> {
+                    longToast(R.string.error_add_tag_failed)
+                    if (AppMode.isDebug)
+                        throw result.throwable
+                }
+                is TagAdded -> {
+                    activity?.hideKeyboard()
+                    viewModel.criteriaViewModel.selectedTags.value = result.tags
+                    viewModel.criteriaViewModel.tag.value = ""
+                }
+            }
         }
     }
 

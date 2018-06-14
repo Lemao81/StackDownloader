@@ -1,29 +1,27 @@
-package com.jueggs.domain.usecase
+package com.jueggs.stackdownloader.ui.search.usecase
 
 import com.jueggs.domain.Repository
-import com.jueggs.domain.model.*
-import kotlinx.coroutines.experimental.async
+import com.jueggs.domain.model.AddTagRequest
+import kotlinx.coroutines.experimental.launch
 
-class AddTagUseCase(private val repository: Repository) : UseCase<AddTagRequest, AddTagResult> {
+class AddTagUseCase(private val repository: Repository) : UseCase<AddTagRequest>() {
 
-    override fun execute(req: AddTagRequest?): AddTagResult {
-        val request = req ?: throw IllegalStateException("Request must not be null")
+    override fun doExecute(request: AddTagRequest) {
         val tag = request.tag?.toString() ?: ""
         val selectedTags = request.selectedTags ?: mutableListOf()
 
-        val deferred = async {
+        launch {
             try {
-                when {
+                val result = when {
                     tag.isBlank() -> EmptyInput
                     selectedTags.contains(tag) -> TagAlreadyAdded
                     !repository.getAllTagNames().contains(tag) -> TagNotAvailable
                     else -> TagAdded(selectedTags.apply { add(tag) })
                 }
+                data.postValue(result)
             } catch (exception: Exception) {
-                AddTagFailure(exception)
+                data.postValue(Error(exception))
             }
         }
-
-        return AddTagResult(deferred)
     }
 }

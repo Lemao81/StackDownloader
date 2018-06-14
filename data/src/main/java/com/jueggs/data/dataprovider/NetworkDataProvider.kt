@@ -9,6 +9,7 @@ import com.jueggs.domain.DataProvider
 import com.jueggs.domain.model.*
 import com.jueggs.jutils.extension.join
 import io.reactivex.Single
+import kotlinx.coroutines.experimental.launch
 
 class NetworkDataProvider(private val context: Context, private val apiImpl: StackOverflowApi) : DataProvider {
 
@@ -23,20 +24,36 @@ class NetworkDataProvider(private val context: Context, private val apiImpl: Sta
         return Single.just(bos ?: emptyList())
     }
 
-    override suspend fun fetchQuestions(searchCriteria: SearchCriteria): Single<List<Question>> {
-        val queryParams = searchCriteria.mapToQueryParameter(context).asMap()
-        val data = apiImpl.fetchQuestions(queryParams).await()
-        val bos = data.items?.map { it.bo }
+    override fun fetchQuestions(searchCriteria: SearchCriteria): Single<List<Question>> {
+        return Single.create { emitter ->
+            launch {
+                try {
+                    val queryParams = searchCriteria.mapToQueryParameter(this@NetworkDataProvider.context).asMap()
+                    val data = apiImpl.fetchQuestions(queryParams).await()
+                    val bos = data.items?.map { it.bo } ?: throw NoDataException()
 
-        return Single.just(bos ?: emptyList())
+                    emitter.onSuccess(bos)
+                } catch (exception: Exception) {
+                    emitter.onError(exception)
+                }
+            }
+        }
     }
 
-    override suspend fun fetchAnswers(questionIds: List<Long>): Single<List<Answer>> {
-        val idJoin = questionIds.join(";")
-        val queryParams = QueryParameter().asMap()
-        val data = apiImpl.fetchAnswersOfQuestions(idJoin, queryParams).await()
-        val bos = data.items?.map { it.bo }
+    override fun fetchAnswers(questionIds: List<Long>): Single<List<Answer>> {
+        return Single.create { emitter ->
+            launch {
+                try {
+                    val idJoin = questionIds.join(";")
+                    val queryParams = QueryParameter().asMap()
+                    val data = apiImpl.fetchAnswersOfQuestions(idJoin, queryParams).await()
+                    val bos = data.items?.map { it.bo } ?: throw NoDataException()
 
-        return Single.just(bos ?: emptyList())
+                    emitter.onSuccess(bos)
+                } catch (exception: Exception) {
+                    emitter.onError(exception)
+                }
+            }
+        }
     }
 }

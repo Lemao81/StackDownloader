@@ -1,12 +1,16 @@
 package com.jueggs.stackdownloader.ui.search.view
 
 import android.view.View
+import androidx.core.content.edit
 import com.jueggs.andutils.base.BaseActivity
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
+import com.jueggs.andutils.util.AppMode
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.delegate.AppModeDelegate
+import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
+import com.jueggs.stackdownloader.util.isDebug
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.*
 import org.koin.android.architecture.ext.viewModel
@@ -29,11 +33,26 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
         delegate.setListeners(this)
 
         viewModel.apply {
-            onHideKeyboard.nonNull().observe(this@SearchActivity) { hideKeyboard() }
             onShowProgress.nonNull().observe(this@SearchActivity) { show -> if (show) progress.visible() else progress.gone() }
             onToast.nonNull().observe(this@SearchActivity) { toast(it) }
             onLongToast.nonNull().observe(this@SearchActivity) { longToast(it) }
-            resultViewModel.questions.nonNull().observe(this@SearchActivity) { progress.gone() }
+            downloadResult.nonNull().observe(this@SearchActivity) { result ->
+                when (result) {
+                    NoNetwork -> longToast(R.string.error_no_network)
+                    Loading -> progress.visible()
+                    Complete -> {
+                        defaultSharedPreferences.edit { putBoolean(PREFS_DATA_DOWNLOADED, true) }
+                        progress.gone()
+                        toast(R.string.toast_data_downloaded)
+                    }
+                    is Error -> {
+                        progress.gone()
+                        longToast(R.string.error_download_failed)
+                        if (AppMode.isDebug)
+                            throw result.throwable
+                    }
+                }
+            }
         }
     }
 

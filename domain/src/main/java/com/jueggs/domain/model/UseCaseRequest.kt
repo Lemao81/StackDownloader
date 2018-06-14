@@ -5,5 +5,3 @@ sealed class UseCaseRequest
 data class AddTagRequest(val tag: CharSequence?, val selectedTags: MutableList<String>?) : UseCaseRequest()
 
 data class ShowQuestionRequest(val question: Question) : UseCaseRequest()
-
-data class SearchRequest(val criteria: SearchCriteria) : UseCaseRequest()
