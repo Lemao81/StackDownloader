@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             app:behavior_acceleration="1.5"
             app:behavior_gravity="top"
-            app:layout_behavior="@string/vertical_slide_onscroll_behavior">
+            app:layout_behavior="@string/vertical_slide_onscroll_behavior"
+            app:layout_insetEdge="top">
 
             <include
                 android:id="@+id/toolbar"
@@ -35,9 +36,8 @@
             android:id="@+id/fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="?android:attr/actionBarSize"
             app:behavior_acceleration="1.5"
-            app:layout_behavior="com.jueggs.stackdownloader.util.AdjustPaddingOnScrollBehavior" />
+            app:layout_behavior="com.jueggs.stackdownloader.accessory.AdjustTranslationOnScrollBehavior" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabDownload"
