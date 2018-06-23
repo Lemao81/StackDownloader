@@ -55,4 +55,11 @@ class RoomRepository(
     override fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<Answer> = answerDao.getAnswersOfQuestionIncludingOwner(questionId).map { join ->
         join.answer.bo.also { it.owner = join.owner.bo }
     }
+
+    override fun deleteData() {
+        questionDao.deleteAll()
+        answerDao.deleteAll()
+        ownerDao.deleteAll()
+        questionTagDao.deleteAll()
+    }
 }

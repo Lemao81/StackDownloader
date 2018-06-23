@@ -18,6 +18,11 @@
 
     <!--toasts-->
     <string name="toast_data_downloaded">Data downloaded</string>
+    <string name="toast_data_deleted">Data deleted</string>
+
+    <!--dialog-->
+    <string name="dialog_title_delete_data">Delete data</string>
+    <string name="dialog_text_delete_data">Do you want to delete all data?</string>
 
     <string name="format_creation_date">MM/dd/yy</string>
 </resources>

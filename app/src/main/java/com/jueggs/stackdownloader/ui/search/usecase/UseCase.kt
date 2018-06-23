@@ -11,4 +11,7 @@ abstract class UseCase<in TRequest> {
     }
 
     abstract fun doExecute(request: TRequest)
+
+    object Request
 }
+

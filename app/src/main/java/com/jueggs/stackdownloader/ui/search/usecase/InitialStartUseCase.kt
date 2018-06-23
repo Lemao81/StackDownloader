@@ -6,9 +6,9 @@ import com.jueggs.andutils.util.AppMode
 import com.jueggs.domain.*
 import com.jueggs.stackdownloader.util.isDebug
 
-class InitialStartUseCase(private val context: Context, private val repository: Repository, private val dataProvider: DataProvider) : UseCase<InitialStartRequest>() {
+class InitialStartUseCase(private val context: Context, private val repository: Repository, private val dataProvider: DataProvider) : UseCase<UseCase.Request>() {
 
-    override fun doExecute(request: InitialStartRequest) {
+    override fun doExecute(request: UseCase.Request) {
         try {
             context.doWithNetworkConnection {
                 dataProvider.fetchTags().subscribe { tags ->
@@ -20,5 +20,3 @@ class InitialStartUseCase(private val context: Context, private val repository: 
         }
     }
 }
-
-object InitialStartRequest

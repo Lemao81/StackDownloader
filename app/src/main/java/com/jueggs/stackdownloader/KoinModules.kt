@@ -41,8 +41,9 @@ var appModule = applicationContext {
     bean { AddTagUseCase(get()) }
     bean { InitialStartUseCase(get(), get(), get()) }
     bean { ShowQuestionUseCase(get()) }
-    bean { DownloadUseCase(get(), get(), get()) }
+    bean { DownloadDataUseCase(get(), get(), get()) }
     bean { SearchUseCase(get(), get(), get()) }
+    bean { DeleteDataUseCase(get()) }
 
-    viewModel { SearchViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { SearchViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
 }

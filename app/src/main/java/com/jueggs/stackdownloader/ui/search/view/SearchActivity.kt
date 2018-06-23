@@ -1,6 +1,6 @@
 package com.jueggs.stackdownloader.ui.search.view
 
-import android.view.View
+import android.view.*
 import com.jueggs.andutils.base.BaseActivity
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
@@ -24,6 +24,7 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun bindingItems() = mapOf(BR.model to viewModel)
     override fun toolbar(): View? = toolbar
     override fun toolbarNavigateBack() = false
+    override fun optionsMenu() = R.menu.toolbar
 
     override fun twoPaneFragments() = pairOf(
             pairOf(R.id.fragment1, SearchCriteriaFragment.newInstance()),
@@ -32,13 +33,14 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun setListeners() {
         delegate.setListeners(this)
 
-        viewModel.getDownloadResult().observeNonNull(this@SearchActivity) { result ->
+        viewModel.getDownloadDataResult().observeNonNull(this) { result ->
             when (result) {
                 NoNetwork -> longToast(R.string.error_no_network)
                 Loading -> progress.visible()
                 Complete -> {
                     progress.gone()
                     viewModel.isDataDownloaded = true
+                    invalidateOptionsMenu()
                     toast(R.string.toast_data_downloaded)
                 }
                 is Error -> {
@@ -47,6 +49,23 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
                     if (AppMode.isDebug) throw result.throwable
                 }
             }
+        }
+        viewModel.getDeleteDataResult().observeNonNull(this) { result ->
+            when (result) {
+                Complete -> {
+                    viewModel.isDataDownloaded = false
+                    invalidateOptionsMenu()
+                    toast(R.string.toast_data_deleted)
+                }
+                is Error -> {
+                    longToast(R.string.error_something_wrong)
+                    if (AppMode.isDebug) throw result.throwable
+                }
+            }
+        }
+        viewModel.questions.observeNonNull(this) {
+            viewModel.isQuestionsDownloaded = it.any()
+            invalidateOptionsMenu()
         }
     }
 
@@ -60,11 +79,17 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
         super.onBackPressed()
     }
 
-    fun onEditFromDate(view: View) {
-        datePicker(viewModel.fromDate.getOr(Date()), viewModel.fromDate::set)
+    fun onEditFromDate(view: View) = datePicker(viewModel.fromDate.getOr(Date()), viewModel.fromDate::set)
+
+    fun onEditToDate(view: View) = datePicker(viewModel.toDate.getOr(Date()), viewModel.toDate::set)
+
+    //TODO lib
+    fun onDeleteData(item: MenuItem) {
+        showConfirmDialog(R.string.dialog_title_delete_data, R.string.dialog_text_delete_data, { viewModel.onDeleteData() })
     }
 
-    fun onEditToDate(view: View) {
-        datePicker(viewModel.toDate.getOr(Date()), viewModel.toDate::set)
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.mnuClearData)?.isEnabled = viewModel.isDataDownloaded || viewModel.isQuestionsDownloaded
+        return super.onPrepareOptionsMenu(menu)
     }
 }

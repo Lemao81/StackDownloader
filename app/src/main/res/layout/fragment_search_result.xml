@@ -17,7 +17,7 @@
         android:background="@android:color/white"
         android:translationY="?android:actionBarSize">
 
-        <android.support.v7.widget.RecyclerView
+        <com.jueggs.stackdownloader.util.EmptyRecyclerView
             android:id="@+id/recItems"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -25,9 +25,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/list_item_question">
+            tools:listitem="@layout/list_item_question" />
 
-        </android.support.v7.widget.RecyclerView>
+        <include
+            android:id="@+id/emptyView"
+            layout="@layout/search_result_empty_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

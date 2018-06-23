@@ -5,9 +5,9 @@ import com.jueggs.domain.model.*
 interface Repository {
     fun addTags(tags: List<Tag>)
 
-    fun replaceQuestions(questions: List<Question>)
-
     fun addAnswers(answers: List<Answer>)
+
+    fun replaceQuestions(questions: List<Question>)
 
     fun getAllTags(): List<Tag>
 
@@ -18,4 +18,6 @@ interface Repository {
     fun getAllQuestionsIncludingOwnerAndTags(): List<Question>
 
     fun getAnswersOfQuestionIncludingOwner(questionId: Long): List<Answer>
+
+    fun deleteData()
 }

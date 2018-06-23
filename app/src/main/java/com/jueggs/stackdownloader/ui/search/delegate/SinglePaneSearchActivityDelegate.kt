@@ -14,13 +14,8 @@ class SinglePaneSearchActivityDelegate : AppModeDelegate<SearchActivity> {
 
     override fun onInitialStart(activity: SearchActivity) {
         activity.apply {
-            if (viewModel.isDataDownloaded) {
-                addFragment(R.id.fragment, SearchResultFragment.newInstance(), false, SearchResultFragment.TAG)
-                botNavigation.checkItem(R.id.menuItems)
-            } else {
-                addFragment(R.id.fragment, SearchCriteriaFragment.newInstance(), false, SearchCriteriaFragment.TAG)
-                botNavigation.checkItem(R.id.menuSearch)
-            }
+            addFragment(R.id.fragment, SearchResultFragment.newInstance(), false, SearchResultFragment.TAG)
+            botNavigation.checkItem(R.id.menuItems)
         }
     }
 
@@ -41,7 +36,6 @@ class SinglePaneSearchActivityDelegate : AppModeDelegate<SearchActivity> {
                     else -> false
                 }
             }
-
             viewModel.getSearchResult().observeNonNull(this) { result ->
                 when (result) {
                     NoNetwork -> longToast(R.string.error_no_network)

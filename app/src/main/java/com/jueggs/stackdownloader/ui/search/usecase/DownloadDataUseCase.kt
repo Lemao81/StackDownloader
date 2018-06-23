@@ -5,9 +5,13 @@ import com.jueggs.andutils.extension.*
 import com.jueggs.domain.*
 import kotlinx.coroutines.experimental.launch
 
-class DownloadUseCase(private val context: Context, private val repository: Repository, private val dataProvider: DataProvider) : UseCase<DownloadRequest>() {
+class DownloadDataUseCase(
+        private val context: Context,
+        private val repository: Repository,
+        private val dataProvider: DataProvider)
+    : UseCase<UseCase.Request>() {
 
-    override fun doExecute(request: DownloadRequest) {
+    override fun doExecute(request: UseCase.Request) {
         try {
             context.doWithNetworkConnection {
                 data.value = Loading
@@ -29,5 +33,3 @@ class DownloadUseCase(private val context: Context, private val repository: Repo
         }
     }
 }
-
-object DownloadRequest

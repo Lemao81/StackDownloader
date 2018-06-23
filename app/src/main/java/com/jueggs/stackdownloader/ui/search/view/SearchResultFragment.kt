@@ -29,7 +29,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
         questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) }
         answerAdapter = AnswerAdapter()
 
-        recItems.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
+        recItems.withEmptyView(emptyView).withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
     }
 
     override fun setListeners() {

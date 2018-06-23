@@ -19,13 +19,15 @@ class SearchViewModel(
         private val searchUseCase: SearchUseCase,
         private val addTagUseCase: AddTagUseCase,
         private val showQuestionUseCase: ShowQuestionUseCase,
-        private val downloadUseCase: DownloadUseCase,
-        private val initialStartUseCase: InitialStartUseCase
+        private val downloadDataUseCase: DownloadDataUseCase,
+        private val initialStartUseCase: InitialStartUseCase,
+        private val deleteDataUseCase: DeleteDataUseCase
 ) : AndroidViewModel(application) {
     private val searchInput: MutableLiveData<SearchCriteria> = MutableLiveData()
     private val addTagInput: MutableLiveData<CharSequence?> = MutableLiveData()
     private val showQuestionInput: MutableLiveData<Question> = MutableLiveData()
-    private val downloadInput: MutableLiveData<Unit> = MutableLiveData()
+    private val downloadDataInput: MutableLiveData<Unit> = MutableLiveData()
+    private val deleteDataInput: MutableLiveData<Unit> = MutableLiveData()
     val questions = liveRepository.getAllQuestionsIncludingOwnerAndTags()
     val availableTags = liveRepository.getAllTagNames()
     val selectedTags: MutableLiveData<MutableList<String>> = MutableLiveData()
@@ -35,6 +37,7 @@ class SearchViewModel(
     val fromDate: ObservableField<Date> = ObservableField(DateTime().minusWeeks(1).toDate())
     val toDate: ObservableField<Date> = ObservableField(Date())
 
+    var isQuestionsDownloaded = false
     var isDataDownloaded: Boolean
         get() = getApplication<App>().defaultSharedPreferences.getBoolean(PREFS_DATA_DOWNLOADED, false)
         set(value) = getApplication<App>().defaultSharedPreferences.edit { putBoolean(PREFS_DATA_DOWNLOADED, value) }
@@ -43,10 +46,11 @@ class SearchViewModel(
     fun onRemoveTag(tagName: String) = selectedTags.postValue(selectedTags.value?.apply { remove(tagName) })
     fun onStartSearch() = searchInput.postValue(SearchCriteria(orderType.value, sortType.value, selectedTags.value, fromDate.get(), toDate.get()))
     fun onShowQuestion(question: Question) = showQuestionInput.postValue(question)
-    fun onDownload() = downloadInput.fire()
+    fun onDownload() = downloadDataInput.fire()
+    fun onDeleteData() = deleteDataInput.fire()
 
     fun onInitialStart() {
-        initialStartUseCase.execute(InitialStartRequest)
+        initialStartUseCase.execute(UseCase.Request)
     }
 
     fun onToday() {
@@ -67,5 +71,6 @@ class SearchViewModel(
     fun getSearchResult(): LiveData<UseCaseResult> = Transformations.switchMap(searchInput) { searchUseCase.execute(SearchRequest(it)) }
     fun getAddTagResult(): LiveData<UseCaseResult> = Transformations.switchMap(addTagInput) { addTagUseCase.execute(AddTagRequest(it, selectedTags.value)) }
     fun getShowQuestionResult(): LiveData<UseCaseResult> = Transformations.switchMap(showQuestionInput) { showQuestionUseCase.execute(ShowQuestionRequest(it, isDataDownloaded)) }
-    fun getDownloadResult(): LiveData<UseCaseResult> = Transformations.switchMap(downloadInput) { downloadUseCase.execute(DownloadRequest) }
+    fun getDownloadDataResult(): LiveData<UseCaseResult> = Transformations.switchMap(downloadDataInput) { downloadDataUseCase.execute(UseCase.Request) }
+    fun getDeleteDataResult(): LiveData<UseCaseResult> = Transformations.switchMap(deleteDataInput) { deleteDataUseCase.execute(UseCase.Request) }
 }
