@@ -9,42 +9,40 @@ import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
-import com.jueggs.stackdownloader.util.isDebug
+import com.jueggs.stackdownloader.util.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.android.architecture.ext.sharedViewModel
 
 class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     val viewModel by sharedViewModel<SearchViewModel>()
-
     private lateinit var questionAdapter: QuestionAdapter
     private lateinit var answerAdapter: AnswerAdapter
 
     override fun layout() = R.layout.fragment_search_result
-    override fun bindingItems() = mapOf(BR.model to viewModel.resultViewModel)
+    override fun bindingItems() = mapOf(BR.model to viewModel)
     override fun toolbarTitle() = R.string.app_name
 
     override fun initialize() = setHasOptionsMenu(true)
 
     override fun initializeViews() {
-        questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel.resultViewModel::onShowQuestion) }
+        questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) }
         answerAdapter = AnswerAdapter()
 
         recItems.withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
     }
 
     override fun setListeners() {
-        viewModel.resultViewModel.questions.nonNull().observe(this) { questions ->
+        viewModel.questions.observeNonNull(this) { questions ->
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
         }
-        viewModel.resultViewModel.showQuestionResult.nonNull().observe(this) { result ->
+        viewModel.getShowQuestionResult().observeNonNull(this) { result ->
             when (result) {
+                is NoDataDownloaded -> longToast(R.string.error_no_data_downloaded)
                 is Answers -> {
-                    if (result.answers.isEmpty() && result.question.answerCount == 0)
+                    if (result.answers.isEmpty())
                         longToast(R.string.error_no_answers)
-                    else if (result.answers.isEmpty())
-                        longToast(R.string.error_no_data_downloaded)
                     else {
                         answerAdapter.setHeaderAndItems(result.question, result.answers)
                         recItems.scrollToPosition(0)
@@ -52,7 +50,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
                     }
                 }
                 is Error -> {
-                    longToast(R.string.error_add_tag_failed)
+                    longToast(R.string.error_something_wrong)
                     if (AppMode.isDebug) throw result.throwable
                 }
             }

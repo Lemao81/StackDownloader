@@ -1,5 +1,6 @@
 package com.jueggs.stackdownloader.util
 
+import android.arch.lifecycle.*
 import android.databinding.BindingAdapter
 import android.os.Build
 import android.widget.LinearLayout
@@ -21,3 +22,7 @@ fun LinearLayout.setTagViews(tagNames: List<String>) {
 
 val AppMode.isDebug: Boolean
     get() = BuildConfig.Debug
+
+
+//TODO lib
+fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (T) -> Unit) = this.observe(owner, Observer { it?.let(observer) })

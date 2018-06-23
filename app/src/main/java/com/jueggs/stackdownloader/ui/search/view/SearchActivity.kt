@@ -1,7 +1,6 @@
 package com.jueggs.stackdownloader.ui.search.view
 
 import android.view.View
-import androidx.core.content.edit
 import com.jueggs.andutils.base.BaseActivity
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
@@ -10,11 +9,12 @@ import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.ui.search.delegate.AppModeDelegate
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
-import com.jueggs.stackdownloader.util.isDebug
+import com.jueggs.stackdownloader.util.*
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.*
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
+import java.util.*
 
 class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchResultFragment.Listener {
     val viewModel by viewModel<SearchViewModel>()
@@ -32,13 +32,13 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun setListeners() {
         delegate.setListeners(this)
 
-        viewModel.downloadResult.nonNull().observe(this@SearchActivity) { result ->
+        viewModel.getDownloadResult().observeNonNull(this@SearchActivity) { result ->
             when (result) {
                 NoNetwork -> longToast(R.string.error_no_network)
                 Loading -> progress.visible()
                 Complete -> {
-                    defaultSharedPreferences.edit { putBoolean(PREFS_DATA_DOWNLOADED, true) }
                     progress.gone()
+                    viewModel.isDataDownloaded = true
                     toast(R.string.toast_data_downloaded)
                 }
                 is Error -> {
@@ -58,5 +58,13 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun onBackPressed() {
         delegate.onBackPressed(this)
         super.onBackPressed()
+    }
+
+    fun onEditFromDate(view: View) {
+        datePicker(viewModel.fromDate.getOr(Date()), viewModel.fromDate::set)
+    }
+
+    fun onEditToDate(view: View) {
+        datePicker(viewModel.toDate.getOr(Date()), viewModel.toDate::set)
     }
 }

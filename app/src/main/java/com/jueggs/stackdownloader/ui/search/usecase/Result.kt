@@ -20,4 +20,6 @@ object TagNotAvailable : UseCaseResult()
 
 data class TagAdded(val tags: MutableList<String>) : UseCaseResult()
 
+object NoDataDownloaded : UseCaseResult()
+
 data class Answers(val question: Question, val answers: List<Answer>) : UseCaseResult()

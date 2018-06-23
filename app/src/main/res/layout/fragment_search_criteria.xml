@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.jueggs.stackdownloader.ui.search.viewmodel.SearchCriteriaViewModel" />
+            type="com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -36,43 +36,43 @@
             app:layout_constraintGuide_percent="0.6" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/inputFrom"
+            android:id="@+id/inputFromDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:onClick="@{() -> model.onEditFromDate()}"
+            android:onClick="onEditFromDate"
             app:layout_constraintRight_toLeftOf="@+id/guidLeft"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/edtFrom"
+                android:id="@+id/edtFromDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:hint="from"
                 android:inputType="date"
-                android:onClick="@{() -> model.onEditFromDate()}"
+                android:onClick="onEditFromDate"
                 app:date="@{model.fromDate}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/inputTo"
+            android:id="@+id/inputToDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> model.onEditToDate()}"
+            android:onClick="onEditToDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/guidRight"
-            app:layout_constraintTop_toTopOf="@+id/inputFrom">
+            app:layout_constraintTop_toTopOf="@+id/inputFromDate">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/edtTo"
+                android:id="@+id/edtToDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:hint="to"
                 android:inputType="date"
-                android:onClick="@{() -> model.onEditToDate()}"
+                android:onClick="onEditToDate"
                 app:date="@{model.toDate}" />
         </android.support.design.widget.TextInputLayout>
 
@@ -84,7 +84,7 @@
             android:onClick="@{() -> model.onToday()}"
             android:text="Today"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputFrom" />
+            app:layout_constraintTop_toBottomOf="@+id/inputFromDate" />
 
         <Button
             android:id="@+id/btnLastWeek"
