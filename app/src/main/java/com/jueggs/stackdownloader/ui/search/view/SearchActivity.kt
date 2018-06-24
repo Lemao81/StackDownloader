@@ -1,11 +1,13 @@
 package com.jueggs.stackdownloader.ui.search.view
 
 import android.view.*
+import androidx.navigation.*
 import com.jueggs.andutils.base.BaseActivity
 import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.pairOf
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.delegate.AppModeDelegate
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
@@ -18,7 +20,8 @@ import java.util.*
 
 class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchResultFragment.Listener {
     val viewModel by viewModel<SearchViewModel>()
-    val delegate: AppModeDelegate<SearchActivity> by inject()
+    val delegate: AppModeDelegate<SearchActivity> by inject(SearchActivity::class.simpleName ?: throw IllegalStateException())
+    lateinit var navController: NavController
 
     override fun layout() = R.layout.activity_search
     override fun bindingItems() = mapOf(BR.model to viewModel)
@@ -29,6 +32,14 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun twoPaneFragments() = pairOf(
             pairOf(R.id.fragment1, SearchCriteriaFragment.newInstance()),
             pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
+
+    override fun initialize() {
+        navController = findNavController(R.id.navHostFragment)
+    }
+
+    override fun initializeViews() {
+        delegate.initializeViews(this)
+    }
 
     override fun setListeners() {
         delegate.setListeners(this)
@@ -50,6 +61,7 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
                 }
             }
         }
+
         viewModel.getDeleteDataResult().observeNonNull(this) { result ->
             when (result) {
                 Complete -> {
@@ -74,10 +86,12 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
         viewModel.onInitialStart()
     }
 
-    override fun onBackPressed() {
-        delegate.onBackPressed(this)
-        super.onBackPressed()
-    }
+//    override fun onBackPressed() {
+//        delegate.onBackPressed(this)
+//        super.onBackPressed()
+//    }
+
+    override fun onSupportNavigateUp() = findNavController(R.id.navHostFragment).navigateUp()
 
     fun onEditFromDate(view: View) = datePicker(viewModel.fromDate.getOr(Date()), viewModel.fromDate::set)
 
@@ -87,6 +101,8 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     fun onDeleteData(item: MenuItem) {
         showConfirmDialog(R.string.dialog_title_delete_data, R.string.dialog_text_delete_data, { viewModel.onDeleteData() })
     }
+
+    fun onGoToSearchCriteria(view: View) = navController.navigate(R.id.action_searchResultFragment_to_searchCriteriaFragment)
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.mnuClearData)?.isEnabled = viewModel.isDataDownloaded || viewModel.isQuestionsDownloaded

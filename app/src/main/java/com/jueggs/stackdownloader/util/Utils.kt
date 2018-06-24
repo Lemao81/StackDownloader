@@ -3,7 +3,10 @@ package com.jueggs.stackdownloader.util
 import android.arch.lifecycle.*
 import android.databinding.BindingAdapter
 import android.os.Build
+import android.support.annotation.IdRes
+import android.view.View
 import android.widget.LinearLayout
+import androidx.navigation.Navigation
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.customview.stackoverflowtag.StackoverflowTag
 import com.jueggs.stackdownloader.BuildConfig
@@ -26,3 +29,5 @@ val AppMode.isDebug: Boolean
 
 //TODO lib
 fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (T) -> Unit) = this.observe(owner, Observer { it?.let(observer) })
+
+fun View.navigateTo(@IdRes resId: Int) = setOnClickListener(Navigation.createNavigateOnClickListener(resId))

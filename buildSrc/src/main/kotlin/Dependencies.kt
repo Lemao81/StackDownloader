@@ -61,6 +61,7 @@ object Versions {
     const val buildTimeTracker = "0.11.0"
     const val archLifecycle = "1.1.1"
     const val okLog = "2.3.0"
+    const val archNavigation = "1.0.0-alpha02"
 }
 
 object Libs {
@@ -136,6 +137,9 @@ object Libs {
     const val retrofit2GsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit2}"
     const val retrofit2CoroutineAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:${Versions.retrofit2CoroutineAdapter}"
     const val okLog = "com.github.simonpercic:oklog3:${Versions.okLog}"
+    const val archNavigationFragment = "android.arch.navigation:navigation-fragment-ktx:${Versions.archNavigation}"
+    const val archNavigationUi = "android.arch.navigation:navigation-ui-ktx:${Versions.archNavigation}"
+    const val archNavigationSafeArgs = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.archNavigation}"
     // testing
     const val jUnit = "junit:junit:${Versions.jUnit}"
     const val testRunner = "com.android.support.test:runner:${Versions.supportTest}"

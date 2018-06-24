@@ -1,9 +1,19 @@
 package com.jueggs.stackdownloader.ui.search.delegate
 
-interface AppModeDelegate<in TDelegator> {
-    fun onInitialStart(delegator: TDelegator)
+abstract class AppModeDelegate<TDelegator> {
+    fun initializeViews(delegator: TDelegator) = delegator.apply(initializeViewsInternal())
 
-    fun setListeners(delegator: TDelegator)
+    open fun initializeViewsInternal(): TDelegator.() -> Unit = {}
 
-    fun onBackPressed(delegator: TDelegator)
+    fun onInitialStart(delegator: TDelegator): TDelegator = delegator.apply(onInitialStartInternal())
+
+    open fun onInitialStartInternal(): TDelegator.() -> Unit = {}
+
+    fun setListeners(delegator: TDelegator): TDelegator = delegator.apply(setListenersInternal())
+
+    open fun setListenersInternal(): TDelegator.() -> Unit = {}
+
+    fun onBackPressed(delegator: TDelegator): TDelegator = delegator.apply(onBackPressedInternal())
+
+    open fun onBackPressedInternal(): TDelegator.() -> Unit = {}
 }

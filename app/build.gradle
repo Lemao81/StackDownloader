@@ -66,6 +66,8 @@ dependencies {
     implementation Libs.okLog
     implementation Libs.retrofit2CoroutineAdapter
     implementation Libs.stackoverflowtag
+    implementation Libs.archNavigationFragment
+    implementation Libs.archNavigationUi
     kapt Libs.mapStructProc
     kapt Libs.databindingCompiler
 

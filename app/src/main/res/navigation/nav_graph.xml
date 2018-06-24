@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/searchResultFragment">
+
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.jueggs.stackdownloader.ui.search.view.SearchResultFragment"
+        android:label="SearchResultFragment"
+        tools:layout="@layout/fragment_search_result">
+        <action
+            android:id="@+id/action_searchResultFragment_to_searchCriteriaFragment"
+            app:destination="@id/searchCriteriaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchCriteriaFragment"
+        android:name="com.jueggs.stackdownloader.ui.search.view.SearchCriteriaFragment"
+        android:label="SearchCriteriaFragment"
+        tools:layout="@layout/fragment_search_criteria" >
+        <action
+            android:id="@+id/action_searchCriteriaFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
+    </fragment>
+
+</navigation>

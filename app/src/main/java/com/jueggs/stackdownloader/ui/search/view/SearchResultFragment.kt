@@ -7,15 +7,18 @@ import com.jueggs.domain.model.Question
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
 import com.jueggs.stackdownloader.adapter.*
+import com.jueggs.stackdownloader.ui.search.delegate.AppModeDelegate
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import com.jueggs.stackdownloader.util.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.android.architecture.ext.sharedViewModel
+import org.koin.android.ext.android.inject
 
 class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     val viewModel by sharedViewModel<SearchViewModel>()
+    val delegate: AppModeDelegate<SearchResultFragment> by inject(SearchResultFragment::class.simpleName ?: throw IllegalStateException())
     private lateinit var questionAdapter: QuestionAdapter
     private lateinit var answerAdapter: AnswerAdapter
 
@@ -33,6 +36,8 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     }
 
     override fun setListeners() {
+        delegate.setListeners(this)
+
         viewModel.questions.observeNonNull(this) { questions ->
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
@@ -57,13 +62,13 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        if (recItems.adapter is AnswerAdapter) {
-            recItems.adapter = questionAdapter
-            return true
-        }
-        return false
-    }
+//    override fun onBackPressed(): Boolean {
+//        if (recItems.adapter is AnswerAdapter) {
+//            recItems.adapter = questionAdapter
+//            return true
+//        }
+//        return false
+//    }
 
     companion object {
         val TAG = SearchResultFragment::class.simpleName

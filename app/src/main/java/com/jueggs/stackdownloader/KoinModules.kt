@@ -10,6 +10,7 @@ import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.domain.*
 import com.jueggs.stackdownloader.ui.search.delegate.*
 import com.jueggs.stackdownloader.ui.search.usecase.*
+import com.jueggs.stackdownloader.ui.search.view.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import okhttp3.OkHttpClient
 import org.koin.android.architecture.ext.viewModel
@@ -36,7 +37,8 @@ var appModule = applicationContext {
     bean { RoomLiveRepository(get(), get(), get()) as LiveRepository }
     bean { NetworkDataProvider(get(), get()) as DataProvider }
 
-    bean { if (AppMode.singlePane) SinglePaneSearchActivityDelegate() else TwoPaneSearchActivityDelegate() }
+    bean(SearchActivity::class.simpleName ?: throw IllegalStateException()) { if (AppMode.singlePane) SinglePaneSearchActivityDelegate() else TwoPaneSearchActivityDelegate() }
+    bean(SearchResultFragment::class.simpleName ?: throw IllegalStateException()) { if (AppMode.singlePane) SinglePaneSearchResultFragmentDelegate() else TwoPaneSearchResultFragmentDelegate() }
 
     bean { AddTagUseCase(get()) }
     bean { InitialStartUseCase(get(), get(), get()) }

@@ -13,7 +13,6 @@ import org.jetbrains.anko.sdk25.coroutines.onAttachStateChangeListener
 class AdjustTranslationOnScrollBehavior<TView : View>(context: Context, attrs: AttributeSet) : AbstractVerticalScrollBehavior<TView>(context, attrs) {
     private var targetChild: View? = null
     private var originalTranslationY = 0f
-    private var isInitial = true
 
     init {
         context.withStyledAttributes(attrs, R.styleable.VerticalScrollBehavior) {
@@ -22,16 +21,14 @@ class AdjustTranslationOnScrollBehavior<TView : View>(context: Context, attrs: A
     }
 
     override fun onLayoutChild(parent: CoordinatorLayout?, child: TView, layoutDirection: Int): Boolean {
-        if (targetChild == null && isInitial) {
+        if (targetChild == null) {
             targetChild = child.findViewById(R.id.resultRootLayout)
-            isInitial = false
 
             targetChild?.let {
                 originalTranslationY = it.translationY
                 it.onAttachStateChangeListener {
                     onViewDetachedFromWindow {
                         targetChild = null
-                        isInitial = true
                     }
                 }
             }
