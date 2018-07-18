@@ -43,7 +43,6 @@ android {
 
 kotlin { experimental { coroutines "enable" } }
 androidExtensions { experimental = true }
-kapt { generateStubs = true }
 
 dependencies {
     implementation project(":data")

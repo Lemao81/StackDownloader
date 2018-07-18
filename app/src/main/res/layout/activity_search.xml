@@ -56,7 +56,6 @@
             app:fabSize="normal"
             app:layout_dodgeInsetEdges="bottom"
             app:srcCompat="@drawable/ic_file_download_white_24dp" />
-        <!--app:visible="@{model.isDataDownloaded}"-->
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/botNavigation"

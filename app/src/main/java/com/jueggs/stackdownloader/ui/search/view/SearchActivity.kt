@@ -51,6 +51,7 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
                 Complete -> {
                     progress.gone()
                     viewModel.isDataDownloaded = true
+                    fabDownload.gone()
                     invalidateOptionsMenu()
                     toast(R.string.toast_data_downloaded)
                 }
