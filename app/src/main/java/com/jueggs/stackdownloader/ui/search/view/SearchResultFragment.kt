@@ -19,8 +19,8 @@ import org.koin.android.ext.android.inject
 class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     val viewModel by sharedViewModel<SearchViewModel>()
     val delegate: AppModeDelegate<SearchResultFragment> by inject(SearchResultFragment::class.simpleName ?: throw IllegalStateException())
-    private lateinit var questionAdapter: QuestionAdapter
-    private lateinit var answerAdapter: AnswerAdapter
+    private val questionAdapter: QuestionAdapter by lazy { QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) } }
+    private val answerAdapter: AnswerAdapter by lazy { AnswerAdapter() }
 
     override fun layout() = R.layout.fragment_search_result
     override fun bindingItems() = mapOf(BR.model to viewModel)
@@ -29,9 +29,6 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     override fun initialize() = setHasOptionsMenu(true)
 
     override fun initializeViews() {
-        questionAdapter = QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) }
-        answerAdapter = AnswerAdapter()
-
         recItems.withEmptyView(emptyView).withAdapter(questionAdapter).withVerticalLinearLayoutManager().withSimpleDivider()
     }
 

@@ -21,7 +21,7 @@ import java.util.*
 class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchResultFragment.Listener {
     val viewModel by viewModel<SearchViewModel>()
     val delegate: AppModeDelegate<SearchActivity> by inject(SearchActivity::class.simpleName ?: throw IllegalStateException())
-    lateinit var navController: NavController
+    val navController: NavController by lazy { findNavController(R.id.navHostFragment) }
 
     override fun layout() = R.layout.activity_search
     override fun bindingItems() = mapOf(BR.model to viewModel)
@@ -32,10 +32,6 @@ class SearchActivity : BaseActivity(), SearchCriteriaFragment.Listener, SearchRe
     override fun twoPaneFragments() = pairOf(
             pairOf(R.id.fragment1, SearchCriteriaFragment.newInstance()),
             pairOf(R.id.fragment2, SearchResultFragment.newInstance()))
-
-    override fun initialize() {
-        navController = findNavController(R.id.navHostFragment)
-    }
 
     override fun initializeViews() {
         delegate.initializeViews(this)

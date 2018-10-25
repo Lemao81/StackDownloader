@@ -1,14 +1,16 @@
 package com.jueggs.domain
 
 import com.jueggs.domain.model.*
-import com.jueggs.domain.usecase.DownloadUseCase
 import com.jueggs.jutils.extension.*
 import com.jueggs.jutils.givenSuspended
+import com.jueggs.stackdownloader.ui.search.usecase.DownloadDataUseCase
 import com.nhaarman.mockito_kotlin.*
+import com.sun.net.httpserver.Authenticator
 import io.reactivex.Single
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.*
 import org.junit.Assert.assertTrue
+import org.junit.runner.notification.Failure
 import org.mockito.Mockito.mock
 
 class DownloadUseCaseTest {
@@ -17,7 +19,7 @@ class DownloadUseCaseTest {
 
     private lateinit var repoMock: Repository
     private lateinit var providerMock: DataProvider
-    private lateinit var useCase: DownloadUseCase
+    private lateinit var useCase: DownloadDataUseCase
 
     @Before
     fun setup() {
@@ -90,7 +92,7 @@ class DownloadUseCaseTest {
 
             // assert
             then(repoMock).should(times(1)).addAnswers(answers)
-            assertTrue(deferred is Success)
+            assertTrue(deferred is Authenticator.Success)
         }
     }
 }
