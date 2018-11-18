@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion Versions.compileSdkVersion
+    compileSdkVersion App.compileSdkVersion
     defaultConfig {
-        applicationId "com.jueggs.stackdownloader"
-        minSdkVersion Versions.minSdkVersion
-        targetSdkVersion Versions.targetSdkVersion
-        versionCode Versions.versionCode
-        versionName Versions.versionName
+        applicationId App.applicationId
+        minSdkVersion App.minSdkVersion
+        targetSdkVersion App.targetSdkVersion
+        versionCode App.versionCode
+        versionName App.versionName
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -41,36 +41,34 @@ android {
     }
 }
 
-kotlin { experimental { coroutines "enable" } }
 androidExtensions { experimental = true }
 
 dependencies {
     implementation project(":data")
     implementation project(":domain")
 
-    implementation Libs.kotlinStd8
-    implementation Libs.appcompat
-    implementation Libs.design
-    implementation Libs.constraintLayout
-    implementation Libs.mapStruct
-    implementation Libs.andutils
-    implementation Libs.resutils
-    implementation Libs.koin
-    implementation Libs.koinAndroidArchitecture
-    implementation Libs.androidKtx
-    implementation Libs.retrofit2
-    implementation Libs.retrofit2GsonConverter
-    implementation Libs.kotlinCoroutine
-    implementation Libs.joda
-    implementation Libs.okLog
-    implementation Libs.retrofit2CoroutineAdapter
-    implementation Libs.stackoverflowtag
-    implementation Libs.archNavigationFragment
-    implementation Libs.archNavigationUi
-    kapt Libs.mapStructProc
-    kapt Libs.databindingCompiler
+    implementation Lib.kotlinStd8
+    implementation Lib.supportAppcompat
+    implementation Lib.supportDesign
+    implementation Lib.supportConstraintLayout
+    implementation Lib.mapStruct
+    implementation Lib.andutils
+    implementation Lib.resutils
+    implementation Lib.koinAndroid
+    implementation Lib.koinAndroidViewModel
+    implementation Lib.androidKtx
+    implementation Lib.retrofit2
+    implementation Lib.retrofit2GsonConverter
+    implementation Lib.kotlinCoroutine
+    implementation Lib.joda
+    implementation Lib.okLog
+    implementation Lib.retrofit2CoroutineAdapter
+    implementation Lib.stackoverflowtag
+    implementation Lib.archNavigationFragment
+    implementation Lib.archNavigationUi
+    kapt Lib.mapStructProc
 
-    testImplementation Libs.jUnit
-    androidTestImplementation Libs.testRunner
-    androidTestImplementation Libs.espressoCore
+    testImplementation Lib.jUnit
+    androidTestImplementation Lib.testRunner
+    androidTestImplementation Lib.espressoCore
 }

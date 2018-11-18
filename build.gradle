@@ -2,20 +2,20 @@ import com.android.build.gradle.BaseExtension
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
 
     dependencies {
-        classpath Plugins.gradle
+        classpath Plugins.androidGradle
         classpath Plugins.kotlin
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url Urls.mavenLocalInternal }
     }
     tasks.whenTaskAdded { task ->

@@ -3,12 +3,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion Versions.compileSdkVersion
+    compileSdkVersion App.compileSdkVersion
     defaultConfig {
-        minSdkVersion Versions.minSdkVersion
-        targetSdkVersion Versions.targetSdkVersion
-        versionCode Versions.versionCode
-        versionName Versions.versionName
+        minSdkVersion App.minSdkVersion
+        targetSdkVersion App.targetSdkVersion
+        versionCode App.versionCode
+        versionName App.versionName
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -32,26 +32,24 @@ android {
     }
 }
 
-kotlin { experimental { coroutines "enable" } }
-
 dependencies {
     implementation project(":domain")
 
-    implementation Libs.kotlinStd8
-    implementation Libs.roomRuntime
-    implementation Libs.roomRxJava
-    implementation Libs.retrofit2
-    implementation Libs.retrofit2GsonConverter
-    implementation Libs.andutils
-    implementation Libs.jutils
-    implementation Libs.retrofit2CoroutineAdapter
-    implementation Libs.rxJava
-    implementation Libs.mapStruct
-    kapt Libs.roomCompiler
-    kapt Libs.mapStructProc
+    implementation Lib.kotlinStd8
+    implementation Lib.roomRuntime
+    implementation Lib.roomRxJava
+    implementation Lib.retrofit2
+    implementation Lib.retrofit2GsonConverter
+    implementation Lib.andutils
+    implementation Lib.jutils
+    implementation Lib.retrofit2CoroutineAdapter
+    implementation Lib.rxJava
+    implementation Lib.mapStruct
+    kapt Lib.roomCompiler
+    kapt Lib.mapStructProc
 
-    androidTestImplementation Libs.jUnit
-    androidTestImplementation Libs.testRunner
+    androidTestImplementation Lib.jUnit
+    androidTestImplementation Lib.testRunner
 
-    testImplementation Libs.jUnit
+    testImplementation Lib.jUnit
 }

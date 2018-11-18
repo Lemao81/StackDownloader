@@ -2,18 +2,16 @@ apply plugin: 'java-library'
 apply plugin: 'kotlin'
 
 dependencies {
-    implementation Libs.kotlinStd8
-    implementation Libs.rxJava
-    implementation Libs.kotlinCoroutine
+    implementation Lib.kotlinStd8
+    implementation Lib.rxJava
+    implementation Lib.kotlinCoroutine
 
-    testImplementation Libs.jUnit
-    testImplementation Libs.mockito
-    testImplementation Libs.mockitoKotlin
-    testImplementation Libs.kotlinCoroutine
-    testImplementation Libs.jutils
+    testImplementation Lib.jUnit
+    testImplementation Lib.mockito
+    testImplementation Lib.mockitoKotlin
+    testImplementation Lib.kotlinCoroutine
+    testImplementation Lib.jutils
 }
-
-kotlin { experimental { coroutines "enable" } }
 
 sourceCompatibility = Versions.java8
 targetCompatibility = Versions.java8
