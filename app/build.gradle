@@ -53,16 +53,15 @@ dependencies {
     implementation project(Module.data)
     implementation project(Module.domain)
 
-    implementation Lib.kotlinStd8
-    implementation Lib.supportAppcompat
-    implementation Lib.supportDesign
-    implementation Lib.supportConstraintLayout
-    implementation Lib.mapStruct
     implementation Lib.andutils
     implementation Lib.resutils
+    implementation Lib.androidxAppcompat
+    implementation Lib.androidxConstraintLayout
+    implementation Lib.androidxCoreKtx
+    implementation Lib.material
+    implementation Lib.mapStruct
     implementation Lib.koinAndroid
     implementation Lib.koinAndroidViewModel
-    implementation Lib.androidxCoreKtx
     implementation Lib.retrofit2
     implementation Lib.retrofit2GsonConverter
     implementation Lib.kotlinCoroutine
@@ -77,6 +76,6 @@ dependencies {
 
     testImplementation Lib.jUnit
 
-    androidTestImplementation Lib.testRunner
-    androidTestImplementation Lib.espressoCore
+    androidTestImplementation Lib.androidxTestRunner
+    androidTestImplementation Lib.androidxTestEspressoCore
 }

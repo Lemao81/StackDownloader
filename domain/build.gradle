@@ -3,13 +3,12 @@ import buildSrc.*
 apply from: Path.baseJavaLibrary
 
 dependencies {
-    implementation Lib.kotlinStd8
     implementation Lib.rxJava
     implementation Lib.kotlinCoroutine
 
+    testImplementation Lib.jutils
     testImplementation Lib.jUnit
     testImplementation Lib.mockito
     testImplementation Lib.mockitoKotlin
     testImplementation Lib.kotlinCoroutine
-    testImplementation Lib.jutils
 }

@@ -13,22 +13,21 @@ android.defaultConfig.javaCompileOptions {
 dependencies {
     implementation project(Module.domain)
 
-    implementation Lib.kotlinStd8
-    implementation Lib.roomRuntime
+    implementation Lib.andutils
+    implementation Lib.jutils
+    implementation Lib.androidxRoomRuntime
     implementation Lib.roomRxJava
     implementation Lib.retrofit2
     implementation Lib.retrofit2GsonConverter
-    implementation Lib.andutils
-    implementation Lib.jutils
     implementation Lib.retrofit2CoroutineAdapter
     implementation Lib.rxJava
     implementation Lib.mapStruct
 
-    kapt Lib.roomCompiler
+    kapt Lib.androidxRoomCompiler
     kapt Lib.mapStructProcessor
 
     androidTestImplementation Lib.jUnit
-    androidTestImplementation Lib.testRunner
+    androidTestImplementation Lib.androidxTestRunner
 
     testImplementation Lib.jUnit
 }
