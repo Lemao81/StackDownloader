@@ -1,39 +1,17 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android'
+import buildSrc.*
 
-android {
-    compileSdkVersion App.compileSdkVersion
-    defaultConfig {
-        minSdkVersion App.minSdkVersion
-        targetSdkVersion App.targetSdkVersion
-        versionCode App.versionCode
-        versionName App.versionName
+apply from: Path.baseAndroidLibrary
+apply from: Path.baseFlavors
+apply from: Path.baseKapt
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
-        multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    flavorDimensions "main"
-    productFlavors {
-        dev { dimension "main" }
-        prod { dimension "main" }
+android.defaultConfig.javaCompileOptions {
+    annotationProcessorOptions {
+        arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
     }
 }
 
 dependencies {
-    implementation project(":domain")
+    implementation project(Module.domain)
 
     implementation Lib.kotlinStd8
     implementation Lib.roomRuntime
@@ -45,8 +23,9 @@ dependencies {
     implementation Lib.retrofit2CoroutineAdapter
     implementation Lib.rxJava
     implementation Lib.mapStruct
+
     kapt Lib.roomCompiler
-    kapt Lib.mapStructProc
+    kapt Lib.mapStructProcessor
 
     androidTestImplementation Lib.jUnit
     androidTestImplementation Lib.testRunner

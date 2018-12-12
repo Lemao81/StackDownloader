@@ -1,10 +1,13 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+import buildSrc.*
+
+apply plugin: PluginId.androidApplication
+apply plugin: PluginId.kotlinAndroid
+apply from: Path.baseKotlinAndroidExtension
+apply from: Path.baseKapt
 
 android {
     compileSdkVersion App.compileSdkVersion
+
     defaultConfig {
         applicationId App.applicationId
         minSdkVersion App.minSdkVersion
@@ -14,7 +17,7 @@ android {
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner Const.androidTestRunner
     }
     buildTypes {
         debug {
@@ -26,26 +29,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding { enabled = true }
 
-    flavorDimensions "main"
+    flavorDimensions Dimension.main
     productFlavors {
         dev {
-            dimension "main"
+            dimension Dimension.main
             applicationIdSuffix ".dev"
+            resConfigs "en", "xhdpi"
         }
         prod {
-            dimension "main"
+            dimension Dimension.main
             applicationIdSuffix ".prod"
         }
     }
+
+    compileOptions {
+        sourceCompatibility = Version.java8
+        targetCompatibility = Version.java8
+    }
 }
 
-androidExtensions { experimental = true }
-
 dependencies {
-    implementation project(":data")
-    implementation project(":domain")
+    implementation project(Module.data)
+    implementation project(Module.domain)
 
     implementation Lib.kotlinStd8
     implementation Lib.supportAppcompat
@@ -56,7 +62,7 @@ dependencies {
     implementation Lib.resutils
     implementation Lib.koinAndroid
     implementation Lib.koinAndroidViewModel
-    implementation Lib.androidKtx
+    implementation Lib.androidxCoreKtx
     implementation Lib.retrofit2
     implementation Lib.retrofit2GsonConverter
     implementation Lib.kotlinCoroutine
@@ -66,9 +72,11 @@ dependencies {
     implementation Lib.stackoverflowtag
     implementation Lib.archNavigationFragment
     implementation Lib.archNavigationUi
-    kapt Lib.mapStructProc
+
+    kapt Lib.mapStructProcessor
 
     testImplementation Lib.jUnit
+
     androidTestImplementation Lib.testRunner
     androidTestImplementation Lib.espressoCore
 }

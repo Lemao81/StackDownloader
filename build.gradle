@@ -1,4 +1,6 @@
-import com.android.build.gradle.BaseExtension
+import buildSrc.*
+
+apply from: Path.baseProject
 
 buildscript {
     repositories {
@@ -7,32 +9,17 @@ buildscript {
     }
 
     dependencies {
-        classpath Plugins.androidGradle
-        classpath Plugins.kotlin
+        classpath Plugin.androidGradle
+        classpath Plugin.kotlin
     }
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url Urls.mavenLocalInternal }
-    }
-    tasks.whenTaskAdded { task ->
-        if (task.name.startsWith("lint"))
-            task.enabled = false
-    }
-    afterEvaluate { project ->
-        def android = project.extensions.findByName("android") as BaseExtension
-        if (android != null) {
-            android.variantFilter { variant ->
-                if (variant.buildType.name == 'release')
-                    variant.setIgnore(true)
-            }
-        }
-    }
+    configureBaseRepositories(it)
+    disableLintTasks(it)
+    ignoreRelease(it)
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+subprojects {
+    apply from: Path.ktlint
 }

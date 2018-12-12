@@ -5,6 +5,8 @@ import com.jueggs.andutils.extension.*
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.customview.stackoverflowtag.StackoverflowTag
 import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.R.id.autoTxtTags
+import com.jueggs.stackdownloader.R.id.linTagContainer
 import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import com.jueggs.stackdownloader.util.*
