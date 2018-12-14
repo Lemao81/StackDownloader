@@ -2,7 +2,7 @@ package com.jueggs.data.dataprovider
 
 import android.content.Context
 import com.jueggs.data.SORT_POPULAR
-import com.jueggs.data.mapper.bo
+import com.jueggs.data.mapper.mapToBo
 import com.jueggs.data.retrofit.StackOverflowApi
 import com.jueggs.data.retrofit.dto.QueryParameter
 import com.jueggs.data.retrofit.dto.mapToQueryParameter
@@ -28,7 +28,7 @@ class NetworkDataProvider(private val context: Context, private val apiImpl: Sta
                         it.sort = SORT_POPULAR
                     }.asMap(false)
                     val data = apiImpl.fetchTags(queryParams).await()
-                    val bos = data.items?.map { it.bo } ?: throw NoDataException()
+                    val bos = data.items?.map { it.mapToBo() } ?: throw NoDataException()
 
                     emitter.onSuccess(bos)
                 } catch (exception: Exception) {
@@ -44,7 +44,7 @@ class NetworkDataProvider(private val context: Context, private val apiImpl: Sta
                 try {
                     val queryParams = searchCriteria.mapToQueryParameter(this@NetworkDataProvider.context).asMap()
                     val data = apiImpl.fetchQuestions(queryParams).await()
-                    val bos = data.items?.map { it.bo } ?: throw NoDataException()
+                    val bos = data.items?.map { it.mapToBo() } ?: throw NoDataException()
 
                     emitter.onSuccess(bos)
                 } catch (exception: Exception) {
@@ -61,7 +61,7 @@ class NetworkDataProvider(private val context: Context, private val apiImpl: Sta
                     val idJoin = questionIds.join(";")
                     val queryParams = QueryParameter().asMap()
                     val data = apiImpl.fetchAnswersOfQuestions(idJoin, queryParams).await()
-                    val bos = data.items?.map { it.bo } ?: throw NoDataException()
+                    val bos = data.items?.map { it.mapToBo() } ?: throw NoDataException()
 
                     emitter.onSuccess(bos)
                 } catch (exception: Exception) {

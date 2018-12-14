@@ -1,7 +1,7 @@
 package com.jueggs.data
 
-import com.jueggs.data.mapper.bo
-import com.jueggs.data.mapper.entity
+import com.jueggs.data.mapper.mapToBo
+import com.jueggs.data.mapper.mapToEntity
 import com.jueggs.data.retrofit.dto.AnswerDto
 import com.jueggs.data.retrofit.dto.QuestionDto
 import com.jueggs.jutils.extension.unixTime
@@ -16,8 +16,8 @@ class MapperTest {
         val questionDto = QuestionDto(creationDate = date.unixTime, tags = emptyList())
         val answerDto = AnswerDto(creationDate = date.unixTime)
 
-        val questionBo = questionDto.bo
-        val answerBo = answerDto.bo
+        val questionBo = questionDto.mapToBo()
+        val answerBo = answerDto.mapToBo()
 
         assertTrue(Math.abs((questionBo.creationDate?.millis ?: 0) - date.time) <= 1000)
         assertTrue(Math.abs((answerBo.creationDate?.millis ?: 0) - date.time) <= 1000)
@@ -29,8 +29,8 @@ class MapperTest {
         val questionDto = QuestionDto(creationDate = date.unixTime, tags = emptyList())
         val answerDto = AnswerDto(creationDate = date.unixTime)
 
-        val questionEntity = questionDto.entity
-        val answerEntity = answerDto.entity
+        val questionEntity = questionDto.mapToEntity()
+        val answerEntity = answerDto.mapToEntity()
 
         assertTrue(Math.abs((questionEntity.creationDate?.time ?: 0) - date.time) <= 1000)
         assertTrue(Math.abs((answerEntity.creationDate?.time ?: 0) - date.time) <= 1000)

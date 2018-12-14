@@ -47,7 +47,7 @@ class DownloadUseCaseTest {
         runBlocking {
             // given
             val exception = RuntimeException()
-            given { repoMock.getAllQuestionIds() } willThrow exception
+            given { repoMock.getAllQuestionIds() }.willThrow(exception)
 
             // act
             val liveData = useCase.execute(UseCase.Request)
@@ -63,8 +63,8 @@ class DownloadUseCaseTest {
         runBlocking {
             // given
             val exception = RuntimeException()
-            given { repoMock.getAllQuestionIds() } willReturn questionIds
-            givenSuspended { providerMock.fetchAnswers(questionIds) } willThrow exception
+            given { repoMock.getAllQuestionIds() }.willReturn(questionIds)
+            givenSuspended { providerMock.fetchAnswers(questionIds) }.willThrow(exception)
 
             // act
             val liveData = useCase.execute(UseCase.Request)
@@ -81,9 +81,9 @@ class DownloadUseCaseTest {
         runBlocking {
             // given
             val exception = RuntimeException()
-            given { repoMock.getAllQuestionIds() } willReturn questionIds
-            givenSuspended { providerMock.fetchAnswers(questionIds) } willReturn Single.just(answers)
-            given { repoMock.addAnswers(any()) } willThrow exception
+            given { repoMock.getAllQuestionIds() }.willReturn(questionIds)
+            givenSuspended { providerMock.fetchAnswers(questionIds) }.willReturn(Single.just(answers))
+            given { repoMock.addAnswers(any()) }.willThrow(exception)
 
             // act
             val liveData = useCase.execute(UseCase.Request)
@@ -98,8 +98,8 @@ class DownloadUseCaseTest {
     fun `test that answers are persisted and success returned`() {
         runBlocking {
             // given
-            given { repoMock.getAllQuestionIds() } willReturn questionIds
-            givenSuspended { providerMock.fetchAnswers(questionIds) } willReturn Single.just(answers)
+            given { repoMock.getAllQuestionIds() }.willReturn(questionIds)
+            givenSuspended { providerMock.fetchAnswers(questionIds) }.willReturn(Single.just(answers))
 
             // act
             val liveData = useCase.execute(UseCase.Request)

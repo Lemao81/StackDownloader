@@ -5,7 +5,7 @@ import androidx.lifecycle.Transformations
 import com.jueggs.data.dao.AnswerDao
 import com.jueggs.data.dao.QuestionDao
 import com.jueggs.data.dao.TagDao
-import com.jueggs.data.mapper.bo
+import com.jueggs.data.mapper.mapToBo
 import com.jueggs.domain.model.Answer
 import com.jueggs.domain.model.Question
 
@@ -17,12 +17,12 @@ class RoomLiveRepository(
 
     override fun getAllQuestionsIncludingOwnerAndTags(): LiveData<List<Question>> {
         return Transformations.map(questionDao.getAllIncludingOwnerAndTagsLiveDistinct()) { questionsWithTags ->
-            questionsWithTags.map { questionWithTag -> questionWithTag.question.bo.also { it.tags = questionWithTag.tags.map { it.tagName } } }
+            questionsWithTags.map { questionWithTag -> questionWithTag.question.mapToBo().also { it.tags = questionWithTag.tags.map { it.tagName } } }
         }
     }
 
     override fun getAnswersOfQuestionIncludingOwner(questionId: Long): LiveData<List<Answer>> = Transformations.map(answerDao.getAnswersOfQuestionIncludingOwnerLive(questionId)) { joins ->
-        joins.map { join -> join.answer.bo.also { it.owner = join.owner.bo } }
+        joins.map { join -> join.answer.mapToBo().also { it.owner = join.owner.mapToBo() } }
     }
 
     override fun getAllTagNames(): LiveData<List<String>> = tagDao.getAllNamesLiveDistinct()
