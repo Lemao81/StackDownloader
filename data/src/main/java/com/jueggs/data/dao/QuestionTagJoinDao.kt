@@ -1,7 +1,10 @@
 package com.jueggs.data.dao
 
-import android.arch.persistence.room.*
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
+import androidx.room.Transaction
 import com.jueggs.andutils.interfaces.BaseDao
 import com.jueggs.data.entity.QuestionTagJoinEntity
 

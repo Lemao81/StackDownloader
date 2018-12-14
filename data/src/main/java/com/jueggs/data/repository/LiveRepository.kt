@@ -1,7 +1,8 @@
 package com.jueggs.data.repository
 
-import android.arch.lifecycle.LiveData
-import com.jueggs.domain.model.*
+import androidx.lifecycle.LiveData
+import com.jueggs.domain.model.Answer
+import com.jueggs.domain.model.Question
 
 interface LiveRepository {
     fun getAllQuestionsIncludingOwnerAndTags(): LiveData<List<Question>>

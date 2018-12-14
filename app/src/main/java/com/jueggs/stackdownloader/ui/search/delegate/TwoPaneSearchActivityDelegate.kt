@@ -1,12 +1,13 @@
 package com.jueggs.stackdownloader.ui.search.delegate
 
+import com.jueggs.andutils.extension.nonNull
+import com.jueggs.andutils.extension.observe
 import com.jueggs.stackdownloader.ui.search.view.SearchActivity
-import com.jueggs.stackdownloader.util.observeNonNull
 
 class TwoPaneSearchActivityDelegate : AppModeDelegate<SearchActivity>() {
 
     override fun setListenersInternal(): SearchActivity.() -> Unit = {
-        viewModel.getShowQuestionResult().observeNonNull(this) { this.toggleHomeAsUp(true) }
+        viewModel.getShowQuestionResult().nonNull().observe(this) { this.toggleHomeAsUp(true) }
     }
 
     override fun onBackPressedInternal(): SearchActivity.() -> Unit = {

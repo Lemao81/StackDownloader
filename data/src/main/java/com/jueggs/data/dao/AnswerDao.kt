@@ -1,10 +1,14 @@
 package com.jueggs.data.dao
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.*
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
+import androidx.room.Transaction
 import com.jueggs.andutils.interfaces.BaseDao
-import com.jueggs.data.entity.*
+import com.jueggs.data.entity.AnswerEntity
+import com.jueggs.data.entity.AnswerOwnerJoin
 
 @Dao
 abstract class AnswerDao : BaseDao<AnswerEntity> {

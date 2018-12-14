@@ -1,6 +1,6 @@
 package com.jueggs.data.entity
 
-import android.arch.persistence.room.Embedded
+import androidx.room.Embedded
 
 class AnswerOwnerJoin(
         @Embedded

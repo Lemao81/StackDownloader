@@ -1,7 +1,8 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
 import com.jueggs.domain.Repository
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class AddTagUseCase(private val repository: Repository) : UseCase<AddTagRequest>() {
 
@@ -9,7 +10,8 @@ class AddTagUseCase(private val repository: Repository) : UseCase<AddTagRequest>
         val tag = request.tag?.toString() ?: ""
         val selectedTags = request.selectedTags ?: mutableListOf()
 
-        launch {
+        // TODO remove globalscope
+        GlobalScope.launch {
             try {
                 val result = when {
                     tag.isBlank() -> EmptyInput

@@ -1,6 +1,9 @@
 package com.jueggs.data.entity
 
-import android.arch.persistence.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "Owner")
 class OwnerEntity(

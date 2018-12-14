@@ -1,14 +1,14 @@
 package com.jueggs.stackdownloader.accessory
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.withStyledAttributes
 import com.jueggs.andutils.behavior.AbstractVerticalScrollBehavior
-import com.jueggs.jutils.cropToRange
+import com.jueggs.jutils.extension.cropTo
 import com.jueggs.stackdownloader.R
-import org.jetbrains.anko.sdk25.coroutines.onAttachStateChangeListener
+import org.jetbrains.anko.sdk27.coroutines.onAttachStateChangeListener
 
 class AdjustTranslationOnScrollBehavior<TView : View>(context: Context, attrs: AttributeSet) : AbstractVerticalScrollBehavior<TView>(context, attrs) {
     private var targetChild: View? = null
@@ -20,7 +20,7 @@ class AdjustTranslationOnScrollBehavior<TView : View>(context: Context, attrs: A
         }
     }
 
-    override fun onLayoutChild(parent: CoordinatorLayout?, child: TView, layoutDirection: Int): Boolean {
+    override fun onLayoutChild(parent: CoordinatorLayout, child: TView, layoutDirection: Int): Boolean {
         if (targetChild == null) {
             targetChild = child.findViewById(R.id.resultRootLayout)
 
@@ -41,7 +41,7 @@ class AdjustTranslationOnScrollBehavior<TView : View>(context: Context, attrs: A
 
         targetChild?.let {
             val newTranslationY = it.translationY - dy * acceleration
-            it.translationY = cropToRange(0f, originalTranslationY, newTranslationY)
+            it.translationY = newTranslationY.cropTo(0f, originalTranslationY)
         }
     }
 }

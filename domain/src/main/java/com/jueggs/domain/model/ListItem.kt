@@ -1,10 +1,10 @@
 package com.jueggs.domain.model
 
-import java.util.*
+import org.joda.time.DateTime
 
 abstract class ListItem(
         var score: Int? = null,
-        var creationDate: Date? = null,
+        var creationDate: DateTime? = null,
         var owner: Owner? = null,
         var title: String? = null,
         var body: String? = null,

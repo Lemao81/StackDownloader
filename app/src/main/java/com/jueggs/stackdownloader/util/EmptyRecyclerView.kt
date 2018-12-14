@@ -1,11 +1,10 @@
 package com.jueggs.stackdownloader.util
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.jueggs.andutils.extension.*
-
 
 class EmptyRecyclerView : RecyclerView {
     private var emptyView: View? = null
@@ -32,7 +31,7 @@ class EmptyRecyclerView : RecyclerView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     private fun initEmptyView() {
-        if (emptyView != null && (adapter == null || adapter.itemCount == 0)) {
+        if (emptyView != null && (adapter == null || adapter?.itemCount == 0)) {
             gone()
             emptyView?.visible()
         } else {

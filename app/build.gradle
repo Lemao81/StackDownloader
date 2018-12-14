@@ -4,6 +4,7 @@ apply plugin: PluginId.androidApplication
 apply plugin: PluginId.kotlinAndroid
 apply from: Path.baseKotlinAndroidExtension
 apply from: Path.baseKapt
+apply from: Path.baseDatabinding
 
 android {
     compileSdkVersion App.compileSdkVersion
@@ -17,7 +18,7 @@ android {
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner Const.androidTestRunner
+        testInstrumentationRunner Const.androidxTestRunner
     }
     buildTypes {
         debug {

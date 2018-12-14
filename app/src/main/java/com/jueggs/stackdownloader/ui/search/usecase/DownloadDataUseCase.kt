@@ -3,7 +3,8 @@ package com.jueggs.stackdownloader.ui.search.usecase
 import android.content.Context
 import com.jueggs.andutils.extension.*
 import com.jueggs.domain.*
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class DownloadDataUseCase(
         private val context: Context,
@@ -16,7 +17,8 @@ class DownloadDataUseCase(
             context.doWithNetworkConnection {
                 data.value = Loading
 
-                launch {
+                // TODO remove globalscope
+                GlobalScope.launch {
                     val questionIds = repository.getAllQuestionIds()
                     dataProvider.fetchAnswers(questionIds).subscribe({
                         repository.addAnswers(it)

@@ -1,27 +1,41 @@
 package com.jueggs.stackdownloader.ui.search.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.*
-import android.databinding.ObservableField
 import androidx.core.content.edit
+import androidx.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import com.jueggs.andutils.extension.defaultSharedPrefs
 import com.jueggs.andutils.extension.fire
 import com.jueggs.data.repository.LiveRepository
-import com.jueggs.domain.model.*
-import com.jueggs.stackdownloader.*
-import com.jueggs.stackdownloader.ui.search.usecase.*
-import org.jetbrains.anko.defaultSharedPreferences
-import org.joda.time.DateTime
-import java.util.*
+import com.jueggs.domain.model.Question
+import com.jueggs.domain.model.SearchCriteria
+import com.jueggs.stackdownloader.App
+import com.jueggs.stackdownloader.PREFS_DATA_DOWNLOADED
+import com.jueggs.stackdownloader.ui.search.usecase.AddTagRequest
+import com.jueggs.stackdownloader.ui.search.usecase.AddTagUseCase
+import com.jueggs.stackdownloader.ui.search.usecase.DeleteDataUseCase
+import com.jueggs.stackdownloader.ui.search.usecase.DownloadDataUseCase
+import com.jueggs.stackdownloader.ui.search.usecase.InitialStartUseCase
+import com.jueggs.stackdownloader.ui.search.usecase.SearchRequest
+import com.jueggs.stackdownloader.ui.search.usecase.SearchUseCase
+import com.jueggs.stackdownloader.ui.search.usecase.ShowQuestionRequest
+import com.jueggs.stackdownloader.ui.search.usecase.ShowQuestionUseCase
+import com.jueggs.stackdownloader.ui.search.usecase.UseCase
+import com.jueggs.stackdownloader.ui.search.usecase.UseCaseResult
+import org.joda.time.LocalDate
 
 class SearchViewModel(
-        application: Application,
-        liveRepository: LiveRepository,
-        private val searchUseCase: SearchUseCase,
-        private val addTagUseCase: AddTagUseCase,
-        private val showQuestionUseCase: ShowQuestionUseCase,
-        private val downloadDataUseCase: DownloadDataUseCase,
-        private val initialStartUseCase: InitialStartUseCase,
-        private val deleteDataUseCase: DeleteDataUseCase
+    application: Application,
+    liveRepository: LiveRepository,
+    private val searchUseCase: SearchUseCase,
+    private val addTagUseCase: AddTagUseCase,
+    private val showQuestionUseCase: ShowQuestionUseCase,
+    private val downloadDataUseCase: DownloadDataUseCase,
+    private val initialStartUseCase: InitialStartUseCase,
+    private val deleteDataUseCase: DeleteDataUseCase
 ) : AndroidViewModel(application) {
     private val searchInput: MutableLiveData<SearchCriteria> = MutableLiveData()
     private val addTagInput: MutableLiveData<CharSequence?> = MutableLiveData()
@@ -34,13 +48,13 @@ class SearchViewModel(
     val tag: MutableLiveData<CharSequence> = MutableLiveData()
     val orderType: MutableLiveData<Int> = MutableLiveData()
     val sortType: MutableLiveData<Int> = MutableLiveData()
-    val fromDate: ObservableField<Date> = ObservableField(DateTime().minusWeeks(1).toDate())
-    val toDate: ObservableField<Date> = ObservableField(Date())
+    val fromDate: ObservableField<LocalDate> = ObservableField(LocalDate.now().minusWeeks(1))
+    val toDate: ObservableField<LocalDate> = ObservableField(LocalDate.now())
 
     var isQuestionsDownloaded = false
     var isDataDownloaded: Boolean
-        get() = getApplication<App>().defaultSharedPreferences.getBoolean(PREFS_DATA_DOWNLOADED, false)
-        set(value) = getApplication<App>().defaultSharedPreferences.edit { putBoolean(PREFS_DATA_DOWNLOADED, value) }
+        get() = getApplication<App>().defaultSharedPrefs.getBoolean(PREFS_DATA_DOWNLOADED, false)
+        set(value) = getApplication<App>().defaultSharedPrefs.edit { putBoolean(PREFS_DATA_DOWNLOADED, value) }
 
     fun onAddTag() = addTagInput.postValue(tag.value)
     fun onRemoveTag(tagName: String) = selectedTags.postValue(selectedTags.value?.apply { remove(tagName) })
@@ -54,18 +68,21 @@ class SearchViewModel(
     }
 
     fun onToday() {
-        fromDate.set(Date())
-        toDate.set(Date())
+        val now = LocalDate.now()
+        fromDate.set(now)
+        toDate.set(now)
     }
 
     fun onLastWeek() {
-        fromDate.set(DateTime().minusWeeks(1).toDate())
-        toDate.set(Date())
+        val now = LocalDate.now()
+        fromDate.set(now.minusWeeks(1))
+        toDate.set(now)
     }
 
     fun onLastMonth() {
-        fromDate.set(DateTime().minusMonths(1).toDate())
-        toDate.set(Date())
+        val now = LocalDate.now()
+        fromDate.set(now.minusMonths(1))
+        toDate.set(now)
     }
 
     fun getSearchResult(): LiveData<UseCaseResult> = Transformations.switchMap(searchInput) { searchUseCase.execute(SearchRequest(it)) }

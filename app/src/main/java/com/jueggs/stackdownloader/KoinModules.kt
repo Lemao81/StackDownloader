@@ -13,12 +13,12 @@ import com.jueggs.stackdownloader.ui.search.usecase.*
 import com.jueggs.stackdownloader.ui.search.view.*
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import okhttp3.OkHttpClient
-import org.koin.android.architecture.ext.viewModel
-import org.koin.dsl.module.applicationContext
+import org.koin.android.viewmodel.ext.koin.viewModel
+import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-var appModule = applicationContext {
+var appModule = module {
     bean { AppDatabase.getInstance(get()).answerDao() }
     bean { AppDatabase.getInstance(get()).questionDao() }
     bean { AppDatabase.getInstance(get()).tagDao() }

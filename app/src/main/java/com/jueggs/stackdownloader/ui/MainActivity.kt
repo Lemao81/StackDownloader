@@ -1,7 +1,7 @@
 package com.jueggs.stackdownloader.ui
 
+import com.jueggs.andutils.Util.postDelayed
 import com.jueggs.andutils.base.BaseMainActivity
-import com.jueggs.andutils.postDelayed
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.view.SearchActivity
 import org.jetbrains.anko.*

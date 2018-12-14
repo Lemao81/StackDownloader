@@ -1,17 +1,24 @@
 package com.jueggs.data.repository
 
-import com.jueggs.data.dao.*
+import com.jueggs.data.dao.AnswerDao
+import com.jueggs.data.dao.OwnerDao
+import com.jueggs.data.dao.QuestionDao
+import com.jueggs.data.dao.QuestionTagJoinDao
+import com.jueggs.data.dao.TagDao
 import com.jueggs.data.entity.QuestionTagJoinEntity
-import com.jueggs.data.mapper.*
+import com.jueggs.data.mapper.bo
+import com.jueggs.data.mapper.entity
 import com.jueggs.domain.Repository
-import com.jueggs.domain.model.*
+import com.jueggs.domain.model.Answer
+import com.jueggs.domain.model.Question
+import com.jueggs.domain.model.Tag
 
 class RoomRepository(
-        private val questionDao: QuestionDao,
-        private val answerDao: AnswerDao,
-        private val ownerDao: OwnerDao,
-        private val tagDao: TagDao,
-        private val questionTagDao: QuestionTagJoinDao
+    private val questionDao: QuestionDao,
+    private val answerDao: AnswerDao,
+    private val ownerDao: OwnerDao,
+    private val tagDao: TagDao,
+    private val questionTagDao: QuestionTagJoinDao
 ) : Repository {
     override fun addTags(tags: List<Tag>) = tagDao.insertAll(tags.map { it.entity })
 

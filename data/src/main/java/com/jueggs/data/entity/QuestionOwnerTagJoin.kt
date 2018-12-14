@@ -1,6 +1,7 @@
 package com.jueggs.data.entity
 
-import android.arch.persistence.room.*
+import androidx.room.Embedded
+import androidx.room.Relation
 
 class QuestionOwnerTagJoin(
         @Embedded

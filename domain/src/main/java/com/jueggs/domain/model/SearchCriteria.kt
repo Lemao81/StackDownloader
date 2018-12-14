@@ -1,11 +1,11 @@
 package com.jueggs.domain.model
 
-import java.util.*
+import org.joda.time.LocalDate
 
 class SearchCriteria(
-        val orderType: Int?,
-        val sortType: Int?,
-        val tags: List<String>?,
-        val from: Date?,
-        val to: Date?
+    val orderType: Int?,
+    val sortType: Int?,
+    val tags: List<String>?,
+    val from: LocalDate?,
+    val to: LocalDate?
 )

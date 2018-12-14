@@ -5,6 +5,7 @@ apply from: Path.baseJavaLibrary
 dependencies {
     implementation Lib.rxJava
     implementation Lib.kotlinCoroutine
+    implementation Lib.joda
 
     testImplementation Lib.jutils
     testImplementation Lib.jUnit

@@ -2,7 +2,8 @@ package com.jueggs.stackdownloader.ui.search.usecase
 
 import com.jueggs.domain.Repository
 import com.jueggs.domain.model.Question
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ShowQuestionUseCase(private val repository: Repository) : UseCase<ShowQuestionRequest>() {
 
@@ -10,7 +11,8 @@ class ShowQuestionUseCase(private val repository: Repository) : UseCase<ShowQues
         if (!request.isDataDownloaded)
             data.postValue(NoDataDownloaded)
         else {
-            launch {
+            // TODO remove globalscope
+            GlobalScope.launch {
                 try {
                     val answers = repository.getAnswersOfQuestionIncludingOwner(request.question.id)
                     data.postValue(Answers(request.question, answers))

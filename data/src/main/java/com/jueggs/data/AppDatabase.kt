@@ -1,10 +1,21 @@
 package com.jueggs.data
 
-import android.arch.persistence.room.*
 import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.jueggs.andutils.helper.DateConverter
-import com.jueggs.data.dao.*
-import com.jueggs.data.entity.*
+import com.jueggs.data.dao.AnswerDao
+import com.jueggs.data.dao.OwnerDao
+import com.jueggs.data.dao.QuestionDao
+import com.jueggs.data.dao.QuestionTagJoinDao
+import com.jueggs.data.dao.TagDao
+import com.jueggs.data.entity.AnswerEntity
+import com.jueggs.data.entity.OwnerEntity
+import com.jueggs.data.entity.QuestionEntity
+import com.jueggs.data.entity.QuestionTagJoinEntity
+import com.jueggs.data.entity.TagEntity
 
 @Database(entities = [(AnswerEntity::class), (OwnerEntity::class), (QuestionEntity::class), (TagEntity::class), (QuestionTagJoinEntity::class)], version = 1)
 @TypeConverters(value = [(DateConverter::class)])

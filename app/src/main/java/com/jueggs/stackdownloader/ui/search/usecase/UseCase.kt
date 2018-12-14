@@ -1,6 +1,7 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
-import android.arch.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 abstract class UseCase<in TRequest> {
     protected val data = MutableLiveData<UseCaseResult>()
@@ -14,4 +15,3 @@ abstract class UseCase<in TRequest> {
 
     object Request
 }
-

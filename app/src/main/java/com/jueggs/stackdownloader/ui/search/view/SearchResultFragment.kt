@@ -6,6 +6,8 @@ import com.jueggs.andutils.util.AppMode
 import com.jueggs.domain.model.Question
 import com.jueggs.resutils.extension.withSimpleDivider
 import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.R.id.emptyView
+import com.jueggs.stackdownloader.R.id.recItems
 import com.jueggs.stackdownloader.adapter.*
 import com.jueggs.stackdownloader.ui.search.delegate.AppModeDelegate
 import com.jueggs.stackdownloader.ui.search.usecase.*
@@ -13,10 +15,10 @@ import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
 import com.jueggs.stackdownloader.util.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
 import org.jetbrains.anko.support.v4.longToast
-import org.koin.android.architecture.ext.sharedViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
+class SearchResultFragment : BaseFragment() {
     val viewModel by sharedViewModel<SearchViewModel>()
     val delegate: AppModeDelegate<SearchResultFragment> by inject(SearchResultFragment::class.simpleName ?: throw IllegalStateException())
     private val questionAdapter: QuestionAdapter by lazy { QuestionAdapter().also { it.eventHandler = QuestionAdapter.EventHandler(viewModel::onShowQuestion) } }
@@ -35,11 +37,11 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
     override fun setListeners() {
         delegate.setListeners(this)
 
-        viewModel.questions.observeNonNull(this) { questions ->
+        viewModel.questions.nonNull().observe(this) { questions ->
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
         }
-        viewModel.getShowQuestionResult().observeNonNull(this) { result ->
+        viewModel.getShowQuestionResult().nonNull().observe(this) { result ->
             when (result) {
                 is NoDataDownloaded -> longToast(R.string.error_no_data_downloaded)
                 is Answers -> {
@@ -72,6 +74,4 @@ class SearchResultFragment : BaseFragment<SearchResultFragment.Listener>() {
 
         fun newInstance() = SearchResultFragment()
     }
-
-    interface Listener
 }

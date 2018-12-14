@@ -1,7 +1,8 @@
 package com.jueggs.data.entity
 
-import android.arch.persistence.room.*
-import android.arch.persistence.room.ForeignKey.CASCADE
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 
 @Entity(tableName = "Question_Tag", primaryKeys = ["questionId", "tagName"],
         foreignKeys = [

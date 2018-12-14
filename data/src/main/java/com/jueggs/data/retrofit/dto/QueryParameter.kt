@@ -5,13 +5,13 @@ import com.jueggs.andutils.extension.getStringArray
 import com.jueggs.data.*
 import com.jueggs.domain.model.SearchCriteria
 import com.jueggs.jutils.extension.*
-import java.util.*
+import org.joda.time.LocalDate
 
 class QueryParameter(
         var page: Int? = null,
         var pageSize: Int? = null,
-        var fromDate: Date? = null,
-        var toDate: Date? = null,
+        var fromDate: LocalDate? = null,
+        var toDate: LocalDate? = null,
         var order: String? = null,
         var sort: String? = null,
         var tags: List<String>? = null,
