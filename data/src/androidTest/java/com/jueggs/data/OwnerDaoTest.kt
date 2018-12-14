@@ -1,11 +1,13 @@
 package com.jueggs.data
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.jueggs.data.dao.OwnerDao
 import org.hamcrest.core.IsEqual.equalTo
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertThat
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -15,7 +17,7 @@ class OwnerDaoTest {
 
     @Before
     fun setup() {
-        database = AppDatabase.getInMemoryInstance(InstrumentationRegistry.getContext())
+        database = AppDatabase.getInMemoryInstance(InstrumentationRegistry.getInstrumentation().context)
         ownerDao = database.ownerDao()
     }
 

@@ -4,7 +4,9 @@ import com.jueggs.andutils.Util.postDelayed
 import com.jueggs.andutils.base.BaseMainActivity
 import com.jueggs.stackdownloader.R
 import com.jueggs.stackdownloader.ui.search.view.SearchActivity
-import org.jetbrains.anko.*
+import org.jetbrains.anko.clearTask
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
 
 class MainActivity : BaseMainActivity() {
 

@@ -1,13 +1,17 @@
 package com.jueggs.data
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
-import com.jueggs.data.dao.*
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.jueggs.data.dao.QuestionDao
+import com.jueggs.data.dao.QuestionTagJoinDao
+import com.jueggs.data.dao.TagDao
 import com.jueggs.data.entity.QuestionTagJoinEntity
 import org.hamcrest.core.IsEqual.equalTo
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertThat
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -19,7 +23,7 @@ class QuestionTagJoinDaoTest {
 
     @Before
     fun setup() {
-        database = AppDatabase.getInMemoryInstance(InstrumentationRegistry.getContext())
+        database = AppDatabase.getInMemoryInstance(InstrumentationRegistry.getInstrumentation().context)
         questionDao = database.questionDao()
         tagDao = database.tagDao()
         questionTagJoinDao = database.questionTagJoinDao()

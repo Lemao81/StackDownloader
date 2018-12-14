@@ -2,20 +2,32 @@ package com.jueggs.data.retrofit.dto
 
 import android.content.Context
 import com.jueggs.andutils.extension.getStringArray
-import com.jueggs.data.*
+import com.jueggs.data.FILTER_BODY
+import com.jueggs.data.QUERY_PARAM_FILTER
+import com.jueggs.data.QUERY_PARAM_FROMDATE
+import com.jueggs.data.QUERY_PARAM_ORDER
+import com.jueggs.data.QUERY_PARAM_PAGE
+import com.jueggs.data.QUERY_PARAM_PAGESIZE
+import com.jueggs.data.QUERY_PARAM_SITE
+import com.jueggs.data.QUERY_PARAM_SORT
+import com.jueggs.data.QUERY_PARAM_TAGGED
+import com.jueggs.data.QUERY_PARAM_TODATE
+import com.jueggs.data.R
+import com.jueggs.data.SITE
 import com.jueggs.domain.model.SearchCriteria
-import com.jueggs.jutils.extension.*
+import com.jueggs.jutils.extension.join
+import com.jueggs.jutils.extension.unixTime
 import org.joda.time.LocalDate
 
 class QueryParameter(
-        var page: Int? = null,
-        var pageSize: Int? = null,
-        var fromDate: LocalDate? = null,
-        var toDate: LocalDate? = null,
-        var order: String? = null,
-        var sort: String? = null,
-        var tags: List<String>? = null,
-        var inName: String? = null
+    var page: Int? = null,
+    var pageSize: Int? = null,
+    var fromDate: LocalDate? = null,
+    var toDate: LocalDate? = null,
+    var order: String? = null,
+    var sort: String? = null,
+    var tags: List<String>? = null,
+    var inName: String? = null
 ) {
     fun asMap(addFilter: Boolean = true): Map<String, String> {
         val map = mutableMapOf<String, String?>()

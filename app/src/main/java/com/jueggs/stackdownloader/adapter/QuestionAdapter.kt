@@ -2,7 +2,8 @@ package com.jueggs.stackdownloader.adapter
 
 import com.jueggs.andutils.adapter.SingleLayoutDatabindingAdapter
 import com.jueggs.domain.model.Question
-import com.jueggs.stackdownloader.*
+import com.jueggs.stackdownloader.R
+import com.jueggs.stackdownloader.BR
 
 class QuestionAdapter : SingleLayoutDatabindingAdapter<Question, Long>(R.layout.list_item_question) {
     override fun getBindingVariableId() = BR.item
@@ -15,7 +16,7 @@ class QuestionAdapter : SingleLayoutDatabindingAdapter<Question, Long>(R.layout.
         payloads.forEach { payload ->
             when (payload) {
                 Payload.Tags -> {
-                    //TODO
+                    // TODO
                 }
             }
         }
@@ -30,4 +31,3 @@ class QuestionAdapter : SingleLayoutDatabindingAdapter<Question, Long>(R.layout.
         object Tags : Payload()
     }
 }
-

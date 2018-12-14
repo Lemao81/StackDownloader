@@ -27,7 +27,8 @@ dependencies {
     kapt Lib.mapStructProcessor
 
     androidTestImplementation Lib.jUnit
-    androidTestImplementation Lib.androidxTestRunner
+    androidTestImplementation Lib.androidxTestExtJunit
+    androidTestImplementation Lib.androidxTestMonitor
 
     testImplementation Lib.jUnit
 }

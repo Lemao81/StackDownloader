@@ -1,8 +1,12 @@
 package com.jueggs.data
 
-import com.jueggs.data.entity.*
-import com.jueggs.jutils.*
-import com.jueggs.jutils.helper.*
+import com.jueggs.data.entity.AnswerEntity
+import com.jueggs.data.entity.OwnerEntity
+import com.jueggs.data.entity.QuestionEntity
+import com.jueggs.data.entity.TagEntity
+import com.jueggs.jutils.Random
+import com.jueggs.jutils.helper.DistinctRandom
+import com.jueggs.jutils.helper.RandomString
 import org.hamcrest.core.IsEqual.equalTo
 import org.junit.Assert.assertThat
 
@@ -15,7 +19,7 @@ class TestUtils {
             val distinctRandom = DistinctRandom(tagNames)
             val result = mutableListOf<TagEntity>()
 
-            (1..count).forEach { result.add(TagEntity(distinctRandom.next(), randomInt())) }
+            (1..count).forEach { result.add(TagEntity(distinctRandom(), Random.int())) }
             assertThat(result.size, equalTo(count))
 
             return result
@@ -25,8 +29,8 @@ class TestUtils {
             val result = mutableListOf<QuestionEntity>()
 
             (1..count).forEach {
-                result.add(QuestionEntity(it.toLong(), randomLong(), false, randomInt(), randomInt(), randomInt(), randomDate(),
-                        randomString.nextString(), randomString.nextString(), randomString.nextString()))
+                result.add(QuestionEntity(it.toLong(), Random.long, false, Random.int(), Random.int(), Random.int(), Random.date(),
+                        randomString(), randomString(), randomString()))
             }
             assertThat(result.size, equalTo(count))
 
@@ -36,7 +40,7 @@ class TestUtils {
         fun createOwners(count: Int): List<OwnerEntity> {
             val result = mutableListOf<OwnerEntity>()
 
-            (1..count).forEach { result.add(OwnerEntity(it.toLong(), randomInt(), randomString.nextString(), randomString.nextString())) }
+            (1..count).forEach { result.add(OwnerEntity(it.toLong(), Random.int(), randomString(), randomString())) }
             assertThat(result.size, equalTo(count))
 
             return result
@@ -46,8 +50,8 @@ class TestUtils {
             val result = mutableListOf<AnswerEntity>()
 
             (1..count).forEach {
-                result.add(AnswerEntity(it.toLong(), randomLong(), randomLong(), false, randomInt(), randomDate(), randomString.nextString(), randomString.nextString(),
-                        randomString.nextString()))
+                result.add(AnswerEntity(it.toLong(), Random.long, Random.long, false, Random.int(), Random.date(), randomString(), randomString(),
+                        randomString()))
             }
             assertThat(result.size, equalTo(count))
 

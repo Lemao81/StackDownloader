@@ -1,14 +1,24 @@
 package com.jueggs.stackdownloader.ui.search.view
 
 import com.jueggs.andutils.base.BaseFragment
-import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.extension.hideKeyboard
+import com.jueggs.andutils.extension.nonNull
+import com.jueggs.andutils.extension.observe
+import com.jueggs.andutils.extension.onClick
+import com.jueggs.andutils.extension.withSimpleAdapter
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.customview.stackoverflowtag.StackoverflowTag
-import com.jueggs.stackdownloader.*
-import com.jueggs.stackdownloader.ui.search.usecase.*
+import com.jueggs.stackdownloader.R
+import com.jueggs.stackdownloader.BR
+import com.jueggs.stackdownloader.ui.search.usecase.EmptyInput
+import com.jueggs.stackdownloader.ui.search.usecase.Error
+import com.jueggs.stackdownloader.ui.search.usecase.TagAdded
+import com.jueggs.stackdownloader.ui.search.usecase.TagAlreadyAdded
+import com.jueggs.stackdownloader.ui.search.usecase.TagNotAvailable
 import com.jueggs.stackdownloader.ui.search.viewmodel.SearchViewModel
-import com.jueggs.stackdownloader.util.*
+import com.jueggs.stackdownloader.util.isDebug
 import kotlinx.android.synthetic.main.fragment_search_criteria.*
+import org.jetbrains.anko.support.v4.longToast
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class SearchCriteriaFragment : BaseFragment() {

@@ -3,7 +3,8 @@ package com.jueggs.data.mapper
 import com.jueggs.data.entity.TagEntity
 import com.jueggs.data.retrofit.dto.TagDto
 import com.jueggs.domain.model.Tag
-import org.mapstruct.*
+import org.mapstruct.Mapper
+import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
@@ -21,7 +22,6 @@ val TagEntity.bo: Tag
 
 val Tag.entity: TagEntity
     get() = TagMapper.INSTANCE.mapBoToEntity(this)
-
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 interface TagDtoMapper {

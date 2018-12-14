@@ -1,6 +1,8 @@
 package com.jueggs.domain
 
-import com.jueggs.domain.model.*
+import com.jueggs.domain.model.Answer
+import com.jueggs.domain.model.Question
+import com.jueggs.domain.model.Tag
 
 interface Repository {
     fun addTags(tags: List<Tag>)

@@ -5,9 +5,6 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.jueggs.andutils.util.AppMode
 import com.jueggs.customview.stackoverflowtag.StackoverflowTag
@@ -28,6 +25,5 @@ fun LinearLayout.setTagViews(tagNames: List<String>) {
 val AppMode.isDebug: Boolean
     get() = BuildConfig.Debug
 
-
-//TODO lib
+// TODO lib
 fun View.navigateOnClick(@IdRes resId: Int) = setOnClickListener(Navigation.createNavigateOnClickListener(resId))

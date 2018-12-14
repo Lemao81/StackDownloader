@@ -4,7 +4,11 @@ import com.jueggs.andutils.helper.UnixDateConverter
 import com.jueggs.data.entity.AnswerEntity
 import com.jueggs.data.retrofit.dto.AnswerDto
 import com.jueggs.domain.model.Answer
-import org.mapstruct.*
+import org.mapstruct.InheritInverseConfiguration
+import org.mapstruct.Mapper
+import org.mapstruct.Mapping
+import org.mapstruct.Mappings
+import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
@@ -26,7 +30,6 @@ val AnswerEntity.bo: Answer
 val Answer.entity: AnswerEntity
     get() = AnswerEntityMapper.INSTANCE.mapBoToEntity(this)
 
-
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(UnixDateConverter::class), (OwnerDtoMapper::class)])
 interface AnswerDtoMapper {
     fun mapBoToDto(bo: Answer): AnswerDto
@@ -42,7 +45,6 @@ val AnswerDto.bo: Answer
 
 val Answer.dto: AnswerDto
     get() = AnswerDtoMapper.INSTANCE.mapBoToDto(this)
-
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(UnixDateConverter::class)])
 interface AnswerEntityDtoMapper {

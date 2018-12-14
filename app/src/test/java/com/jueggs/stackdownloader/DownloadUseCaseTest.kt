@@ -1,31 +1,45 @@
-package com.jueggs.domain
+package com.jueggs.stackdownloader
 
-import com.jueggs.domain.model.*
-import com.jueggs.jutils.extension.*
-import com.jueggs.jutils.givenSuspended
+import android.content.Context
+import com.jueggs.domain.DataProvider
+import com.jueggs.domain.Repository
+import com.jueggs.domain.model.Answer
+import com.jueggs.jutils.Util.givenSuspended
+import com.jueggs.stackdownloader.ui.search.usecase.Complete
 import com.jueggs.stackdownloader.ui.search.usecase.DownloadDataUseCase
-import com.nhaarman.mockito_kotlin.*
-import com.sun.net.httpserver.Authenticator
+import com.jueggs.stackdownloader.ui.search.usecase.Error
+import com.jueggs.stackdownloader.ui.search.usecase.UseCase
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.given
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.then
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.willThrow
+import com.nhaarman.mockito_kotlin.willReturn
+import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
+import com.nhaarman.mockito_kotlin.verifyZeroInteractions
 import io.reactivex.Single
-import kotlinx.coroutines.experimental.runBlocking
-import org.junit.*
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
-import org.junit.runner.notification.Failure
-import org.mockito.Mockito.mock
+import org.junit.Before
+import org.junit.Test
 
 class DownloadUseCaseTest {
     private val questionIds = listOf(1L, 2L, 3L)
     private val answers = listOf(Answer(id = 1), Answer(id = 2))
 
+    private lateinit var contextMock: Context
     private lateinit var repoMock: Repository
     private lateinit var providerMock: DataProvider
     private lateinit var useCase: DownloadDataUseCase
 
     @Before
     fun setup() {
-        repoMock = mock(Repository::class.java)
-        providerMock = mock(DataProvider::class.java)
-        useCase = DownloadUseCase(repoMock, providerMock)
+        contextMock = mock()
+        repoMock = mock()
+        providerMock = mock()
+        useCase = DownloadDataUseCase(contextMock, repoMock, providerMock)
     }
 
     @Test
@@ -36,11 +50,11 @@ class DownloadUseCaseTest {
             given { repoMock.getAllQuestionIds() } willThrow exception
 
             // act
-            val deferred = useCase.execute().deferredResult.await()
+            val liveData = useCase.execute(UseCase.Request)
 
             // assert
             verifyZeroInteractions(providerMock)
-            assertTrue(deferred is Failure && deferred.exception == exception)
+            assertTrue(liveData.value is Error && (liveData.value as Error).throwable == exception)
         }
     }
 
@@ -53,12 +67,12 @@ class DownloadUseCaseTest {
             givenSuspended { providerMock.fetchAnswers(questionIds) } willThrow exception
 
             // act
-            val deferred = useCase.execute().deferredResult.await()
+            val liveData = useCase.execute(UseCase.Request)
 
             // assert
             verify(repoMock).getAllQuestionIds()
             verifyNoMoreInteractions(repoMock)
-            assertTrue(deferred is Failure && deferred.exception == exception)
+            assertTrue(liveData.value is Error && (liveData.value as Error).throwable == exception)
         }
     }
 
@@ -72,11 +86,11 @@ class DownloadUseCaseTest {
             given { repoMock.addAnswers(any()) } willThrow exception
 
             // act
-            val deferred = useCase.execute().deferredResult.await()
+            val liveData = useCase.execute(UseCase.Request)
 
             // assert
             then(repoMock).should(times(1)).addAnswers(answers)
-            assertTrue(deferred is Failure && deferred.exception == exception)
+            assertTrue(liveData.value is Error && (liveData.value as Error).throwable == exception)
         }
     }
 
@@ -88,11 +102,11 @@ class DownloadUseCaseTest {
             givenSuspended { providerMock.fetchAnswers(questionIds) } willReturn Single.just(answers)
 
             // act
-            val deferred = useCase.execute().deferredResult.await()
+            val liveData = useCase.execute(UseCase.Request)
 
             // assert
             then(repoMock).should(times(1)).addAnswers(answers)
-            assertTrue(deferred is Authenticator.Success)
+            assertTrue(liveData.value is Complete)
         }
     }
 }

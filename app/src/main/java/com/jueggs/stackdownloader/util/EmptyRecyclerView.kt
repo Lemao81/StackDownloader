@@ -4,7 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.jueggs.andutils.extension.*
+import com.jueggs.andutils.extension.gone
+import com.jueggs.andutils.extension.visible
 
 class EmptyRecyclerView : RecyclerView {
     private var emptyView: View? = null

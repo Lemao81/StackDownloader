@@ -1,8 +1,10 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
 import android.content.Context
-import com.jueggs.andutils.extension.*
-import com.jueggs.domain.*
+import com.jueggs.andutils.extension.doWithNetworkConnection
+import com.jueggs.andutils.extension.otherwise
+import com.jueggs.domain.DataProvider
+import com.jueggs.domain.Repository
 import com.jueggs.domain.model.SearchCriteria
 
 class SearchUseCase(private val context: Context, private val repository: Repository, private val dataProvider: DataProvider) : UseCase<SearchRequest>() {

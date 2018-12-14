@@ -1,6 +1,7 @@
 package com.jueggs.stackdownloader.ui.search.usecase
 
-import com.jueggs.domain.model.*
+import com.jueggs.domain.model.Answer
+import com.jueggs.domain.model.Question
 
 sealed class UseCaseResult
 
