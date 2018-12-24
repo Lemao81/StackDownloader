@@ -51,7 +51,7 @@ class SearchActivity : BaseActivity() {
     override fun setListeners() {
         delegate.setListeners(this)
 
-        viewModel.getDownloadDataResult().nonNull().observe(this) { result ->
+        viewModel.downloadDataResult.nonNull().observe(this) { result ->
             when (result) {
                 NoNetwork -> longToast(R.string.error_no_network)
                 Loading -> progress.visible()
@@ -70,7 +70,7 @@ class SearchActivity : BaseActivity() {
             }
         }
 
-        viewModel.getDeleteDataResult().nonNull().observe(this) { result ->
+        viewModel.deleteDataResult.nonNull().observe(this) { result ->
             when (result) {
                 Complete -> {
                     viewModel.isDataDownloaded = false

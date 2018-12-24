@@ -7,7 +7,7 @@ import com.jueggs.stackdownloader.ui.search.view.SearchActivity
 class TwoPaneSearchActivityDelegate : AppModeDelegate<SearchActivity>() {
 
     override fun setListenersInternal(): SearchActivity.() -> Unit = {
-        viewModel.getShowQuestionResult().nonNull().observe(this) { this.toggleHomeAsUp(true) }
+        viewModel.showQuestionResult.nonNull().observe(this) { this.toggleHomeAsUp(true) }
     }
 
     override fun onBackPressedInternal(): SearchActivity.() -> Unit = {

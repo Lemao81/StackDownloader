@@ -85,9 +85,9 @@ class SearchViewModel(
         toDate.set(now)
     }
 
-    fun getSearchResult(): LiveData<UseCaseResult> = Transformations.switchMap(searchInput) { searchUseCase.execute(SearchRequest(it)) }
-    fun getAddTagResult(): LiveData<UseCaseResult> = Transformations.switchMap(addTagInput) { addTagUseCase.execute(AddTagRequest(it, selectedTags.value)) }
-    fun getShowQuestionResult(): LiveData<UseCaseResult> = Transformations.switchMap(showQuestionInput) { showQuestionUseCase.execute(ShowQuestionRequest(it, isDataDownloaded)) }
-    fun getDownloadDataResult(): LiveData<UseCaseResult> = Transformations.switchMap(downloadDataInput) { downloadDataUseCase.execute(UseCase.Request) }
-    fun getDeleteDataResult(): LiveData<UseCaseResult> = Transformations.switchMap(deleteDataInput) { deleteDataUseCase.execute(UseCase.Request) }
+    val searchResult: LiveData<UseCaseResult> = Transformations.switchMap(searchInput) { searchUseCase.execute(SearchRequest(it)) }
+    val addTagResult: LiveData<UseCaseResult> = Transformations.switchMap(addTagInput) { addTagUseCase.execute(AddTagRequest(it, selectedTags.value)) }
+    val showQuestionResult: LiveData<UseCaseResult> = Transformations.switchMap(showQuestionInput) { showQuestionUseCase.execute(ShowQuestionRequest(it, isDataDownloaded)) }
+    val downloadDataResult: LiveData<UseCaseResult> = Transformations.switchMap(downloadDataInput) { downloadDataUseCase.execute(UseCase.Request) }
+    val deleteDataResult: LiveData<UseCaseResult> = Transformations.switchMap(deleteDataInput) { deleteDataUseCase.execute(UseCase.Request) }
 }

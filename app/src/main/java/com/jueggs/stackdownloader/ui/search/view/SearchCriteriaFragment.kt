@@ -42,7 +42,7 @@ class SearchCriteriaFragment : BaseFragment() {
                 }
             }
         }
-        viewModel.getAddTagResult().nonNull().observe(this) { result ->
+        viewModel.addTagResult.nonNull().observe(this) { result ->
             when (result) {
                 EmptyInput -> longToast(R.string.error_no_tag)
                 TagAlreadyAdded -> longToast(R.string.error_tag_already_added)

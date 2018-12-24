@@ -45,7 +45,7 @@ class SinglePaneSearchActivityDelegate : AppModeDelegate<SearchActivity>() {
             }
         }
 
-        viewModel.getSearchResult().nonNull().observe(this) { result ->
+        viewModel.searchResult.nonNull().observe(this) { result ->
             when (result) {
                 NoNetwork -> longToast(R.string.error_no_network)
                 Loading -> progress.visible()

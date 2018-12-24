@@ -46,7 +46,7 @@ class SearchResultFragment : BaseFragment() {
             questionAdapter.setItems(questions, Question::id)
             recItems.adapter = questionAdapter
         }
-        viewModel.getShowQuestionResult().nonNull().observe(this) { result ->
+        viewModel.showQuestionResult.nonNull().observe(this) { result ->
             when (result) {
                 is NoDataDownloaded -> longToast(R.string.error_no_data_downloaded)
                 is Answers -> {
