@@ -18,7 +18,7 @@ class QuestionDto(
     @SerializedName("score")
     var score: Int? = null,
     @SerializedName("creation_date")
-    var creationDate: Long? = null,
+    var creationUnixTime: Long? = null,
     @SerializedName("title")
     var title: String? = null,
     @SerializedName("body")

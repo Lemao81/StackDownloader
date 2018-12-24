@@ -1,6 +1,6 @@
 package com.jueggs.data.mapper
 
-import com.jueggs.andutils.helper.UnixDateConverter
+import com.jueggs.andutils.converter.UnixLongStringDateTimeConverter
 import com.jueggs.data.entity.QuestionEntity
 import com.jueggs.data.retrofit.dto.QuestionDto
 import org.mapstruct.InheritInverseConfiguration
@@ -10,13 +10,17 @@ import org.mapstruct.Mappings
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(UnixDateConverter::class)])
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = [(UnixLongStringDateTimeConverter::class)])
 interface QuestionEntityDtoMapper {
+    @Mappings(value = [
+        (Mapping(source = "ownerId", target = "owner.id")),
+        (Mapping(target = "tags", ignore = true)),
+        (Mapping(source = "creationDateTime", target = "creationUnixTime"))
+    ])
+    fun mapToDto(entity: QuestionEntity): QuestionDto
+
     @InheritInverseConfiguration
     fun mapToEntity(dto: QuestionDto): QuestionEntity
-
-    @Mappings(value = [(Mapping(source = "ownerId", target = "owner.id")), (Mapping(target = "tags", ignore = true))])
-    fun mapToDto(entity: QuestionEntity): QuestionDto
 
     companion object {
         val INSTANCE: QuestionEntityDtoMapper = Mappers.getMapper(QuestionEntityDtoMapper::class.java)

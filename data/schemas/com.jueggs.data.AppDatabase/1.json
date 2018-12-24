@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ccf48d4502a27336c0a4e26196c47ea9",
+    "identityHash": "151500106048c644317c47a600111bf8",
     "entities": [
       {
         "tableName": "Answer",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `questionId` INTEGER NOT NULL, `ownerId` INTEGER NOT NULL, `isAccepted` INTEGER, `score` INTEGER, `creationDate` INTEGER, `title` TEXT, `body` TEXT, `bodyMarkdown` TEXT, FOREIGN KEY(`questionId`) REFERENCES `Question`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `questionId` INTEGER NOT NULL, `ownerId` INTEGER NOT NULL, `isAccepted` INTEGER, `score` INTEGER, `creationDateTime` TEXT, `title` TEXT, `body` TEXT, `bodyMarkdown` TEXT, FOREIGN KEY(`questionId`) REFERENCES `Question`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -39,9 +39,9 @@
             "notNull": false
           },
           {
-            "fieldPath": "creationDate",
-            "columnName": "creationDate",
-            "affinity": "INTEGER",
+            "fieldPath": "creationDateTime",
+            "columnName": "creationDateTime",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -124,7 +124,7 @@
       },
       {
         "tableName": "Question",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ownerId` INTEGER, `isAnswered` INTEGER, `viewCount` INTEGER, `answerCount` INTEGER, `score` INTEGER, `creationDate` INTEGER, `title` TEXT, `body` TEXT, `bodyMarkdown` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ownerId` INTEGER, `isAnswered` INTEGER, `viewCount` INTEGER, `answerCount` INTEGER, `score` INTEGER, `creationDateTime` TEXT, `title` TEXT, `body` TEXT, `bodyMarkdown` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -163,9 +163,9 @@
             "notNull": false
           },
           {
-            "fieldPath": "creationDate",
-            "columnName": "creationDate",
-            "affinity": "INTEGER",
+            "fieldPath": "creationDateTime",
+            "columnName": "creationDateTime",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -275,7 +275,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ccf48d4502a27336c0a4e26196c47ea9\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"151500106048c644317c47a600111bf8\")"
     ]
   }
 }

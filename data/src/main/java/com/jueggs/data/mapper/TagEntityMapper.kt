@@ -16,6 +16,6 @@ interface TagEntityMapper {
     }
 }
 
-fun TagEntity.mapToBo() = TagEntityMapper.INSTANCE.mapToBo(this)
-
 fun Tag.mapToEntity() = TagEntityMapper.INSTANCE.mapToEntity(this)
+
+fun TagEntity.mapToBo() = TagEntityMapper.INSTANCE.mapToBo(this)

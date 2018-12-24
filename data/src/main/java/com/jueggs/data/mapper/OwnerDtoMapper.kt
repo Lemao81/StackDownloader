@@ -16,6 +16,6 @@ interface OwnerDtoMapper {
     }
 }
 
-fun OwnerDto.mapToBo() = OwnerDtoMapper.INSTANCE.mapToBo(this)
-
 fun Owner.mapToDto() = OwnerDtoMapper.INSTANCE.mapToDto(this)
+
+fun OwnerDto.mapToBo() = OwnerDtoMapper.INSTANCE.mapToBo(this)

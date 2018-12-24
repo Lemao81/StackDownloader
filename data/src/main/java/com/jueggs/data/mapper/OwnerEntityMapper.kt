@@ -16,6 +16,6 @@ interface OwnerEntityMapper {
     }
 }
 
-fun OwnerEntity.mapToBo() = OwnerEntityMapper.INSTANCE.mapToBo(this)
-
 fun Owner.mapToEntity() = OwnerEntityMapper.INSTANCE.mapToEntity(this)
+
+fun OwnerEntity.mapToBo() = OwnerEntityMapper.INSTANCE.mapToBo(this)

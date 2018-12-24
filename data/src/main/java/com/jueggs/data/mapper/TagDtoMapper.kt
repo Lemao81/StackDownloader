@@ -16,6 +16,6 @@ interface TagDtoMapper {
     }
 }
 
-fun TagDto.mapToBo() = TagDtoMapper.INSTANCE.mapToBo(this)
-
 fun Tag.mapToDto() = TagDtoMapper.INSTANCE.mapToDto(this)
+
+fun TagDto.mapToBo() = TagDtoMapper.INSTANCE.mapToBo(this)

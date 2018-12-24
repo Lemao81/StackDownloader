@@ -5,7 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.jueggs.andutils.helper.DateConverter
+import com.jueggs.andutils.converter.DateTimeUnixLongConverter
+import com.jueggs.andutils.converter.UnixLongStringDateTimeConverter
 import com.jueggs.data.dao.AnswerDao
 import com.jueggs.data.dao.OwnerDao
 import com.jueggs.data.dao.QuestionDao
@@ -18,7 +19,7 @@ import com.jueggs.data.entity.QuestionTagJoinEntity
 import com.jueggs.data.entity.TagEntity
 
 @Database(entities = [(AnswerEntity::class), (OwnerEntity::class), (QuestionEntity::class), (TagEntity::class), (QuestionTagJoinEntity::class)], version = 1)
-@TypeConverters(value = [(DateConverter::class)])
+@TypeConverters(value = [(DateTimeUnixLongConverter::class), (UnixLongStringDateTimeConverter::class)])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun answerDao(): AnswerDao
     abstract fun questionDao(): QuestionDao

@@ -107,7 +107,7 @@
             android:textColor="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:renderedDate="@{item.creationDate}"
+            app:renderedDate="@{item.creationDateTime}"
             tools:text="asked 2 hours ago" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

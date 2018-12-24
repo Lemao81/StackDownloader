@@ -22,6 +22,6 @@ interface AnswerEntityMapper {
     }
 }
 
-fun AnswerEntity.mapToBo() = AnswerEntityMapper.INSTANCE.mapToBo(this)
-
 fun Answer.mapToEntity() = AnswerEntityMapper.INSTANCE.mapToEntity(this)
+
+fun AnswerEntity.mapToBo() = AnswerEntityMapper.INSTANCE.mapToBo(this)

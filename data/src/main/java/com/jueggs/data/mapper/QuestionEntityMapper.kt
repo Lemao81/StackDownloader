@@ -11,11 +11,11 @@ import org.mapstruct.factory.Mappers
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 interface QuestionEntityMapper {
-    @InheritInverseConfiguration
-    fun mapToEntity(bo: Question): QuestionEntity
-
     @Mappings(value = [(Mapping(source = "ownerId", target = "owner.id")), (Mapping(target = "tags", ignore = true))])
     fun mapToBo(dto: QuestionEntity): Question
+
+    @InheritInverseConfiguration
+    fun mapToEntity(bo: Question): QuestionEntity
 
     companion object {
         val INSTANCE: QuestionEntityMapper = Mappers.getMapper(QuestionEntityMapper::class.java)
